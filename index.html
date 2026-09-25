@@ -1,135 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#050814">
-<title>AG EARN HUB</title>
-<style>
-*{box-sizing:border-box}
-:root{--bg:#050814;--panel:#0b1020;--card:#0e1628;--line:#24314a;--text:#f4fbff;--muted:#91a0b5;--cyan:#65e8ff;--blue:#4b7cff;--pink:#ff5db1;--green:#5cffaa}
-html,body{margin:0;background:radial-gradient(circle at 50% -10%,#13264a 0,#050814 45%);color:var(--text);font-family:Arial,sans-serif;min-height:100%;padding-bottom:92px}
-button{font:inherit;color:inherit}
-#loading{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;background:#03050c}
-.logo{width:120px;height:120px;border-radius:30px;display:grid;place-items:center;border:1px solid #29405b;background:linear-gradient(145deg,#101b30,#07101c);box-shadow:0 0 45px #183f68}
-.logo b{font-size:34px;letter-spacing:2px;color:var(--cyan)}
-.ring{position:absolute;width:140px;height:140px;border:2px solid transparent;border-top-color:var(--cyan);border-radius:50%;animation:spin 1s linear infinite}
-#loading h1{margin:25px 0 5px;letter-spacing:2px}#loading p{color:var(--muted);font-size:12px}
-.bar{width:160px;height:3px;background:#162033;border-radius:9px;margin-top:18px;overflow:hidden}.bar i{display:block;width:45%;height:100%;background:var(--cyan);animation:load 1.2s infinite}
-#app{max-width:720px;margin:auto;padding:16px}
-.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.brand{display:flex;gap:10px;align-items:center}.brandmark{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:#0d1c31;border:1px solid #29405b;color:var(--cyan);font-weight:900}.brand small{color:var(--muted);font-size:9px;letter-spacing:1.5px}.brand strong{display:block;margin-top:3px;letter-spacing:1px}.live{font-size:10px;color:var(--green);border:1px solid #20543d;background:#081a14;padding:8px 10px;border-radius:99px}
-.hero{padding:20px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#101b30,#09101c);box-shadow:0 20px 55px #0008}.label{font-size:10px;letter-spacing:1.5px;color:var(--muted)}.balance{font-size:34px;font-weight:900;margin:7px 0 16px}.balance span{font-size:12px;color:var(--muted)}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:9px}.btn{border:1px solid var(--line);background:#0d1727;padding:13px;border-radius:15px;font-weight:800}.btn.primary{border-color:#286b7b;background:linear-gradient(180deg,#123440,#0b2029);color:var(--cyan)}
-.section{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 10px}.section h3{margin:0;font-size:16px}.section small{color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.card{min-height:92px;text-align:left;padding:14px;border-radius:18px;background:var(--card);border:1px solid var(--line);transition:.15s}.card:active,.btn:active,.nav button:active{transform:scale(.97)}.ico{font-size:23px}.card b{display:block;margin-top:8px;font-size:13px}.card small{color:var(--muted);font-size:10px;display:block;margin-top:4px}
-.streak{padding:15px;border-radius:20px;border:1px solid var(--line);background:#0b1423}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}.day{text-align:center;padding:8px 2px;border-radius:11px;background:#111b2d;border:1px solid #24334c;font-size:10px;color:var(--muted)}.day.active{color:var(--cyan);border-color:#286b7b;background:#0b2530}
-.support{margin-top:12px;padding:15px;border:1px solid var(--line);border-radius:18px;background:#0b1321}.support a{color:var(--cyan);text-decoration:none}
-.nav{position:fixed;z-index:20;left:50%;bottom:10px;transform:translateX(-50%);width:min(calc(100% - 20px),680px);display:grid;grid-template-columns:repeat(5,1fr);gap:4px;padding:7px;border:1px solid var(--line);border-radius:22px;background:#080e19ee;backdrop-filter:blur(14px)}.nav button{border:0;background:transparent;border-radius:15px;padding:8px 2px;color:#748399}.nav button.active{background:#0d2430;color:var(--cyan);border:1px solid #23434d}.nav span{display:block;font-size:20px}.nav small{font-size:9px}
-.toast{position:fixed;left:50%;bottom:88px;transform:translate(-50%,10px);opacity:0;pointer-events:none;background:#101b2b;border:1px solid var(--line);padding:10px 14px;border-radius:12px;font-size:12px;transition:.2s;z-index:30}.toast.show{opacity:1;transform:translate(-50%,0)}
-.hidden{display:none!important}
-@keyframes spin{to{transform:rotate(360deg)}}@keyframes load{from{transform:translateX(-120%)}to{transform:translateX(350%)}}
-@media(max-width:360px){.grid{grid-template-columns:1fr}.balance{font-size:30px}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-/* LIGHT BACKGROUND EFFECT */
-body::before{
-  content:"";
-  position:fixed;
-  width:260px;
-  height:260px;
-  left:50%;
-  top:-120px;
-  transform:translateX(-50%);
-  background:rgba(56,189,248,.08);
-  border-radius:50%;
-  filter:blur(60px);
-  pointer-events:none;
-  z-index:0;
-  animation:softGlow 6s ease-in-out infinite alternate;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-body::after{
-  content:"";
-  position:fixed;
-  width:180px;
-  height:180px;
-  right:-80px;
-  bottom:80px;
-  background:rgba(139,92,246,.06);
-  border-radius:50%;
-  filter:blur(55px);
-  pointer-events:none;
-  z-index:0;
-  animation:softGlow2 8s ease-in-out infinite alternate;
-}
+  <meta name="theme-color" content="#050814">
 
-@keyframes softGlow{
-  from{opacity:.45;transform:translateX(-50%) scale(1)}
-  to{opacity:.8;transform:translateX(-50%) scale(1.12)}
-}
+  <title>AG EARN HUB</title>
 
-@keyframes softGlow2{
-  from{opacity:.35;transform:scale(1)}
-  to{opacity:.65;transform:scale(1.15)}
-    }                                                                                             }
-</style>
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<section id="loading">
-  <div style="position:relative;display:grid;place-items:center"><div class="logo"><b>AG</b></div><div class="ring"></div></div>
-  <h1>AG EARN HUB</h1><p>Loading your hub...</p><div class="bar"><i></i></div>
-</section>
 
-<main id="app" class="hidden">
-  <header class="top">
-    <div class="brand"><div class="brandmark">AG</div><div><small>WELCOME BACK</small><strong>AG EARN HUB</strong></div></div>
-    <div class="live">🟢 LIVE <span id="time">--:--:--</span></div>
-  </header>
+  <!-- LOADING -->
+  <section id="loading">
 
-  <section class="hero">
-    <div class="label">AVAILABLE BALANCE</div>
-    <div class="balance">৳ <span id="balance">0.00</span> <span>BDT</span></div>
-    <div class="row"><button class="btn primary" onclick="toast('Tasks opened')">⚡ Earn Now</button><button class="btn" onclick="toast('Withdraw page opened')">💸 Withdraw</button></div>
+    <div class="loader-box">
+      <div class="logo">
+        <b>AG</b>
+      </div>
+
+      <div class="ring"></div>
+    </div>
+
+    <h1>AG EARN HUB</h1>
+
+    <p>Loading your hub...</p>
+
+    <div class="bar">
+      <i></i>
+    </div>
+
   </section>
 
-  <div class="section"><h3>Quick Actions</h3><small>Earn & manage</small></div>
-  <section class="grid">
-    <button class="card" onclick="toast('Tasks opened')"><span class="ico">🎯</span><b>Tasks</b><small>Complete & earn</small></button>
-    <button class="card" onclick="claimBonus()"><span class="ico">🎁</span><b>7-Day Bonus</b><small>Daily streak reward</small></button>
-    <button class="card" onclick="toast('Referral page opened')"><span class="ico">👥</span><b>Refer & Earn</b><small>Invite friends</small></button>
-    <button class="card" onclick="toast('Profile opened')"><span class="ico">👤</span><b>Profile</b><small>Account & history</small></button>
-    <button class="card" onclick="toast('Achievements opened')"><span class="ico">🏆</span><b>Achievements</b><small>Your milestones</small></button>
-    <button class="card" onclick="toast('AG Shop opened')"><span class="ico">🛍️</span><b>AG Shop</b><small>Rewards & offers</small></button>
-  </section>
 
-  <div class="section"><h3>7-Day Bonus Streak</h3><small id="streakText">Day 1 / 7</small></div>
-  <section class="streak"><div class="label">KEEP YOUR STREAK GOING</div><div class="days" id="days"></div></section>
+  <!-- APP -->
+  <main id="app" class="hidden">
 
-  <section class="support">
-    <b>🗳️ Support</b><p style="color:var(--muted);font-size:12px;line-height:1.5;margin:7px 0">Need help with AG EARN HUB?</p>
-    <div style="font-size:12px">✈️ <a href="https://t.me/ag_support_bd" target="_blank">@ag_support_bd</a> · 📧 mails.official99@gmail.com</div>
-  </section>
-</main>
+    <!-- HEADER -->
+    <header class="top">
 
-<nav class="nav">
-  <button class="active" onclick="nav(this,'Home')"><span>⌂</span><small>Home</small></button>
-  <button onclick="nav(this,'Tasks')"><span>◈</span><small>Tasks</small></button>
-  <button onclick="nav(this,'Withdraw')"><span>৳</span><small>Withdraw</small></button>
-  <button onclick="nav(this,'Refer')"><span>♧</span><small>Refer</small></button>
-  <button onclick="nav(this,'Profile')"><span>◎</span><small>Profile</small></button>
-</nav>
-<div id="toastBox" class="toast"></div>
+      <div class="brand">
 
-<script>
-const tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();tg.setHeaderColor?.('#050814');tg.setBackgroundColor?.('#050814')}
-let day=1;
-function toast(m){const e=document.getElementById('toastBox');e.textContent=m;e.classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>e.classList.remove('show'),1600)}
-function nav(b,name){document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));b.classList.add('active');toast(name+' opened')}
-function claimBonus(){if(day>=7){toast('🎉 7-Day Bonus Completed');return} day++;renderDays();toast('🎁 Daily bonus claimed')}
-function renderDays(){const e=document.getElementById('days');e.innerHTML='';for(let i=1;i<=7;i++){const d=document.createElement('div');d.className='day'+(i<=day?' active':'');d.textContent=i<day?'✓ Day '+i:'Day '+i;e.appendChild(d)}document.getElementById('streakText').textContent='Day '+day+' / 7'}
-renderDays();
-function clock(){document.getElementById('time').textContent=new Date().toLocaleTimeString('en-GB',{hour12:false,timeZone:'Asia/Dhaka'})}
-clock();setInterval(clock,1000);
-setTimeout(()=>{document.getElementById('loading').classList.add('hidden');document.getElementById('app').classList.remove('hidden')},1200);
-</script>
+        <div class="brandmark">
+          AG
+        </div>
+
+        <div>
+          <small>WELCOME BACK</small>
+          <strong>AG EARN HUB</strong>
+        </div>
+
+      </div>
+
+      <div class="live">
+        🟢 LIVE
+        <span id="time">--:--:--</span>
+      </div>
+
+    </header>
+
+
+    <!-- BALANCE -->
+    <section class="hero">
+
+      <div class="label">
+        AVAILABLE BALANCE
+      </div>
+
+      <div class="balance">
+        ৳ <span id="balance">0.00</span>
+        <span>BDT</span>
+      </div>
+
+      <div class="row">
+
+        <button
+          class="btn primary"
+          onclick="toast('Tasks opened')">
+          ⚡ Earn Now
+        </button>
+
+        <button
+          class="btn"
+          onclick="toast('Withdraw page opened')">
+          💸 Withdraw
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- QUICK ACTIONS -->
+    <div class="section">
+
+      <h3>Quick Actions</h3>
+
+      <small>
+        Earn & manage
+      </small>
+
+    </div>
+
+
+    <section class="grid">
+
+      <button
+        class="card"
+        onclick="toast('Tasks opened')">
+
+        <span class="ico">🎯</span>
+
+        <b>Tasks</b>
+
+        <small>
+          Complete & earn
+        </small>
+
+      </button>
+
+
+      <button
+        class="card"
+        onclick="claimBonus()">
+
+        <span class="ico">🎁</span>
+
+        <b>7-Day Bonus</b>
+
+        <small>
+          Daily streak reward
+        </small>
+
+      </button>
+
+
+      <button
+        class="card"
+        onclick="toast('Referral page opened')">
+
+        <span class="ico">👥</span>
+
+        <b>Refer & Earn</b>
+
+        <small>
+          Invite friends
+        </small>
+
+      </button>
+
+
+      <button
+        class="card"
+        onclick="toast('Profile opened')">
+
+        <span class="ico">👤</span>
+
+        <b>Profile</b>
+
+        <small>
+          Account & history
+        </small>
+
+      </button>
+
+
+      <button
+        class="card"
+        onclick="toast('Achievements opened')">
+
+        <span class="ico">🏆</span>
+
+        <b>Achievements</b>
+
+        <small>
+          Your milestones
+        </small>
+
+      </button>
+
+
+      <button
+        class="card"
+        onclick="toast('AG Shop opened')">
+
+        <span class="ico">🛍️</span>
+
+        <b>AG Shop</b>
+
+        <small>
+          Rewards & offers
+        </small>
+
+      </button>
+
+    </section>
+
+
+    <!-- BONUS -->
+    <div class="section">
+
+      <h3>
+        7-Day Bonus Streak
+      </h3>
+
+      <small id="streakText">
+        Day 1 / 7
+      </small>
+
+    </div>
+
+
+    <section class="streak">
+
+      <div class="label">
+        KEEP YOUR STREAK GOING
+      </div>
+
+      <div
+        class="days"
+        id="days">
+      </div>
+
+    </section>
+
+
+    <!-- SUPPORT -->
+    <section class="support">
+
+      <b>🗳️ Support</b>
+
+      <p>
+        Need help with AG EARN HUB?
+      </p>
+
+      <div>
+
+        ✈️
+        <a
+          href="https://t.me/ag_support_bd"
+          target="_blank">
+          @ag_support_bd
+        </a>
+
+        ·
+
+        📧
+        mails.official99@gmail.com
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- BOTTOM NAV -->
+  <nav class="nav">
+
+    <button
+      class="active"
+      onclick="nav(this,'Home')">
+
+      <span>⌂</span>
+      <small>Home</small>
+
+    </button>
+
+
+    <button
+      onclick="nav(this,'Tasks')">
+
+      <span>◈</span>
+      <small>Tasks</small>
+
+    </button>
+
+
+    <button
+      onclick="nav(this,'Withdraw')">
+
+      <span>৳</span>
+      <small>Withdraw</small>
+
+    </button>
+
+
+    <button
+      onclick="nav(this,'Refer')">
+
+      <span>♧</span>
+      <small>Refer</small>
+
+    </button>
+
+
+    <button
+      onclick="nav(this,'Profile')">
+
+      <span>◎</span>
+      <small>Profile</small>
+
+    </button>
+
+  </nav>
+
+
+  <!-- TOAST -->
+  <div
+    id="toastBox"
+    class="toast">
+  </div>
+
+
+  <!-- JAVASCRIPT -->
+  <script src="script.js"></script>
+
 </body>
-    </html>
+        </html>
