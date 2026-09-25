@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="theme-color"
+    content="#050814">
+
+  <title>AG EARN HUB — Admin Panel</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+
+<body>
+
+  <main class="admin-page">
+
+    <!-- HEADER -->
+
+    <header class="admin-header">
+
+      <div class="brand">
+
+        <div class="brandmark">
+          AG
+        </div>
+
+        <div>
+          <small>ADMIN CONTROL</small>
+          <strong>AG EARN HUB</strong>
+        </div>
+
+      </div>
+
+      <div class="admin-status">
+        🟢 ADMIN
+      </div>
+
+    </header>
+
+
+    <!-- DASHBOARD -->
+
+    <section class="admin-section">
+
+      <div class="section-title">
+
+        <div>
+          <h2>Dashboard</h2>
+
+          <small>
+            Manage your earning platform
+          </small>
+        </div>
+
+      </div>
+
+
+      <div class="admin-grid">
+
+
+        <!-- USERS -->
+
+        <div class="admin-card">
+
+          <span class="admin-icon">
+            👥
+          </span>
+
+          <small>
+            TOTAL USERS
+          </small>
+
+          <strong id="totalUsers">
+            0
+          </strong>
+
+        </div>
+
+
+        <!-- BALANCE -->
+
+        <div class="admin-card">
+
+          <span class="admin-icon">
+            💰
+          </span>
+
+          <small>
+            TOTAL BALANCE
+          </small>
+
+          <strong>
+            ৳ <span id="totalBalance">0.00</span>
+          </strong>
+
+        </div>
+
+
+        <!-- TASKS -->
+
+        <div class="admin-card">
+
+          <span class="admin-icon">
+            🎯
+          </span>
+
+          <small>
+            ACTIVE TASKS
+          </small>
+
+          <strong id="activeTasks">
+            0
+          </strong>
+
+        </div>
+
+
+        <!-- WITHDRAW -->
+
+        <div class="admin-card">
+
+          <span class="admin-icon">
+            💸
+          </span>
+
+          <small>
+            PENDING WITHDRAW
+          </small>
+
+          <strong id="pendingWithdraw">
+            0
+          </strong>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- TASK MANAGEMENT -->
+
+    <section class="admin-section">
+
+      <div class="section-title">
+
+        <div>
+          <h2>Task Management</h2>
+
+          <small>
+            Create and manage earning tasks
+          </small>
+        </div>
+
+      </div>
+
+
+      <div class="admin-actions">
+
+        <button
+          class="admin-btn primary"
+          onclick="adminAction('add-task')">
+
+          ➕ Add Task
+
+        </button>
+
+
+        <button
+          class="admin-btn"
+          onclick="adminAction('manage-task')">
+
+          🎯 Manage Tasks
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- USER MANAGEMENT -->
+
+    <section class="admin-section">
+
+      <div class="section-title">
+
+        <div>
+          <h2>User Management</h2>
+
+          <small>
+            Manage registered users
+          </small>
+        </div>
+
+      </div>
+
+
+      <div class="admin-actions">
+
+        <button
+          class="admin-btn"
+          onclick="adminAction('users')">
+
+          👥 Users
+
+        </button>
+
+
+        <button
+          class="admin-btn"
+          onclick="adminAction('balance')">
+
+          💰 Balance
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- WITHDRAW MANAGEMENT -->
+
+    <section class="admin-section">
+
+      <div class="section-title">
+
+        <div>
+          <h2>Withdraw Management</h2>
+
+          <small>
+            Review withdrawal requests
+          </small>
+        </div>
+
+      </div>
+
+
+      <div class="admin-actions">
+
+        <button
+          class="admin-btn"
+          onclick="adminAction('withdraw')">
+
+          💸 Withdraw Requests
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- SETTINGS -->
+
+    <section class="admin-section">
+
+      <div class="section-title">
+
+        <div>
+          <h2>Settings</h2>
+
+          <small>
+            Platform configuration
+          </small>
+        </div>
+
+      </div>
+
+
+      <div class="admin-actions">
+
+        <button
+          class="admin-btn"
+          onclick="adminAction('settings')">
+
+          ⚙️ Settings
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+  <!-- TOAST -->
+
+  <div
+    id="adminToast"
+    class="toast">
+  </div>
+
+
+  <script src="admin.js"></script>
+
+</body>
+
+          </html>
