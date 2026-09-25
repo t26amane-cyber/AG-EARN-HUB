@@ -26,11 +26,57 @@ const API_URL = "https://ag-earn-hub.onrender.com";
 let day = 1;
 
 
+/* ===== USER TYPE ===== */
+/*
+   এখন default = Normal User
+   পরে backend থেকে VIP/Normal সেট করা যাবে.
+*/
+
+let userType = "normal";
+
+const NORMAL_TASK_LIMIT = 10;
+const VIP_TASK_LIMIT = 20;
+
+
+/* ===== TASK DATA ===== */
+
+const TASKS = [
+  {
+    id: "youtube1",
+    name: "YOUTUBE 1",
+    icon: "▶️",
+    url: "https://www.youtube.com/@AG_AMANE"
+  },
+
+  {
+    id: "youtube2",
+    name: "YOUTUBE 2",
+    icon: "▶️",
+    url: "https://www.youtube.com/@amanegaming1k"
+  },
+
+  {
+    id: "telegram",
+    name: "TELEGRAM",
+    icon: "✈️",
+    url: "https://t.me/agxamanr"
+  }
+];
+
+
+/* ===== TASK STATUS ===== */
+
+let completedVideoTasks = 0;
+
+const completedTasks = new Set();
+
+
 /* ===== TOAST ===== */
 
 function toast(message) {
 
-  const box = document.getElementById("toastBox");
+  const box =
+    document.getElementById("toastBox");
 
   if (!box) return;
 
@@ -41,8 +87,11 @@ function toast(message) {
   clearTimeout(window.toastTimer);
 
   window.toastTimer = setTimeout(() => {
+
     box.classList.remove("show");
+
   }, 1800);
+
 }
 
 
@@ -58,9 +107,11 @@ function showPage(pageId) {
     "profilePage"
   ];
 
+
   pages.forEach(id => {
 
-    const page = document.getElementById(id);
+    const page =
+      document.getElementById(id);
 
     if (page) {
       page.classList.add("hidden");
@@ -72,15 +123,17 @@ function showPage(pageId) {
   const selectedPage =
     document.getElementById(pageId);
 
+
   if (selectedPage) {
     selectedPage.classList.remove("hidden");
   }
 
 
-  /* Update bottom navigation */
+  /* Update navigation */
 
   const navButtons =
     document.querySelectorAll(".nav button");
+
 
   navButtons.forEach(button => {
     button.classList.remove("active");
@@ -88,18 +141,27 @@ function showPage(pageId) {
 
 
   const pageToNav = {
+
     homePage: 0,
     tasksPage: 1,
     withdrawPage: 2,
     referPage: 3,
     profilePage: 4
+
   };
 
 
-  const index = pageToNav[pageId];
+  const index =
+    pageToNav[pageId];
 
-  if (index !== undefined && navButtons[index]) {
+
+  if (
+    index !== undefined &&
+    navButtons[index]
+  ) {
+
     navButtons[index].classList.add("active");
+
   }
 
 
@@ -118,8 +180,11 @@ function nav(button, name) {
   document
     .querySelectorAll(".nav button")
     .forEach(item => {
+
       item.classList.remove("active");
+
     });
+
 
   button.classList.add("active");
 
@@ -128,22 +193,222 @@ function nav(button, name) {
 }
 
 
-/* ===== 7-DAY BONUS ===== */
+/* =================================
+   TASK SYSTEM
+   ================================= */
+
+
+/* ===== GET DAILY LIMIT ===== */
+
+function getTaskLimit() {
+
+  if (userType === "vip") {
+
+    return VIP_TASK_LIMIT;
+
+  }
+
+  return NORMAL_TASK_LIMIT;
+
+}
+
+
+/* ===== START TASK ===== */
+
+function startTask(taskId) {
+
+  const task =
+    TASKS.find(item => item.id === taskId);
+
+
+  if (!task) {
+
+    toast("❌ Task not found");
+
+    return;
+
+  }
+
+
+  /* Check already completed */
+
+  if (completedTasks.has(taskId)) {
+
+    toast("✅ Task already completed");
+
+    return;
+
+  }
+
+
+  /* Check daily limit */
+
+  if (
+    completedVideoTasks >=
+    getTaskLimit()
+  ) {
+
+    toast("⚠️ Daily task limit reached");
+
+    return;
+
+  }
+
+
+  /* Save current task */
+
+  window.currentTask = taskId;
+
+
+  /* Open link */
+
+  window.open(
+    task.url,
+    "_blank"
+  );
+
+
+  toast(
+    "▶️ Task opened"
+  );
+
+}
+
+
+/* ===== COMPLETE TASK ===== */
+
+function completeTask(taskId) {
+
+  const task =
+    TASKS.find(item => item.id === taskId);
+
+
+  if (!task) {
+
+    toast("❌ Task not found");
+
+    return;
+
+  }
+
+
+  /* Already completed */
+
+  if (completedTasks.has(taskId)) {
+
+    toast("✅ Task already completed");
+
+    return;
+
+  }
+
+
+  /* Daily limit */
+
+  if (
+    completedVideoTasks >=
+    getTaskLimit()
+  ) {
+
+    toast(
+      "⚠️ Daily task limit reached"
+    );
+
+    return;
+
+  }
+
+
+  /* Mark complete */
+
+  completedTasks.add(taskId);
+
+  completedVideoTasks++;
+
+
+  updateTaskCounter();
+
+
+  toast(
+    "🎉 " +
+    task.name +
+    " completed!"
+  );
+
+}
+
+
+/* ===== TASK COUNTER ===== */
+
+function updateTaskCounter() {
+
+  const counter =
+    document.getElementById(
+      "taskCounter"
+    );
+
+
+  if (!counter) return;
+
+
+  counter.textContent =
+    completedVideoTasks +
+    " / " +
+    getTaskLimit() +
+    " completed";
+
+}
+
+
+/* ===== SET VIP ===== */
+
+function setUserVIP() {
+
+  userType = "vip";
+
+  updateTaskCounter();
+
+  toast("⭐ VIP User");
+
+}
+
+
+/* ===== SET NORMAL ===== */
+
+function setUserNormal() {
+
+  userType = "normal";
+
+  updateTaskCounter();
+
+}
+
+
+/* =================================
+   7-DAY BONUS
+   ================================= */
 
 function claimBonus() {
 
   if (day >= 7) {
 
-    toast("🎉 7-Day Bonus Completed");
+    toast(
+      "🎉 7-Day Bonus Completed"
+    );
 
     return;
+
   }
+
 
   day++;
 
   renderDays();
 
-  toast("🎁 Daily bonus claimed");
+
+  toast(
+    "🎁 Daily bonus claimed"
+  );
 
 }
 
@@ -155,18 +420,30 @@ function renderDays() {
   const container =
     document.getElementById("days");
 
+
   if (!container) return;
+
 
   container.innerHTML = "";
 
 
-  for (let i = 1; i <= 7; i++) {
+  for (
+    let i = 1;
+    i <= 7;
+    i++
+  ) {
 
     const item =
       document.createElement("div");
 
+
     item.className =
-      "day" + (i <= day ? " active" : "");
+      "day" +
+      (
+        i <= day
+          ? " active"
+          : ""
+      );
 
 
     item.textContent =
@@ -181,31 +458,45 @@ function renderDays() {
 
 
   const streakText =
-    document.getElementById("streakText");
+    document.getElementById(
+      "streakText"
+    );
 
 
   if (streakText) {
 
     streakText.textContent =
-      "Day " + day + " / 7";
+      "Day " +
+      day +
+      " / 7";
 
   }
 
 }
 
 
-/* ===== SUPPORT POPUP ===== */
+/* =================================
+   SUPPORT POPUP
+   ================================= */
 
 function openSupport() {
 
   const popup =
-    document.getElementById("supportPopup");
+    document.getElementById(
+      "supportPopup"
+    );
+
 
   if (!popup) return;
 
-  popup.classList.remove("hidden");
 
-  document.body.style.overflow = "hidden";
+  popup.classList.remove(
+    "hidden"
+  );
+
+
+  document.body.style.overflow =
+    "hidden";
 
 }
 
@@ -215,41 +506,81 @@ function openSupport() {
 function closeSupport() {
 
   const popup =
-    document.getElementById("supportPopup");
+    document.getElementById(
+      "supportPopup"
+    );
+
 
   if (!popup) return;
 
-  popup.classList.add("hidden");
 
-  document.body.style.overflow = "";
+  popup.classList.add(
+    "hidden"
+  );
+
+
+  document.body.style.overflow =
+    "";
 
 }
 
 
-/* ===== CLOSE POPUP BY BACKGROUND ===== */
+/* ===== CLOSE BY BACKGROUND ===== */
 
-document.addEventListener("click", function(event) {
+document.addEventListener(
+  "click",
+  function(event) {
 
-  const popup =
-    document.getElementById("supportPopup");
+    const popup =
+      document.getElementById(
+        "supportPopup"
+      );
 
-  if (!popup) return;
 
-  if (
-    event.target === popup
-  ) {
-    closeSupport();
+    if (!popup) return;
+
+
+    if (
+      event.target === popup
+    ) {
+
+      closeSupport();
+
+    }
+
   }
+);
 
-});
+
+/* ===== ESC CLOSE ===== */
+
+document.addEventListener(
+  "keydown",
+  function(event) {
+
+    if (
+      event.key === "Escape"
+    ) {
+
+      closeSupport();
+
+    }
+
+  }
+);
 
 
-/* ===== CLOCK ===== */
+/* =================================
+   CLOCK
+   ================================= */
 
 function updateClock() {
 
   const time =
-    document.getElementById("time");
+    document.getElementById(
+      "time"
+    );
+
 
   if (!time) return;
 
@@ -265,44 +596,80 @@ function updateClock() {
 
 }
 
+
 updateClock();
 
-setInterval(updateClock, 1000);
+
+setInterval(
+  updateClock,
+  1000
+);
 
 
-/* ===== LOADING SCREEN ===== */
+/* =================================
+   LOADING
+   ================================= */
 
-window.addEventListener("load", () => {
+window.addEventListener(
+  "load",
+  () => {
 
-  setTimeout(() => {
+    setTimeout(
+      () => {
 
-    const loading =
-      document.getElementById("loading");
-
-    const app =
-      document.getElementById("app");
-
-
-    if (loading) {
-      loading.classList.add("hidden");
-    }
-
-
-    if (app) {
-      app.classList.remove("hidden");
-    }
-
-  }, 1200);
-
-});
+        const loading =
+          document.getElementById(
+            "loading"
+          );
 
 
-/* ===== START BONUS ===== */
+        const app =
+          document.getElementById(
+            "app"
+          );
+
+
+        if (loading) {
+
+          loading.classList.add(
+            "hidden"
+          );
+
+        }
+
+
+        if (app) {
+
+          app.classList.remove(
+            "hidden"
+          );
+
+        }
+
+
+        updateTaskCounter();
+
+
+      },
+      1200
+    );
+
+  }
+);
+
+
+/* =================================
+   START
+   ================================= */
 
 renderDays();
 
+updateTaskCounter();
 
-/* ===== TELEGRAM BACK BUTTON ===== */
+
+/* =================================
+   TELEGRAM BACK BUTTON
+   ================================= */
 
 if (tg) {
 
@@ -311,8 +678,20 @@ if (tg) {
 }
 
 
-/* ===== CONSOLE ===== */
+/* =================================
+   CONSOLE
+   ================================= */
 
 console.log(
   "AG EARN HUB loaded successfully."
+);
+
+console.log(
+  "User type:",
+  userType
+);
+
+console.log(
+  "Task limit:",
+  getTaskLimit()
 );
