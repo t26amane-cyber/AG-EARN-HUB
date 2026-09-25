@@ -1,6 +1,6 @@
-/* ==============================
+/* =================================
    AG EARN HUB — SCRIPT.JS
-   ============================== */
+   ================================= */
 
 
 /* ===== TELEGRAM WEB APP ===== */
@@ -14,6 +14,11 @@ if (tg) {
   tg.setHeaderColor?.("#050814");
   tg.setBackgroundColor?.("#050814");
 }
+
+
+/* ===== BACKEND API ===== */
+
+const API_URL = "https://ag-earn-hub.onrender.com";
 
 
 /* ===== APP DATA ===== */
@@ -37,11 +42,76 @@ function toast(message) {
 
   window.toastTimer = setTimeout(() => {
     box.classList.remove("show");
-  }, 1600);
+  }, 1800);
 }
 
 
-/* ===== NAVIGATION ===== */
+/* ===== PAGE SYSTEM ===== */
+
+function showPage(pageId) {
+
+  const pages = [
+    "homePage",
+    "tasksPage",
+    "withdrawPage",
+    "referPage",
+    "profilePage"
+  ];
+
+  pages.forEach(id => {
+
+    const page = document.getElementById(id);
+
+    if (page) {
+      page.classList.add("hidden");
+    }
+
+  });
+
+
+  const selectedPage =
+    document.getElementById(pageId);
+
+  if (selectedPage) {
+    selectedPage.classList.remove("hidden");
+  }
+
+
+  /* Update bottom navigation */
+
+  const navButtons =
+    document.querySelectorAll(".nav button");
+
+  navButtons.forEach(button => {
+    button.classList.remove("active");
+  });
+
+
+  const pageToNav = {
+    homePage: 0,
+    tasksPage: 1,
+    withdrawPage: 2,
+    referPage: 3,
+    profilePage: 4
+  };
+
+
+  const index = pageToNav[pageId];
+
+  if (index !== undefined && navButtons[index]) {
+    navButtons[index].classList.add("active");
+  }
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* ===== BOTTOM NAV ===== */
 
 function nav(button, name) {
 
@@ -54,6 +124,7 @@ function nav(button, name) {
   button.classList.add("active");
 
   toast(name + " opened");
+
 }
 
 
@@ -73,6 +144,7 @@ function claimBonus() {
   renderDays();
 
   toast("🎁 Daily bonus claimed");
+
 }
 
 
@@ -80,37 +152,96 @@ function claimBonus() {
 
 function renderDays() {
 
-  const container = document.getElementById("days");
+  const container =
+    document.getElementById("days");
 
   if (!container) return;
 
   container.innerHTML = "";
 
+
   for (let i = 1; i <= 7; i++) {
 
-    const item = document.createElement("div");
+    const item =
+      document.createElement("div");
 
     item.className =
       "day" + (i <= day ? " active" : "");
+
 
     item.textContent =
       i < day
         ? "✓ Day " + i
         : "Day " + i;
 
+
     container.appendChild(item);
+
   }
 
 
   const streakText =
     document.getElementById("streakText");
 
+
   if (streakText) {
 
     streakText.textContent =
       "Day " + day + " / 7";
+
   }
+
 }
+
+
+/* ===== SUPPORT POPUP ===== */
+
+function openSupport() {
+
+  const popup =
+    document.getElementById("supportPopup");
+
+  if (!popup) return;
+
+  popup.classList.remove("hidden");
+
+  document.body.style.overflow = "hidden";
+
+}
+
+
+/* ===== CLOSE SUPPORT ===== */
+
+function closeSupport() {
+
+  const popup =
+    document.getElementById("supportPopup");
+
+  if (!popup) return;
+
+  popup.classList.add("hidden");
+
+  document.body.style.overflow = "";
+
+}
+
+
+/* ===== CLOSE POPUP BY BACKGROUND ===== */
+
+document.addEventListener("click", function(event) {
+
+  const popup =
+    document.getElementById("supportPopup");
+
+  if (!popup) return;
+
+  if (
+    event.target === popup
+  ) {
+    closeSupport();
+  }
+
+});
 
 
 /* ===== CLOCK ===== */
@@ -122,6 +253,7 @@ function updateClock() {
 
   if (!time) return;
 
+
   time.textContent =
     new Date().toLocaleTimeString(
       "en-GB",
@@ -130,6 +262,7 @@ function updateClock() {
         timeZone: "Asia/Dhaka"
       }
     );
+
 }
 
 updateClock();
@@ -149,9 +282,11 @@ window.addEventListener("load", () => {
     const app =
       document.getElementById("app");
 
+
     if (loading) {
       loading.classList.add("hidden");
     }
+
 
     if (app) {
       app.classList.remove("hidden");
@@ -167,7 +302,7 @@ window.addEventListener("load", () => {
 renderDays();
 
 
-/* ===== OPTIONAL TELEGRAM BACK BUTTON ===== */
+/* ===== TELEGRAM BACK BUTTON ===== */
 
 if (tg) {
 
@@ -178,9 +313,6 @@ if (tg) {
 
 /* ===== CONSOLE ===== */
 
-console.log("AG EARN HUB loaded successfully.");
-
-
-/* ===== BACKEND API ===== */
-
-const API_URL = "https://ag-earn-hub.onrender.com";
+console.log(
+  "AG EARN HUB loaded successfully."
+);
