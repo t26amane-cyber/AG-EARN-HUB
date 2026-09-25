@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
   <meta name="theme-color" content="#050814">
 
@@ -13,18 +16,25 @@
 
 <body>
 
-  <!-- LOADING -->
+
+  <!-- =========================
+       LOADING
+  ========================== -->
+
   <section id="loading">
 
     <div class="loader-box">
+
       <div class="logo">
         <b>AG</b>
       </div>
 
       <div class="ring"></div>
+
     </div>
 
     <h1>AG EARN HUB</h1>
+
     <p>Loading your hub...</p>
 
     <div class="bar">
@@ -34,10 +44,16 @@
   </section>
 
 
-  <!-- APP -->
+
+  <!-- =========================
+       APP
+  ========================== -->
+
   <main id="app" class="hidden">
 
+
     <!-- HEADER -->
+
     <header class="top">
 
       <div class="brand">
@@ -47,24 +63,43 @@
         </div>
 
         <div>
-          <small>WELCOME BACK</small>
-          <strong>AG EARN HUB</strong>
+
+          <small>
+            WELCOME BACK
+          </small>
+
+          <strong>
+            AG EARN HUB
+          </strong>
+
         </div>
 
       </div>
 
+
       <div class="live">
+
         🟢 LIVE
-        <span id="time">--:--:--</span>
+
+        <span id="time">
+          --:--:--
+        </span>
+
       </div>
 
     </header>
 
 
-    <!-- HOME -->
+
+    <!-- =========================
+         HOME
+    ========================== -->
+
     <section id="homePage">
 
+
       <!-- BALANCE -->
+
       <section class="hero">
 
         <div class="label">
@@ -72,22 +107,35 @@
         </div>
 
         <div class="balance">
-          ৳ <span id="balance">0.00</span>
-          <span>BDT</span>
+
+          ৳ <span id="balance">
+            0.00
+          </span>
+
+          <span>
+            BDT
+          </span>
+
         </div>
+
 
         <div class="row">
 
           <button
             class="btn primary"
             onclick="showPage('tasksPage')">
+
             ⚡ Earn Now
+
           </button>
+
 
           <button
             class="btn"
             onclick="showPage('withdrawPage')">
+
             💸 Withdraw
+
           </button>
 
         </div>
@@ -95,82 +143,123 @@
       </section>
 
 
+
       <!-- QUICK ACTIONS -->
+
       <div class="section">
 
-        <h3>Quick Actions</h3>
+        <h3>
+          Quick Actions
+        </h3>
 
-        <small>Earn & manage</small>
+        <small>
+          Earn & manage
+        </small>
 
       </div>
 
 
+
       <section class="grid">
+
 
         <button
           class="card"
           onclick="showPage('tasksPage')">
 
-          <span class="ico">🎯</span>
+          <span class="ico">
+            🎯
+          </span>
 
-          <b>Tasks</b>
+          <b>
+            Tasks
+          </b>
 
-          <small>Complete & earn</small>
+          <small>
+            Complete & earn
+          </small>
 
         </button>
+
 
 
         <button
           class="card"
           onclick="claimBonus()">
 
-          <span class="ico">🎁</span>
+          <span class="ico">
+            🎁
+          </span>
 
-          <b>7-Day Bonus</b>
+          <b>
+            7-Day Bonus
+          </b>
 
-          <small>Daily streak reward</small>
+          <small>
+            Daily streak reward
+          </small>
 
         </button>
+
 
 
         <button
           class="card"
           onclick="showPage('referPage')">
 
-          <span class="ico">👥</span>
+          <span class="ico">
+            👥
+          </span>
 
-          <b>Refer & Earn</b>
+          <b>
+            Refer & Earn
+          </b>
 
-          <small>Invite friends</small>
+          <small>
+            Invite friends
+          </small>
 
         </button>
+
 
 
         <button
           class="card"
           onclick="showPage('profilePage')">
 
-          <span class="ico">👤</span>
+          <span class="ico">
+            👤
+          </span>
 
-          <b>Profile</b>
+          <b>
+            Profile
+          </b>
 
-          <small>Account & history</small>
+          <small>
+            Account & history
+          </small>
 
         </button>
+
 
       </section>
 
 
+
       <!-- BONUS -->
+
       <div class="section">
 
-        <h3>7-Day Bonus Streak</h3>
+        <h3>
+          7-Day Bonus Streak
+        </h3>
 
         <small id="streakText">
           Day 1 / 7
         </small>
 
       </div>
+
 
 
       <section class="streak">
@@ -186,349 +275,747 @@
 
       </section>
 
-    </section>
-
-
-    <!-- TASKS PAGE -->
-    <section id="tasksPage" class="page hidden">
-
-      <div class="page-header">
-        <h2>Tasks</h2>
-        <small>Complete tasks and earn</small>
-      </div>
-
-
-      <div class="task-card">
-
-        <span class="ico">▶️</span>
-
-        <div>
-          <b>YOUTUBE 1</b>
-          <small>Watch and complete the task</small>
-        </div>
-
-        <button
-          class="btn primary"
-          onclick="toast('YouTube 1 task opened')">
-          START
-        </button>
-
-      </div>
-
-
-      <div class="task-card">
-
-        <span class="ico">▶️</span>
-
-        <div>
-          <b>YOUTUBE 2</b>
-          <small>Watch and complete the task</small>
-        </div>
-
-        <button
-          class="btn primary"
-          onclick="toast('YouTube 2 task opened')">
-          START
-        </button>
-
-      </div>
-
-
-      <div class="task-card">
-
-        <span class="ico">✈️</span>
-
-        <div>
-          <b>TELEGRAM</b>
-          <small>Join Telegram and complete the task</small>
-        </div>
-
-        <button
-          class="btn primary"
-          onclick="toast('Telegram task opened')">
-          START
-        </button>
-
-      </div>
 
     </section>
 
 
-    <!-- WITHDRAW PAGE -->
-    <section id="withdrawPage" class="page hidden">
+
+    <!-- =========================
+         TASKS PAGE
+    ========================== -->
+
+    <section
+      id="tasksPage"
+      class="page hidden">
+
 
       <div class="page-header">
-        <h2>Withdraw</h2>
-        <small>Choose your withdrawal method</small>
+
+        <h2>
+          Tasks
+        </h2>
+
+        <small>
+          Complete tasks and earn
+        </small>
+
       </div>
 
+
+
+      <!-- TASK COUNTER -->
+
+      <div
+        class="task-counter"
+        style="
+          margin-bottom:15px;
+          padding:14px;
+          border-radius:16px;
+          background:#0c1222;
+          border:1px solid rgba(255,255,255,0.08);
+          text-align:center;
+        ">
+
+        <b>
+          Daily Tasks
+        </b>
+
+        <div
+          id="taskCounter"
+          style="
+            margin-top:6px;
+            color:#00d9ff;
+            font-size:13px;
+          ">
+
+          0 / 10 completed
+
+        </div>
+
+      </div>
+
+
+
+      <!-- YOUTUBE 1 -->
+
+      <div class="task-card">
+
+        <span class="ico">
+          ▶️
+        </span>
+
+
+        <div>
+
+          <b>
+            YOUTUBE 1
+          </b>
+
+          <small>
+            Watch and complete the task
+          </small>
+
+        </div>
+
+
+        <button
+          class="btn primary"
+          onclick="startTask('youtube1')">
+
+          START
+
+        </button>
+
+      </div>
+
+
+
+      <!-- YOUTUBE 2 -->
+
+      <div class="task-card">
+
+        <span class="ico">
+          ▶️
+        </span>
+
+
+        <div>
+
+          <b>
+            YOUTUBE 2
+          </b>
+
+          <small>
+            Watch and complete the task
+          </small>
+
+        </div>
+
+
+        <button
+          class="btn primary"
+          onclick="startTask('youtube2')">
+
+          START
+
+        </button>
+
+      </div>
+
+
+
+      <!-- TELEGRAM -->
+
+      <div class="task-card">
+
+        <span class="ico">
+          ✈️
+        </span>
+
+
+        <div>
+
+          <b>
+            TELEGRAM
+          </b>
+
+          <small>
+            Join Telegram and complete the task
+          </small>
+
+        </div>
+
+
+        <button
+          class="btn primary"
+          onclick="startTask('telegram')">
+
+          START
+
+        </button>
+
+      </div>
+
+
+
+      <!-- COMPLETE TASK -->
+
+      <div
+        style="
+          margin-top:20px;
+          padding:16px;
+          border-radius:18px;
+          background:#0c1222;
+          border:1px solid rgba(255,255,255,0.08);
+          text-align:center;
+        ">
+
+        <p
+          style="
+            color:#8f9bb3;
+            font-size:11px;
+            margin-bottom:12px;
+          ">
+
+          After completing a task,
+          press the button below.
+
+        </p>
+
+
+        <button
+          class="btn primary"
+          onclick="
+            if(window.currentTask){
+              completeTask(window.currentTask);
+            }else{
+              toast('⚠️ Start a task first');
+            }
+          ">
+
+          ✅ COMPLETE TASK
+
+        </button>
+
+      </div>
+
+
+    </section>
+
+
+
+    <!-- =========================
+         WITHDRAW PAGE
+    ========================== -->
+
+    <section
+      id="withdrawPage"
+      class="page hidden">
+
+
+      <div class="page-header">
+
+        <h2>
+          Withdraw
+        </h2>
+
+        <small>
+          Choose your withdrawal method
+        </small>
+
+      </div>
+
+
+
+      <!-- BKASH -->
 
       <button
         class="method-card"
         onclick="toast('bKash selected')">
 
-        <span>💳</span>
+        <span>
+          💳
+        </span>
 
         <div>
-          <b>bKash</b>
-          <small>Withdraw via bKash</small>
+
+          <b>
+            bKash
+          </b>
+
+          <small>
+            Withdraw via bKash
+          </small>
+
         </div>
 
-        <strong>›</strong>
+        <strong>
+          ›
+        </strong>
 
       </button>
 
+
+
+      <!-- NAGAD -->
 
       <button
         class="method-card"
         onclick="toast('Nagad selected')">
 
-        <span>💰</span>
+        <span>
+          💰
+        </span>
 
         <div>
-          <b>Nagad</b>
-          <small>Withdraw via Nagad</small>
+
+          <b>
+            Nagad
+          </b>
+
+          <small>
+            Withdraw via Nagad
+          </small>
+
         </div>
 
-        <strong>›</strong>
+        <strong>
+          ›
+        </strong>
 
       </button>
 
+
+
+      <!-- RECHARGE -->
 
       <button
         class="method-card"
         onclick="toast('Recharge selected')">
 
-        <span>📱</span>
+        <span>
+          📱
+        </span>
 
         <div>
-          <b>Recharge</b>
-          <small>Mobile recharge</small>
+
+          <b>
+            Recharge
+          </b>
+
+          <small>
+            Mobile recharge
+          </small>
+
         </div>
 
-        <strong>›</strong>
+        <strong>
+          ›
+        </strong>
 
       </button>
+
 
     </section>
 
 
-    <!-- REFER PAGE -->
-    <section id="referPage" class="page hidden">
+
+    <!-- =========================
+         REFER PAGE
+    ========================== -->
+
+    <section
+      id="referPage"
+      class="page hidden">
+
 
       <div class="page-header">
-        <h2>Refer</h2>
-        <small>Invite friends and earn</small>
+
+        <h2>
+          Refer
+        </h2>
+
+        <small>
+          Invite friends and earn
+        </small>
+
       </div>
+
 
 
       <div class="refer-card">
 
-        <span class="ico">👥</span>
+        <span class="ico">
+          👥
+        </span>
 
-        <h3>Refer & Earn</h3>
+        <h3>
+          Refer & Earn
+        </h3>
 
         <p>
-          Invite your friends to AG EARN HUB
+          Invite your friends to
+          AG EARN HUB
           and earn rewards.
         </p>
+
 
         <button
           class="btn primary"
           onclick="toast('Referral link copied')">
+
           COPY REFERRAL LINK
+
         </button>
 
       </div>
 
+
     </section>
 
 
-    <!-- PROFILE PAGE -->
-    <section id="profilePage" class="page hidden">
+
+    <!-- =========================
+         PROFILE PAGE
+    ========================== -->
+
+    <section
+      id="profilePage"
+      class="page hidden">
+
 
       <div class="page-header">
-        <h2>Profile</h2>
-        <small>Your account information</small>
+
+        <h2>
+          Profile
+        </h2>
+
+        <small>
+          Your account information
+        </small>
+
       </div>
+
 
 
       <div class="profile-card">
 
+
         <div class="profile-image">
-          <span>👤</span>
+
+          <span>
+            👤
+          </span>
+
         </div>
 
-        <h2>User</h2>
 
-        <p>User Info</p>
+        <h2>
+          User
+        </h2>
+
+
+        <p>
+          User Info
+        </p>
+
 
         <div class="level">
-          <span>User Level</span>
-          <strong>Level 1</strong>
+
+          <span>
+            User Level
+          </span>
+
+          <strong>
+            Level 1
+          </strong>
+
         </div>
 
+
       </div>
+
 
     </section>
 
 
-    <!-- SUPPORT BUTTON -->
+
+    <!-- =========================
+         SUPPORT BUTTON
+    ========================== -->
+
     <button
       class="support-float"
       onclick="openSupport()">
 
       <span class="ripple"></span>
+
       💬
 
     </button>
 
 
-    <!-- SUPPORT POPUP -->
+
+    <!-- =========================
+         SUPPORT POPUP
+    ========================== -->
+
     <div
       id="supportPopup"
       class="support-overlay hidden">
 
+
       <div class="support-popup">
+
 
         <button
           class="support-close"
           onclick="closeSupport()">
+
           ×
+
         </button>
+
 
 
         <div class="support-title">
 
+
           <div class="support-icon">
+
             💬
+
           </div>
 
-          <h2>Support</h2>
+
+          <h2>
+            Support
+          </h2>
+
 
           <p>
             Need help with AG EARN HUB?
           </p>
 
+
         </div>
 
+
+
+        <!-- WHATSAPP -->
 
         <a
           class="support-option"
           href="https://wa.me/"
           target="_blank">
 
-          <span>🟢</span>
+          <span>
+            🟢
+          </span>
+
 
           <div>
-            <b>WhatsApp</b>
-            <small>Chat with us</small>
+
+            <b>
+              WhatsApp
+            </b>
+
+            <small>
+              Chat with us
+            </small>
+
           </div>
 
-          <strong>›</strong>
+
+          <strong>
+            ›
+          </strong>
 
         </a>
 
+
+
+        <!-- TELEGRAM -->
 
         <a
           class="support-option"
           href="https://t.me/ag_support_bd"
           target="_blank">
 
-          <span>✈️</span>
+          <span>
+            ✈️
+          </span>
+
 
           <div>
-            <b>Telegram</b>
-            <small>@ag_support_bd</small>
+
+            <b>
+              Telegram
+            </b>
+
+            <small>
+              @ag_support_bd
+            </small>
+
           </div>
 
-          <strong>›</strong>
+
+          <strong>
+            ›
+          </strong>
 
         </a>
 
+
+
+        <!-- EMAIL -->
 
         <a
           class="support-option"
           href="mailto:mails.official99@gmail.com">
 
-          <span>📧</span>
+          <span>
+            📧
+          </span>
+
 
           <div>
-            <b>E-mail</b>
-            <small>Send us an email</small>
+
+            <b>
+              E-mail
+            </b>
+
+            <small>
+              Send us an email
+            </small>
+
           </div>
 
-          <strong>›</strong>
+
+          <strong>
+            ›
+          </strong>
 
         </a>
+
 
       </div>
 
     </div>
 
+
   </main>
 
 
-  <!-- BOTTOM NAV -->
+
+  <!-- =========================
+       BOTTOM NAV
+  ========================== -->
+
   <nav class="nav">
+
+
+    <!-- HOME -->
 
     <button
       class="active"
-      onclick="showPage('homePage'); nav(this,'Home')">
+      onclick="
+        showPage('homePage');
+        nav(this,'Home')
+      ">
 
-      <span>⌂</span>
-      <small>Home</small>
+      <span>
+        ⌂
+      </span>
+
+      <small>
+        Home
+      </small>
 
     </button>
 
+
+
+    <!-- TASKS -->
 
     <button
-      onclick="showPage('tasksPage'); nav(this,'Tasks')">
+      onclick="
+        showPage('tasksPage');
+        nav(this,'Tasks')
+      ">
 
-      <span>◈</span>
-      <small>Tasks</small>
+      <span>
+        ◈
+      </span>
+
+      <small>
+        Tasks
+      </small>
 
     </button>
 
+
+
+    <!-- WITHDRAW -->
 
     <button
-      onclick="showPage('withdrawPage'); nav(this,'Withdraw')">
+      onclick="
+        showPage('withdrawPage');
+        nav(this,'Withdraw')
+      ">
 
-      <span>৳</span>
-      <small>Withdraw</small>
+      <span>
+        ৳
+      </span>
+
+      <small>
+        Withdraw
+      </small>
 
     </button>
 
+
+
+    <!-- REFER -->
 
     <button
-      onclick="showPage('referPage'); nav(this,'Refer')">
+      onclick="
+        showPage('referPage');
+        nav(this,'Refer')
+      ">
 
-      <span>♧</span>
-      <small>Refer</small>
+      <span>
+        ♧
+      </span>
+
+      <small>
+        Refer
+      </small>
 
     </button>
 
+
+
+    <!-- PROFILE -->
 
     <button
-      onclick="showPage('profilePage'); nav(this,'Profile')">
+      onclick="
+        showPage('profilePage');
+        nav(this,'Profile')
+      ">
 
-      <span>◎</span>
-      <small>Profile</small>
+      <span>
+        ◎
+      </span>
+
+      <small>
+        Profile
+      </small>
 
     </button>
+
 
   </nav>
 
 
-  <!-- TOAST -->
+
+  <!-- =========================
+       TOAST
+  ========================== -->
+
   <div
     id="toastBox"
     class="toast">
   </div>
 
 
-  <!-- JAVASCRIPT -->
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+
   <script src="script.js"></script>
 
+
 </body>
-  </html>
+        </html>
