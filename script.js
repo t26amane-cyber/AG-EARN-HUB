@@ -179,3 +179,8 @@ if (tg) {
 /* ===== CONSOLE ===== */
 
 console.log("AG EARN HUB loaded successfully.");
+
+
+/* ===== BACKEND API ===== */
+
+const API_URL = "https://ag-earn-hub.onrender.com";
