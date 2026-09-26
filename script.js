@@ -1,697 +1,1017 @@
-/* =================================
+/* =========================================
    AG EARN HUB — SCRIPT.JS
-   ================================= */
+   ========================================= */
 
-
-/* ===== TELEGRAM WEB APP ===== */
-
-const tg = window.Telegram?.WebApp;
-
-if (tg) {
-  tg.ready();
-  tg.expand();
-
-  tg.setHeaderColor?.("#050814");
-  tg.setBackgroundColor?.("#050814");
-}
-
-
-/* ===== BACKEND API ===== */
+const tg = window.Telegram?.WebApp || null;
 
 const API_URL = "https://ag-earn-hub.onrender.com";
 
+/* =========================================
+   TELEGRAM MINI APP
+   ========================================= */
 
-/* ===== APP DATA ===== */
+if (tg) {
+    tg.ready();
+    tg.expand();
 
-let day = 1;
+    tg.setHeaderColor?.("#050814");
+    tg.setBackgroundColor?.("#050814");
+}
 
+/* =========================================
+   APP STATE
+   ========================================= */
 
-/* ===== USER TYPE ===== */
-/*
-   এখন default = Normal User
-   পরে backend থেকে VIP/Normal সেট করা যাবে.
-*/
+let user = {
+    id: "",
+    name: "Telegram User",
+    username: "",
+    coins: 0,
+    premium: false
+};
 
-let userType = "normal";
+let selectedPremiumPlan = null;
+let selectedPaymentMethod = null;
 
-const NORMAL_TASK_LIMIT = 10;
-const VIP_TASK_LIMIT = 20;
-
-
-/* ===== TASK DATA ===== */
-
-const TASKS = [
-  {
-    id: "youtube1",
-    name: "YOUTUBE 1",
-    icon: "▶️",
-    url: "https://www.youtube.com/@AG_AMANE"
-  },
-
-  {
-    id: "youtube2",
-    name: "YOUTUBE 2",
-    icon: "▶️",
-    url: "https://www.youtube.com/@amanegaming1k"
-  },
-
-  {
-    id: "telegram",
-    name: "TELEGRAM",
-    icon: "✈️",
-    url: "https://t.me/agxamanr"
-  }
-];
-
-
-/* ===== TASK STATUS ===== */
-
-let completedVideoTasks = 0;
+let currentTasks = [];
 
 const completedTasks = new Set();
 
+/* =========================================
+   DEFAULT TASKS
+   =========================================
+   এগুলো এখন task structure।
+   আসল link/reward backend থেকে দিলে
+   পরে backend data দিয়ে replace করা যাবে।
+   ========================================= */
 
-/* ===== TOAST ===== */
+const DEFAULT_TASKS = [
+    {
+        id: "task_1",
+        title: "AD NETWORK TASK 1",
+        description: "Open the assigned task",
+        icon: "📢",
+        reward: 5,
+        url: "#",
+        status: "demo"
+    },
+    {
+        id: "task_2",
+        title: "AD NETWORK TASK 2",
+        description: "Open the assigned task",
+        icon: "🌐",
+        reward: 5,
+        url: "#",
+        status: "demo"
+    },
+    {
+        id: "task_3",
+        title: "AD NETWORK TASK 3",
+        description: "Open the assigned task",
+        icon: "🚀",
+        reward: 10,
+        url: "#",
+        status: "demo"
+    },
+    {
+        id: "task_4",
+        title: "AD NETWORK TASK 4",
+        description: "Open the assigned task",
+        icon: "🎯",
+        reward: 10,
+        url: "#",
+        status: "demo"
+    },
+    {
+        id: "task_5",
+        title: "AD NETWORK TASK 5",
+        description: "Open the assigned task",
+        icon: "💎",
+        reward: 10,
+        url: "#",
+        status: "demo"
+    },
+    {
+        id: "task_6",
+        title: "AD NETWORK TASK 6",
+        description: "Open the assigned task",
+        icon: "⭐",
+        reward: 15,
+        url: "#",
+        status: "demo"
+    },
+    {
+        id: "task_7",
+        title: "AD NETWORK TASK 7",
+        description: "Open the assigned task",
+        icon: "🔥",
+        reward: 15,
+        url: "#",
+        status: "demo"
+    },
+    {
+        id: "task_8",
+        title: "AD NETWORK TASK 8",
+        description: "Open the assigned task",
+        icon: "💰",
+        reward: 20,
+        url: "#",
+        status: "demo"
+    },
+    {
+        id: "task_9",
+        title: "AD NETWORK TASK 9",
+        description: "Open the assigned task",
+        icon: "🏆",
+        reward: 20,
+        url: "#",
+        status: "demo"
+    },
+    {
+        id: "task_10",
+        title: "AD NETWORK TASK 10",
+        description: "Open the assigned task",
+        icon: "👑",
+        reward: 25,
+        url: "#",
+        status: "demo"
+    }
+];
+
+/* =========================================
+   TOAST
+   ========================================= */
 
 function toast(message) {
 
-  const box =
-    document.getElementById("toastBox");
+    const box = document.getElementById("toastBox");
 
-  if (!box) return;
+    if (!box) return;
 
-  box.textContent = message;
+    box.textContent = message;
+    box.classList.add("show");
 
-  box.classList.add("show");
+    clearTimeout(window.toastTimer);
 
-  clearTimeout(window.toastTimer);
-
-  window.toastTimer = setTimeout(() => {
-
-    box.classList.remove("show");
-
-  }, 1800);
-
+    window.toastTimer = setTimeout(() => {
+        box.classList.remove("show");
+    }, 2200);
 }
 
+/* =========================================
+   API HELPER
+   ========================================= */
 
-/* ===== PAGE SYSTEM ===== */
+async function apiRequest(path, options = {}) {
+
+    try {
+
+        const headers = {
+            "Content-Type": "application/json",
+            ...(options.headers || {})
+        };
+
+        const response = await fetch(
+            API_URL + path,
+            {
+                ...options,
+                headers
+            }
+        );
+
+        const data = await response.json().catch(() => ({}));
+
+        return {
+            ok: response.ok,
+            status: response.status,
+            data
+        };
+
+    } catch (error) {
+
+        console.log("API Error:", error);
+
+        return {
+            ok: false,
+            status: 0,
+            data: {}
+        };
+    }
+}
+
+/* =========================================
+   TELEGRAM USER
+   ========================================= */
+
+function getTelegramUser() {
+
+    if (!tg?.initDataUnsafe?.user) {
+        return null;
+    }
+
+    return tg.initDataUnsafe.user;
+}
+
+/* =========================================
+   USER INITIALIZATION
+   ========================================= */
+
+async function initializeUser() {
+
+    const telegramUser = getTelegramUser();
+
+    if (telegramUser) {
+
+        user.id = String(telegramUser.id || "");
+        user.name =
+            telegramUser.first_name ||
+            telegramUser.username ||
+            "Telegram User";
+
+        user.username =
+            telegramUser.username
+                ? "@" + telegramUser.username
+                : "";
+
+        updateProfile();
+    }
+
+    /*
+      Backend endpoint না থাকলে UI চালু থাকবে।
+      Backend-এ /api/user/init যোগ করলে এখানে
+      real user data নেওয়া যাবে।
+    */
+
+    if (!tg?.initData) {
+        console.log("Telegram initData unavailable.");
+        return;
+    }
+
+    const result = await apiRequest(
+        "/api/user/init",
+        {
+            method: "POST",
+            body: JSON.stringify({
+                initData: tg.initData
+            })
+        }
+    );
+
+    if (result.ok && result.data?.user) {
+
+        user = {
+            ...user,
+            ...result.data.user
+        };
+
+        updateAllUI();
+    }
+}
+
+/* =========================================
+   PAGE NAVIGATION
+   ========================================= */
 
 function showPage(pageId) {
 
-  const pages = [
-    "homePage",
-    "tasksPage",
-    "withdrawPage",
-    "referPage",
-    "profilePage"
-  ];
+    const pages = [
+        "homePage",
+        "tasksPage",
+        "premiumPage",
+        "premiumTasksPage",
+        "advancedPage",
+        "shopPage",
+        "withdrawPage",
+        "referPage",
+        "profilePage"
+    ];
 
+    pages.forEach(id => {
 
-  pages.forEach(id => {
+        const page = document.getElementById(id);
 
-    const page =
-      document.getElementById(id);
+        if (page) {
+            page.classList.add("hidden");
+        }
+    });
 
-    if (page) {
-      page.classList.add("hidden");
+    const selected = document.getElementById(pageId);
+
+    if (selected) {
+        selected.classList.remove("hidden");
     }
 
-  });
+    updateNav(pageId);
 
-
-  const selectedPage =
-    document.getElementById(pageId);
-
-
-  if (selectedPage) {
-    selectedPage.classList.remove("hidden");
-  }
-
-
-  /* Update navigation */
-
-  const navButtons =
-    document.querySelectorAll(".nav button");
-
-
-  navButtons.forEach(button => {
-    button.classList.remove("active");
-  });
-
-
-  const pageToNav = {
-
-    homePage: 0,
-    tasksPage: 1,
-    withdrawPage: 2,
-    referPage: 3,
-    profilePage: 4
-
-  };
-
-
-  const index =
-    pageToNav[pageId];
-
-
-  if (
-    index !== undefined &&
-    navButtons[index]
-  ) {
-
-    navButtons[index].classList.add("active");
-
-  }
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 }
 
+/* =========================================
+   BOTTOM NAV
+   ========================================= */
 
-/* ===== BOTTOM NAV ===== */
+function updateNav(pageId) {
+
+    const navButtons =
+        document.querySelectorAll(".nav button");
+
+    navButtons.forEach(button => {
+        button.classList.remove("active");
+    });
+
+    const pageToNav = {
+        homePage: 0,
+        tasksPage: 1,
+        withdrawPage: 2,
+        referPage: 3,
+        profilePage: 4
+    };
+
+    const index = pageToNav[pageId];
+
+    if (
+        index !== undefined &&
+        navButtons[index]
+    ) {
+        navButtons[index].classList.add("active");
+    }
+}
 
 function nav(button, name) {
 
-  document
-    .querySelectorAll(".nav button")
-    .forEach(item => {
+    document
+        .querySelectorAll(".nav button")
+        .forEach(item => {
+            item.classList.remove("active");
+        });
 
-      item.classList.remove("active");
+    button.classList.add("active");
 
-    });
-
-
-  button.classList.add("active");
-
-  toast(name + " opened");
-
+    toast(name + " opened");
 }
 
+/* =========================================
+   TASK RENDER
+   ========================================= */
 
-/* =================================
-   TASK SYSTEM
-   ================================= */
+function renderTasks() {
 
+    const container =
+        document.getElementById("tasksContainer");
 
-/* ===== GET DAILY LIMIT ===== */
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    currentTasks.forEach((task, index) => {
+
+        const completed =
+            completedTasks.has(task.id);
+
+        const card =
+            document.createElement("div");
+
+        card.className = "task-card";
+
+        card.innerHTML = `
+            <div class="task-head">
+
+                <div class="task-icon">
+                    ${escapeHTML(task.icon || "🎯")}
+                </div>
+
+                <div class="task-info">
+
+                    <h3>
+                        ${escapeHTML(task.title)}
+                    </h3>
+
+                    <p>
+                        ${escapeHTML(
+                            task.description ||
+                            "Complete this task"
+                        )}
+                    </p>
+
+                </div>
+
+                <div class="task-reward">
+                    +${Number(task.reward || 0)}
+                </div>
+
+            </div>
+
+            <div class="task-buttons">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="startTask('${task.id}')"
+                >
+                    🔗 OPEN
+                </button>
+
+                <button
+                    class="btn ${
+                        completed
+                            ? "btn-success"
+                            : "btn-secondary"
+                    }"
+                    onclick="completeTask('${task.id}')"
+                    ${completed ? "disabled" : ""}
+                >
+                    ${
+                        completed
+                            ? "✅ DONE"
+                            : "✓ COMPLETE"
+                    }
+                </button>
+
+            </div>
+        `;
+
+        container.appendChild(card);
+    });
+
+    updateTaskCounter();
+}
+
+/* =========================================
+   TASK LIMIT
+   ========================================= */
 
 function getTaskLimit() {
 
-  if (userType === "vip") {
-
-    return VIP_TASK_LIMIT;
-
-  }
-
-  return NORMAL_TASK_LIMIT;
-
+    return user.premium
+        ? 20
+        : 10;
 }
-
-
-/* ===== START TASK ===== */
-
-function startTask(taskId) {
-
-  const task =
-    TASKS.find(item => item.id === taskId);
-
-
-  if (!task) {
-
-    toast("❌ Task not found");
-
-    return;
-
-  }
-
-
-  /* Check already completed */
-
-  if (completedTasks.has(taskId)) {
-
-    toast("✅ Task already completed");
-
-    return;
-
-  }
-
-
-  /* Check daily limit */
-
-  if (
-    completedVideoTasks >=
-    getTaskLimit()
-  ) {
-
-    toast("⚠️ Daily task limit reached");
-
-    return;
-
-  }
-
-
-  /* Save current task */
-
-  window.currentTask = taskId;
-
-
-  /* Open link */
-
-  window.open(
-    task.url,
-    "_blank"
-  );
-
-
-  toast(
-    "▶️ Task opened"
-  );
-
-}
-
-
-/* ===== COMPLETE TASK ===== */
-
-function completeTask(taskId) {
-
-  const task =
-    TASKS.find(item => item.id === taskId);
-
-
-  if (!task) {
-
-    toast("❌ Task not found");
-
-    return;
-
-  }
-
-
-  /* Already completed */
-
-  if (completedTasks.has(taskId)) {
-
-    toast("✅ Task already completed");
-
-    return;
-
-  }
-
-
-  /* Daily limit */
-
-  if (
-    completedVideoTasks >=
-    getTaskLimit()
-  ) {
-
-    toast(
-      "⚠️ Daily task limit reached"
-    );
-
-    return;
-
-  }
-
-
-  /* Mark complete */
-
-  completedTasks.add(taskId);
-
-  completedVideoTasks++;
-
-
-  updateTaskCounter();
-
-
-  toast(
-    "🎉 " +
-    task.name +
-    " completed!"
-  );
-
-}
-
-
-/* ===== TASK COUNTER ===== */
 
 function updateTaskCounter() {
 
-  const counter =
-    document.getElementById(
-      "taskCounter"
+    const counter =
+        document.getElementById("taskCounter");
+
+    if (!counter) return;
+
+    counter.textContent =
+        completedTasks.size +
+        " / " +
+        getTaskLimit() +
+        " completed";
+}
+
+/* =========================================
+   START TASK
+   ========================================= */
+
+function startTask(taskId) {
+
+    const task =
+        currentTasks.find(
+            item => item.id === taskId
+        );
+
+    if (!task) {
+        toast("❌ Task not found");
+        return;
+    }
+
+    if (completedTasks.has(taskId)) {
+        toast("✅ Task already completed");
+        return;
+    }
+
+    if (
+        completedTasks.size >=
+        getTaskLimit()
+    ) {
+        toast("⚠️ Daily task limit reached");
+        return;
+    }
+
+    if (
+        !task.url ||
+        task.url === "#"
+    ) {
+        toast("⚠️ Task link not added yet");
+        return;
+    }
+
+    window.currentTask = taskId;
+
+    window.open(
+        task.url,
+        "_blank"
     );
 
-
-  if (!counter) return;
-
-
-  counter.textContent =
-    completedVideoTasks +
-    " / " +
-    getTaskLimit() +
-    " completed";
-
+    toast("🔗 Task opened");
 }
 
+/* =========================================
+   COMPLETE TASK
+   =========================================
+   IMPORTANT:
+   Frontend নিজে real reward দেয় না।
+   Backend verification থাকলে সেখানে request যাবে।
+   ========================================= */
 
-/* ===== SET VIP ===== */
+async function completeTask(taskId) {
 
-function setUserVIP() {
+    const task =
+        currentTasks.find(
+            item => item.id === taskId
+        );
 
-  userType = "vip";
+    if (!task) {
+        toast("❌ Task not found");
+        return;
+    }
 
-  updateTaskCounter();
+    if (completedTasks.has(taskId)) {
+        toast("✅ Already completed");
+        return;
+    }
 
-  toast("⭐ VIP User");
+    if (
+        completedTasks.size >=
+        getTaskLimit()
+    ) {
+        toast("⚠️ Daily task limit reached");
+        return;
+    }
 
+    /*
+      Demo/manual task হলে automatic coin award করা হবে না।
+    */
+
+    if (task.status === "demo") {
+
+        toast(
+            "ℹ️ This task needs verification"
+        );
+
+        return;
+    }
+
+    if (!tg?.initData) {
+
+        toast(
+            "⚠️ Telegram authentication required"
+        );
+
+        return;
+    }
+
+    const result = await apiRequest(
+        "/api/tasks/complete",
+        {
+            method: "POST",
+            body: JSON.stringify({
+                initData: tg.initData,
+                task_id: taskId
+            })
+        }
+    );
+
+    if (
+        result.ok &&
+        result.data?.ok
+    ) {
+
+        completedTasks.add(taskId);
+
+        if (
+            typeof result.data.coins === "number"
+        ) {
+            user.coins =
+                result.data.coins;
+        }
+
+        updateAllUI();
+
+        renderTasks();
+
+        toast(
+            "🎉 Task completed! +" +
+            (task.reward || 0) +
+            " coins"
+        );
+
+    } else {
+
+        toast(
+            result.data?.message ||
+            "❌ Task verification failed"
+        );
+    }
 }
 
+/* =========================================
+   PREMIUM
+   ========================================= */
 
-/* ===== SET NORMAL ===== */
+function selectPremiumPlan(plan) {
 
-function setUserNormal() {
+    selectedPremiumPlan = plan;
 
-  userType = "normal";
-
-  updateTaskCounter();
-
-}
-
-
-/* =================================
-   7-DAY BONUS
-   ================================= */
-
-function claimBonus() {
-
-  if (day >= 7) {
+    const names = {
+        "1_day": "1 Day Premium",
+        "7_day": "7 Days Premium",
+        "30_day": "30 Days Premium"
+    };
 
     toast(
-      "🎉 7-Day Bonus Completed"
+        "⭐ " +
+        (names[plan] || "Premium plan") +
+        " selected"
     );
 
-    return;
+    const paymentBox =
+        document.querySelector(".payment-box");
 
-  }
-
-
-  day++;
-
-  renderDays();
-
-
-  toast(
-    "🎁 Daily bonus claimed"
-  );
-
+    if (paymentBox) {
+        paymentBox.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+    }
 }
 
+/* =========================================
+   PAYMENT METHOD
+   ========================================= */
 
-/* ===== RENDER BONUS DAYS ===== */
+function selectPaymentMethod(method) {
 
-function renderDays() {
+    selectedPaymentMethod = method;
 
-  const container =
-    document.getElementById("days");
+    document
+        .querySelectorAll(".payment-method")
+        .forEach(item => {
+            item.classList.remove("active");
+        });
 
+    const selected =
+        document.querySelector(
+            `[data-payment="${method}"]`
+        );
 
-  if (!container) return;
-
-
-  container.innerHTML = "";
-
-
-  for (
-    let i = 1;
-    i <= 7;
-    i++
-  ) {
-
-    const item =
-      document.createElement("div");
-
-
-    item.className =
-      "day" +
-      (
-        i <= day
-          ? " active"
-          : ""
-      );
-
-
-    item.textContent =
-      i < day
-        ? "✓ Day " + i
-        : "Day " + i;
-
-
-    container.appendChild(item);
-
-  }
-
-
-  const streakText =
-    document.getElementById(
-      "streakText"
-    );
-
-
-  if (streakText) {
-
-    streakText.textContent =
-      "Day " +
-      day +
-      " / 7";
-
-  }
-
-}
-
-
-/* =================================
-   SUPPORT POPUP
-   ================================= */
-
-function openSupport() {
-
-  const popup =
-    document.getElementById(
-      "supportPopup"
-    );
-
-
-  if (!popup) return;
-
-
-  popup.classList.remove(
-    "hidden"
-  );
-
-
-  document.body.style.overflow =
-    "hidden";
-
-}
-
-
-/* ===== CLOSE SUPPORT ===== */
-
-function closeSupport() {
-
-  const popup =
-    document.getElementById(
-      "supportPopup"
-    );
-
-
-  if (!popup) return;
-
-
-  popup.classList.add(
-    "hidden"
-  );
-
-
-  document.body.style.overflow =
-    "";
-
-}
-
-
-/* ===== CLOSE BY BACKGROUND ===== */
-
-document.addEventListener(
-  "click",
-  function(event) {
-
-    const popup =
-      document.getElementById(
-        "supportPopup"
-      );
-
-
-    if (!popup) return;
-
-
-    if (
-      event.target === popup
-    ) {
-
-      closeSupport();
-
+    if (selected) {
+        selected.classList.add("active");
     }
 
-  }
-);
+    const names = {
+        bkash: "bKash",
+        nagad: "Nagad",
+        wallet: "AG Wallet"
+    };
 
+    toast(
+        (names[method] || "Payment") +
+        " selected"
+    );
+}
 
-/* ===== ESC CLOSE ===== */
+/* =========================================
+   COPY PAYMENT NUMBER
+   ========================================= */
 
-document.addEventListener(
-  "keydown",
-  function(event) {
+async function copyPaymentNumber() {
 
-    if (
-      event.key === "Escape"
-    ) {
+    const element =
+        document.getElementById(
+            "paymentNumber"
+        );
 
-      closeSupport();
+    if (!element) return;
 
+    const text =
+        element.textContent.trim();
+
+    try {
+
+        await navigator.clipboard.writeText(text);
+
+        toast("📋 Copied");
+
+    } catch {
+
+        toast("⚠️ Copy failed");
+    }
+}
+
+/* =========================================
+   SUBMIT PAYMENT
+   ========================================= */
+
+async function submitPayment() {
+
+    const transactionInput =
+        document.getElementById(
+            "transactionId"
+        );
+
+    const transactionId =
+        transactionInput?.value.trim();
+
+    if (!selectedPremiumPlan) {
+        toast("⚠️ Select a premium plan");
+        return;
     }
 
-  }
-);
+    if (!selectedPaymentMethod) {
+        toast("⚠️ Select payment method");
+        return;
+    }
 
+    if (!transactionId) {
+        toast("⚠️ Enter Transaction ID");
+        return;
+    }
 
-/* =================================
-   CLOCK
-   ================================= */
+    /*
+      Manual verification:
+      Transaction ID backend-এ পাঠানো হবে।
+      Admin verify না করা পর্যন্ত Premium active হবে না।
+    */
 
-function updateClock() {
+    if (!tg?.initData) {
 
-  const time =
-    document.getElementById(
-      "time"
+        toast(
+            "⚠️ Open this inside Telegram"
+        );
+
+        return;
+    }
+
+    const result = await apiRequest(
+        "/api/payment/submit",
+        {
+            method: "POST",
+            body: JSON.stringify({
+                initData: tg.initData,
+                plan: selectedPremiumPlan,
+                method: selectedPaymentMethod,
+                transaction_id: transactionId
+            })
+        }
     );
 
+    if (result.ok) {
 
-  if (!time) return;
+        toast(
+            "✅ Payment submitted for review"
+        );
 
+        transactionInput.value = "";
 
-  time.textContent =
-    new Date().toLocaleTimeString(
-      "en-GB",
-      {
-        hour12: false,
-        timeZone: "Asia/Dhaka"
-      }
-    );
+    } else {
 
+        toast(
+            result.data?.message ||
+            "❌ Payment submission failed"
+        );
+    }
 }
 
+/* =========================================
+   PREMIUM TASKS
+   ========================================= */
 
-updateClock();
+function openPremiumTasks() {
 
+    if (!user.premium) {
 
-setInterval(
-  updateClock,
-  1000
-);
+        showPage("premiumPage");
 
+        toast(
+            "🔒 Premium required"
+        );
 
-/* =================================
-   LOADING
-   ================================= */
+        return;
+    }
 
-window.addEventListener(
-  "load",
-  () => {
+    showPage("premiumTasksPage");
 
-    setTimeout(
-      () => {
-
-        const loading =
-          document.getElementById(
-            "loading"
-          );
-
-
-        const app =
-          document.getElementById(
-            "app"
-          );
-
-
-        if (loading) {
-
-          loading.classList.add(
-            "hidden"
-          );
-
-        }
-
-
-        if (app) {
-
-          app.classList.remove(
-            "hidden"
-          );
-
-        }
-
-
-        updateTaskCounter();
-
-
-      },
-      1200
-    );
-
-  }
-);
-
-
-/* =================================
-   START
-   ================================= */
-
-renderDays();
-
-updateTaskCounter();
-
-
-/* =================================
-   TELEGRAM BACK BUTTON
-   ================================= */
-
-if (tg) {
-
-  tg.BackButton?.hide();
-
+    renderPremiumTasks();
 }
 
+function renderPremiumTasks() {
 
-/* =================================
-   CONSOLE
-   ================================= */
+    const container =
+        document.getElementById(
+            "premiumTasksContainer"
+        );
 
-console.log(
-  "AG EARN HUB loaded successfully."
-);
+    const lock =
+        document.getElementById(
+            "premiumTasksLock"
+        );
 
-console.log(
-  "User type:",
-  userType
-);
+    if (!container) return;
 
-console.log(
-  "Task limit:",
-  getTaskLimit()
-);
+    if (!user.premium) {
+
+        if (lock) {
+            lock.classList.remove("hidden");
+        }
+
+        container.innerHTML = "";
+
+        return;
+    }
+
+    if (lock) {
+        lock.classList.add("hidden");
+    }
+
+    container.innerHTML = `
+        <div class="task-card">
+
+            <div class="task-head">
+
+                <div class="task-icon">
+                    👑
+                </div>
+
+                <div class="task-info">
+                    <h3>PREMIUM TASKS</h3>
+                    <p>
+                        Premium task system
+                    </p>
+                </div>
+
+                <div class="task-reward">
+                    VIP
+                </div>
+
+            </div>
+
+            <div class="info-box">
+                Premium task verification
+                will be connected to the
+                backend/provider system.
+            </div>
+
+        </div>
+    `;
+}
+
+/* =========================================
+   WITHDRAW
+   ========================================= */
+
+function openWithdraw(method) {
+
+    const names = {
+        bkash: "bKash",
+        nagad: "Nagad",
+        wallet: "AG Wallet"
+    };
+
+    toast(
+        (names[method] || "Withdraw") +
+        " selected"
+    );
+
+    /*
+      Real withdrawal should be handled
+      by backend/admin verification.
+    */
+}
+
+/* =========================================
+   REFERRAL
+   ========================================= */
+
+async function copyReferralLink() {
+
+    let userId =
+        user.id || "USER";
+
+    const botUsername =
+        "ag_earn_hub_bot";
+
+    const link =
+        "https://t.me/" +
+        botUsername +
+        "?start=ref_" +
+        encodeURIComponent(userId);
+
+    try {
+
+        await navigator.clipboard.writeText(link);
+
+        toast("📋 Referral link copied");
+
+    } catch {
+
+        toast("⚠️ Copy failed");
+    }
+}
+
+/* =========================================
+   PROFILE
+   ========================================= */
+
+function updateProfile() {
+
+    const name =
+        document.getElementById(
+            "profileName"
+        );
+
+    const username =
+        document.getElementById(
+            "profileUsername"
+        );
+
+    const id =
+        document.getElementById(
+            "profileUserId"
+        );
+
+    const coins =
+        document.getElementById(
+            "profileCoins"
+        );
+
+    if (name) {
+        name.textContent =
+            user.name || "Telegram User";
+    }
+
+    if (username) {
+        username.textContent =
+            user.username || "Telegram";
+    }
+
+    if (id) {
+        id.textContent =
+            user.id || "—";
+    }
+
+    if (coins) {
+        coins.textContent =
+            String(user.coins || 0);
+    }
+}
+
+/* =========================================
+   GLOBAL UI UPDATE
+   ========================================= */
+
+function updateAllUI() {
+
+    updateProfile();
+
+    updateBalance();
+
+    updatePremiumStatus();
+
+    updateTaskCounter();
+
+    renderPremiumTasks();
+}
+
+/* =========================================
+   BALANCE
+   ========================================= */
+
+function updateBalance() {
+
+    const balance =
+        document.getElementById(
+            "balance"
+        );
+
+    if (balance) {
+        balance.textContent =
+            String(user.coins || 0);
+    }
+}
+
+/* =========================================
+   PREMIUM STATUS
+   ========================================= */
+
+function updatePremiumStatus() {
+
+    const status =
+        document.querySelector(
+            ".premium-status"
+        );
+
+    if (!status) return;
+
+    status.textContent =
+        user.premium
+            ? "⭐ PREMIUM ACTIVE"
+            : "FREE USER";
+}
+
+/* =========================================
+   DAILY 
