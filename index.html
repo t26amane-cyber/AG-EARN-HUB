@@ -16,1006 +16,1195 @@
 
 <body>
 
+<!-- =====================================================
+     LOADING
+===================================================== -->
 
-  <!-- =========================
-       LOADING
-  ========================== -->
+<section id="loading">
 
-  <section id="loading">
+  <div class="loader-box">
+    <div class="logo">
+      <b>AG</b>
+    </div>
 
-    <div class="loader-box">
+    <div class="ring"></div>
+  </div>
 
-      <div class="logo">
-        <b>AG</b>
+  <h1>AG EARN HUB</h1>
+
+  <p>Connecting to your hub...</p>
+
+  <div class="bar">
+    <i></i>
+  </div>
+
+</section>
+
+
+<!-- =====================================================
+     APP
+===================================================== -->
+
+<main id="app" class="hidden">
+
+
+  <!-- ===================================================
+       HEADER
+  ==================================================== -->
+
+  <header class="top">
+
+    <div class="brand">
+
+      <div class="brandmark">
+        AG
       </div>
 
-      <div class="ring"></div>
+      <div>
+        <small>WELCOME BACK</small>
+        <strong>AG EARN HUB</strong>
+      </div>
 
     </div>
 
-    <h1>AG EARN HUB</h1>
 
-    <p>Loading your hub...</p>
-
-    <div class="bar">
-      <i></i>
+    <div class="live">
+      🟢 LIVE
+      <span id="time">--:--:--</span>
     </div>
+
+  </header>
+
+
+
+  <!-- ===================================================
+       HOME
+  ==================================================== -->
+
+  <section id="homePage">
+
+
+    <!-- BALANCE -->
+
+    <section class="hero">
+
+      <div class="label">
+        AVAILABLE BALANCE
+      </div>
+
+      <div class="balance">
+
+        🪙
+        <span id="balance">0</span>
+
+        <small>
+          COINS
+        </small>
+
+      </div>
+
+
+      <div class="row">
+
+        <button
+          class="btn primary"
+          onclick="showPage('tasksPage')">
+
+          ⚡ Earn Now
+
+        </button>
+
+
+        <button
+          class="btn"
+          onclick="showPage('withdrawPage')">
+
+          💸 Withdraw
+
+        </button>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- USER STATUS -->
+
+    <section class="status-card">
+
+      <div>
+
+        <small>ACCOUNT STATUS</small>
+
+        <b id="accountStatus">
+          Normal User
+        </b>
+
+      </div>
+
+      <span id="premiumBadge">
+        NORMAL
+      </span>
+
+    </section>
+
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="section">
+
+      <h3>Quick Actions</h3>
+
+      <small>
+        Earn & manage your account
+      </small>
+
+    </div>
+
+
+    <section class="grid">
+
+
+      <button
+        class="card"
+        onclick="showPage('tasksPage')">
+
+        <span class="ico">🎯</span>
+
+        <b>Tasks</b>
+
+        <small>
+          Complete & earn coins
+        </small>
+
+      </button>
+
+
+      <button
+        class="card"
+        onclick="claimBonus()">
+
+        <span class="ico">🎁</span>
+
+        <b>7-Day Bonus</b>
+
+        <small>
+          Daily streak reward
+        </small>
+
+      </button>
+
+
+      <button
+        class="card"
+        onclick="showPage('referPage')">
+
+        <span class="ico">👥</span>
+
+        <b>Refer & Earn</b>
+
+        <small>
+          Invite friends
+        </small>
+
+      </button>
+
+
+      <button
+        class="card"
+        onclick="showPage('premiumPage')">
+
+        <span class="ico">🔐</span>
+
+        <b>Premium</b>
+
+        <small>
+          Unlock more features
+        </small>
+
+      </button>
+
+
+    </section>
+
+
+
+    <!-- BONUS -->
+
+    <div class="section">
+
+      <h3>7-Day Bonus Streak</h3>
+
+      <small id="streakText">
+        Day 1 / 7
+      </small>
+
+    </div>
+
+
+    <section class="streak">
+
+      <div class="label">
+        KEEP YOUR STREAK GOING
+      </div>
+
+      <div
+        class="days"
+        id="days">
+      </div>
+
+    </section>
+
 
   </section>
 
 
 
-  <!-- =========================
-       APP
-  ========================== -->
+  <!-- ===================================================
+       TASKS
+  ==================================================== -->
 
-  <main id="app" class="hidden">
+  <section
+    id="tasksPage"
+    class="page hidden">
 
 
-    <!-- HEADER -->
+    <div class="page-header">
 
-    <header class="top">
+      <h2>🎯 Tasks</h2>
 
-      <div class="brand">
+      <small>
+        Complete available tasks and earn coins
+      </small>
 
-        <div class="brandmark">
-          AG
-        </div>
+    </div>
 
-        <div>
 
-          <small>
-            WELCOME BACK
-          </small>
+    <div class="task-counter">
 
-          <strong>
-            AG EARN HUB
-          </strong>
+      <b>Daily Tasks</b>
 
-        </div>
-
+      <div id="taskCounter">
+        0 / 10 completed
       </div>
 
+    </div>
 
-      <div class="live">
 
-        🟢 LIVE
+    <div id="tasksContainer">
 
-        <span id="time">
-          --:--:--
-        </span>
+      <!-- Tasks generated by script.js -->
 
+      <div class="loading-small">
+        Loading tasks...
       </div>
 
-    </header>
+    </div>
 
 
+    <div class="info-box">
 
-    <!-- =========================
-         HOME
-    ========================== -->
+      <b>How it works</b>
 
-    <section id="homePage">
+      <p>
+        Start an available task, complete the required
+        action, then return to AG EARN HUB.
+      </p>
 
+    </div>
 
-      <!-- BALANCE -->
 
-      <section class="hero">
+  </section>
 
-        <div class="label">
-          AVAILABLE BALANCE
-        </div>
 
-        <div class="balance">
 
-          ৳ <span id="balance">
-            0.00
-          </span>
+  <!-- ===================================================
+       PREMIUM
+  ==================================================== -->
 
-          <span>
-            BDT
-          </span>
+  <section
+    id="premiumPage"
+    class="page hidden">
 
-        </div>
 
+    <div class="page-header">
 
-        <div class="row">
+      <h2>⭐ Premium / VIP</h2>
 
-          <button
-            class="btn primary"
-            onclick="showPage('tasksPage')">
+      <small>
+        Unlock additional earning features
+      </small>
 
-            ⚡ Earn Now
+    </div>
 
-          </button>
 
-
-          <button
-            class="btn"
-            onclick="showPage('withdrawPage')">
-
-            💸 Withdraw
-
-          </button>
-
-        </div>
-
-      </section>
-
-
-
-      <!-- QUICK ACTIONS -->
-
-      <div class="section">
-
-        <h3>
-          Quick Actions
-        </h3>
-
-        <small>
-          Earn & manage
-        </small>
-
-      </div>
-
-
-
-      <section class="grid">
-
-
-        <button
-          class="card"
-          onclick="showPage('tasksPage')">
-
-          <span class="ico">
-            🎯
-          </span>
-
-          <b>
-            Tasks
-          </b>
-
-          <small>
-            Complete & earn
-          </small>
-
-        </button>
-
-
-
-        <button
-          class="card"
-          onclick="claimBonus()">
-
-          <span class="ico">
-            🎁
-          </span>
-
-          <b>
-            7-Day Bonus
-          </b>
-
-          <small>
-            Daily streak reward
-          </small>
-
-        </button>
-
-
-
-        <button
-          class="card"
-          onclick="showPage('referPage')">
-
-          <span class="ico">
-            👥
-          </span>
-
-          <b>
-            Refer & Earn
-          </b>
-
-          <small>
-            Invite friends
-          </small>
-
-        </button>
-
-
-
-        <button
-          class="card"
-          onclick="showPage('profilePage')">
-
-          <span class="ico">
-            👤
-          </span>
-
-          <b>
-            Profile
-          </b>
-
-          <small>
-            Account & history
-          </small>
-
-        </button>
-
-
-      </section>
-
-
-
-      <!-- BONUS -->
-
-      <div class="section">
-
-        <h3>
-          7-Day Bonus Streak
-        </h3>
-
-        <small id="streakText">
-          Day 1 / 7
-        </small>
-
-      </div>
-
-
-
-      <section class="streak">
-
-        <div class="label">
-          KEEP YOUR STREAK GOING
-        </div>
-
-        <div
-          class="days"
-          id="days">
-        </div>
-
-      </section>
-
-
-    </section>
-
-
-
-    <!-- =========================
-         TASKS PAGE
-    ========================== -->
-
-    <section
-      id="tasksPage"
-      class="page hidden">
-
-
-      <div class="page-header">
-
-        <h2>
-          Tasks
-        </h2>
-
-        <small>
-          Complete tasks and earn
-        </small>
-
-      </div>
-
-
-
-      <!-- TASK COUNTER -->
-
-      <div
-        class="task-counter"
-        style="
-          margin-bottom:15px;
-          padding:14px;
-          border-radius:16px;
-          background:#0c1222;
-          border:1px solid rgba(255,255,255,0.08);
-          text-align:center;
-        ">
-
-        <b>
-          Daily Tasks
-        </b>
-
-        <div
-          id="taskCounter"
-          style="
-            margin-top:6px;
-            color:#00d9ff;
-            font-size:13px;
-          ">
-
-          0 / 10 completed
-
-        </div>
-
-      </div>
-
-
-
-      <!-- YOUTUBE 1 -->
-
-      <div class="task-card">
-
-        <span class="ico">
-          ▶️
-        </span>
-
-
-        <div>
-
-          <b>
-            YOUTUBE 1
-          </b>
-
-          <small>
-            Watch and complete the task
-          </small>
-
-        </div>
-
-
-        <button
-          class="btn primary"
-          onclick="startTask('youtube1')">
-
-          START
-
-        </button>
-
-      </div>
-
-
-
-      <!-- YOUTUBE 2 -->
-
-      <div class="task-card">
-
-        <span class="ico">
-          ▶️
-        </span>
-
-
-        <div>
-
-          <b>
-            YOUTUBE 2
-          </b>
-
-          <small>
-            Watch and complete the task
-          </small>
-
-        </div>
-
-
-        <button
-          class="btn primary"
-          onclick="startTask('youtube2')">
-
-          START
-
-        </button>
-
-      </div>
-
-
-
-      <!-- TELEGRAM -->
-
-      <div class="task-card">
-
-        <span class="ico">
-          ✈️
-        </span>
-
-
-        <div>
-
-          <b>
-            TELEGRAM
-          </b>
-
-          <small>
-            Join Telegram and complete the task
-          </small>
-
-        </div>
-
-
-        <button
-          class="btn primary"
-          onclick="startTask('telegram')">
-
-          START
-
-        </button>
-
-      </div>
-
-
-
-      <!-- COMPLETE TASK -->
-
-      <div
-        style="
-          margin-top:20px;
-          padding:16px;
-          border-radius:18px;
-          background:#0c1222;
-          border:1px solid rgba(255,255,255,0.08);
-          text-align:center;
-        ">
-
-        <p
-          style="
-            color:#8f9bb3;
-            font-size:11px;
-            margin-bottom:12px;
-          ">
-
-          After completing a task,
-          press the button below.
-
-        </p>
-
-
-        <button
-          class="btn primary"
-          onclick="
-            if(window.currentTask){
-              completeTask(window.currentTask);
-            }else{
-              toast('⚠️ Start a task first');
-            }
-          ">
-
-          ✅ COMPLETE TASK
-
-        </button>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =========================
-         WITHDRAW PAGE
-    ========================== -->
-
-    <section
-      id="withdrawPage"
-      class="page hidden">
-
-
-      <div class="page-header">
-
-        <h2>
-          Withdraw
-        </h2>
-
-        <small>
-          Choose your withdrawal method
-        </small>
-
-      </div>
-
-
-
-      <!-- BKASH -->
-
-      <button
-        class="method-card"
-        onclick="toast('bKash selected')">
-
-        <span>
-          💳
-        </span>
-
-        <div>
-
-          <b>
-            bKash
-          </b>
-
-          <small>
-            Withdraw via bKash
-          </small>
-
-        </div>
-
-        <strong>
-          ›
-        </strong>
-
-      </button>
-
-
-
-      <!-- NAGAD -->
-
-      <button
-        class="method-card"
-        onclick="toast('Nagad selected')">
-
-        <span>
-          💰
-        </span>
-
-        <div>
-
-          <b>
-            Nagad
-          </b>
-
-          <small>
-            Withdraw via Nagad
-          </small>
-
-        </div>
-
-        <strong>
-          ›
-        </strong>
-
-      </button>
-
-
-
-      <!-- RECHARGE -->
-
-      <button
-        class="method-card"
-        onclick="toast('Recharge selected')">
-
-        <span>
-          📱
-        </span>
-
-        <div>
-
-          <b>
-            Recharge
-          </b>
-
-          <small>
-            Mobile recharge
-          </small>
-
-        </div>
-
-        <strong>
-          ›
-        </strong>
-
-      </button>
-
-
-    </section>
-
-
-
-    <!-- =========================
-         REFER PAGE
-    ========================== -->
-
-    <section
-      id="referPage"
-      class="page hidden">
-
-
-      <div class="page-header">
-
-        <h2>
-          Refer
-        </h2>
-
-        <small>
-          Invite friends and earn
-        </small>
-
-      </div>
-
-
-
-      <div class="refer-card">
-
-        <span class="ico">
-          👥
-        </span>
-
-        <h3>
-          Refer & Earn
-        </h3>
-
-        <p>
-          Invite your friends to
-          AG EARN HUB
-          and earn rewards.
-        </p>
-
-
-        <button
-          class="btn primary"
-          onclick="toast('Referral link copied')">
-
-          COPY REFERRAL LINK
-
-        </button>
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =========================
-         PROFILE PAGE
-    ========================== -->
-
-    <section
-      id="profilePage"
-      class="page hidden">
-
-
-      <div class="page-header">
-
-        <h2>
-          Profile
-        </h2>
-
-        <small>
-          Your account information
-        </small>
-
-      </div>
-
-
-
-      <div class="profile-card">
-
-
-        <div class="profile-image">
-
-          <span>
-            👤
-          </span>
-
-        </div>
-
-
-        <h2>
-          User
-        </h2>
-
-
-        <p>
-          User Info
-        </p>
-
-
-        <div class="level">
-
-          <span>
-            User Level
-          </span>
-
-          <strong>
-            Level 1
-          </strong>
-
-        </div>
-
-
-      </div>
-
-
-    </section>
-
-
-
-    <!-- =========================
-         SUPPORT BUTTON
-    ========================== -->
-
-    <button
-      class="support-float"
-      onclick="openSupport()">
-
-      <span class="ripple"></span>
-
-      💬
-
-    </button>
-
-
-
-    <!-- =========================
-         SUPPORT POPUP
-    ========================== -->
+    <!-- PREMIUM STATUS -->
 
     <div
-      id="supportPopup"
-      class="support-overlay hidden">
+      id="premiumStatus"
+      class="premium-status locked">
 
+      <div class="premium-lock">
+        🔐
+      </div>
 
-      <div class="support-popup">
+      <div>
 
+        <b id="premiumStatusTitle">
+          Premium Locked
+        </b>
 
-        <button
-          class="support-close"
-          onclick="closeSupport()">
-
-          ×
-
-        </button>
-
-
-
-        <div class="support-title">
-
-
-          <div class="support-icon">
-
-            💬
-
-          </div>
-
-
-          <h2>
-            Support
-          </h2>
-
-
-          <p>
-            Need help with AG EARN HUB?
-          </p>
-
-
-        </div>
-
-
-
-        <!-- WHATSAPP -->
-
-        <a
-          class="support-option"
-          href="https://wa.me/"
-          target="_blank">
-
-          <span>
-            🟢
-          </span>
-
-
-          <div>
-
-            <b>
-              WhatsApp
-            </b>
-
-            <small>
-              Chat with us
-            </small>
-
-          </div>
-
-
-          <strong>
-            ›
-          </strong>
-
-        </a>
-
-
-
-        <!-- TELEGRAM -->
-
-        <a
-          class="support-option"
-          href="https://t.me/ag_support_bd"
-          target="_blank">
-
-          <span>
-            ✈️
-          </span>
-
-
-          <div>
-
-            <b>
-              Telegram
-            </b>
-
-            <small>
-              @ag_support_bd
-            </small>
-
-          </div>
-
-
-          <strong>
-            ›
-          </strong>
-
-        </a>
-
-
-
-        <!-- EMAIL -->
-
-        <a
-          class="support-option"
-          href="mailto:mails.official99@gmail.com">
-
-          <span>
-            📧
-          </span>
-
-
-          <div>
-
-            <b>
-              E-mail
-            </b>
-
-            <small>
-              Send us an email
-            </small>
-
-          </div>
-
-
-          <strong>
-            ›
-          </strong>
-
-        </a>
-
+        <small id="premiumStatusText">
+          Choose a plan to activate Premium
+        </small>
 
       </div>
 
     </div>
 
 
-  </main>
+
+    <!-- PLANS -->
+
+    <h3 class="sub-title">
+      Choose Premium Plan
+    </h3>
+
+
+    <div class="plans">
+
+
+      <button
+        class="plan-card"
+        onclick="selectPremiumPlan('1_day')">
+
+        <div class="plan-icon">
+          ⭐
+        </div>
+
+        <b>1 Day</b>
+
+        <strong>
+          10 Coins
+        </strong>
+
+        <small>
+          1 day access
+        </small>
+
+      </button>
+
+
+      <button
+        class="plan-card"
+        onclick="selectPremiumPlan('7_day')">
+
+        <div class="plan-icon">
+          💎
+        </div>
+
+        <b>7 Days</b>
+
+        <strong>
+          50 Coins
+        </strong>
+
+        <small>
+          7 days access
+        </small>
+
+      </button>
+
+
+      <button
+        class="plan-card"
+        onclick="selectPremiumPlan('30_day')">
+
+        <div class="plan-icon">
+          👑
+        </div>
+
+        <b>30 Days</b>
+
+        <strong>
+          150 Coins
+        </strong>
+
+        <small>
+          30 days access
+        </small>
+
+      </button>
+
+
+    </div>
+
+
+    <!-- PAYMENT -->
+
+    <div
+      id="paymentBox"
+      class="payment-box hidden">
+
+      <h3>
+        💳 Payment
+      </h3>
+
+      <p id="selectedPlanText">
+        Select a plan first.
+      </p>
+
+
+      <div class="payment-methods">
+
+
+        <button
+          class="payment-method"
+          onclick="selectPaymentMethod('bkash')">
+
+          <span>💗</span>
+
+          <div>
+            <b>bKash</b>
+            <small>Manual verification</small>
+          </div>
+
+        </button>
+
+
+        <button
+          class="payment-method"
+          onclick="selectPaymentMethod('nagad')">
+
+          <span>🟠</span>
+
+          <div>
+            <b>Nagad</b>
+            <small>Manual verification</small>
+          </div>
+
+        </button>
+
+
+        <button
+          class="payment-method"
+          onclick="selectPaymentMethod('wallet')">
+
+          <span>💎</span>
+
+          <div>
+            <b>AG Wallet</b>
+            <small>AG Wallet payment</small>
+          </div>
+
+        </button>
+
+
+      </div>
+
+
+      <div
+        id="paymentNumberBox"
+        class="payment-number hidden">
+
+        <small>
+          Payment Number
+        </small>
+
+        <div>
+
+          <strong id="paymentNumber">
+            Not configured
+          </strong>
+
+          <button
+            onclick="copyPaymentNumber()">
+
+            COPY
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <input
+        id="transactionId"
+        class="input"
+        type="text"
+        maxlength="100"
+        placeholder="Enter Transaction ID">
+
+
+      <button
+        class="btn primary full"
+        onclick="submitPayment()">
+
+        VERIFY TRANSACTION
+
+      </button>
+
+
+      <p class="demo-note">
+        bKash/Nagad automatic verification requires
+        official merchant API access. Until configured,
+        payment verification is handled manually.
+      </p>
+
+    </div>
+
+
+  </section>
 
 
 
-  <!-- =========================
-       BOTTOM NAV
-  ========================== -->
+  <!-- ===================================================
+       PREMIUM TASKS
+  ==================================================== -->
 
-  <nav class="nav">
+  <section
+    id="premiumTasksPage"
+    class="page hidden">
 
 
-    <!-- HOME -->
+    <div class="page-header">
 
-    <button
-      class="active"
-      onclick="
-        showPage('homePage');
-        nav(this,'Home')
-      ">
-
-      <span>
-        ⌂
-      </span>
+      <h2>💎 Premium Tasks</h2>
 
       <small>
-        Home
+        Available after Premium activation
       </small>
+
+    </div>
+
+
+    <div
+      id="premiumTasksLock"
+      class="locked-box">
+
+      🔐
+
+      <b>
+        Premium Required
+      </b>
+
+      <small>
+        Activate a Premium plan to unlock
+        Premium Tasks.
+      </small>
+
+      <button
+        class="btn primary"
+        onclick="showPage('premiumPage')">
+
+        UNLOCK PREMIUM
+
+      </button>
+
+    </div>
+
+
+    <div
+      id="premiumTasksContainer"
+      class="hidden">
+
+      <!-- Generated by script.js -->
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ===================================================
+       ADVANCED
+  ==================================================== -->
+
+  <section
+    id="advancedPage"
+    class="page hidden">
+
+
+    <div class="page-header">
+
+      <h2>⚡ Advanced</h2>
+
+      <small>
+        Premium features
+      </small>
+
+    </div>
+
+
+    <div class="advanced-grid">
+
+
+      <div class="advanced-card">
+
+        <span>📊</span>
+
+        <b>Advanced Earnings</b>
+
+        <small>
+          Premium earning tools
+        </small>
+
+      </div>
+
+
+      <div class="advanced-card">
+
+        <span>🚀</span>
+
+        <b>Priority Tasks</b>
+
+        <small>
+          Additional task access
+        </small>
+
+      </div>
+
+
+      <div class="advanced-card">
+
+        <span>📈</span>
+
+        <b>Earning History</b>
+
+        <small>
+          Track your rewards
+        </small>
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ===================================================
+       AG SHOP
+  ==================================================== -->
+
+  <section
+    id="shopPage"
+    class="page hidden">
+
+
+    <div class="page-header">
+
+      <h2>🛒 AG SHOP</h2>
+
+      <small>
+        Premium shop
+      </small>
+
+    </div>
+
+
+    <div class="shop-card">
+
+      <div class="shop-logo">
+        AG
+      </div>
+
+      <h3>
+        AG SHOP
+      </h3>
+
+      <p>
+        Premium products and services will appear here.
+      </p>
+
+      <span class="shop-status">
+        COMING SOON
+      </span>
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ===================================================
+       WITHDRAW
+  ==================================================== -->
+
+  <section
+    id="withdrawPage"
+    class="page hidden">
+
+
+    <div class="page-header">
+
+      <h2>💸 Withdraw</h2>
+
+      <small>
+        Choose your withdrawal method
+      </small>
+
+    </div>
+
+
+    <button
+      class="method-card"
+      onclick="openWithdraw('bkash')">
+
+      <span>💗</span>
+
+      <div>
+
+        <b>bKash</b>
+
+        <small>
+          Withdraw via bKash
+        </small>
+
+      </div>
+
+      <strong>›</strong>
 
     </button>
 
 
-
-    <!-- TASKS -->
-
     <button
-      onclick="
-        showPage('tasksPage');
-        nav(this,'Tasks')
-      ">
+      class="method-card"
+      onclick="openWithdraw('nagad')">
 
-      <span>
-        ◈
-      </span>
+      <span>🟠</span>
 
-      <small>
-        Tasks
-      </small>
+      <div>
+
+        <b>Nagad</b>
+
+        <small>
+          Withdraw via Nagad
+        </small>
+
+      </div>
+
+      <strong>›</strong>
 
     </button>
 
 
-
-    <!-- WITHDRAW -->
-
     <button
-      onclick="
-        showPage('withdrawPage');
-        nav(this,'Withdraw')
-      ">
+      class="method-card"
+      onclick="openWithdraw('recharge')">
 
-      <span>
-        ৳
-      </span>
+      <span>📱</span>
 
-      <small>
-        Withdraw
-      </small>
+      <div>
+
+        <b>Recharge</b>
+
+        <small>
+          Mobile recharge
+        </small>
+
+      </div>
+
+      <strong>›</strong>
 
     </button>
 
 
+    <div class="info-box">
 
-    <!-- REFER -->
+      <b>Withdrawal</b>
 
-    <button
-      onclick="
-        showPage('referPage');
-        nav(this,'Refer')
-      ">
+      <p>
+        Withdrawal processing and minimum balance
+        rules will be controlled by the backend.
+      </p>
 
-      <span>
-        ♧
-      </span>
+    </div>
 
-      <small>
-        Refer
-      </small>
 
-    </button>
+  </section>
 
 
 
-    <!-- PROFILE -->
+  <!-- ===================================================
+       REFER
+  ==================================================== -->
 
-    <button
-      onclick="
-        showPage('profilePage');
-        nav(this,'Profile')
-      ">
+  <section
+    id="referPage"
+    class="page hidden">
 
-      <span>
-        ◎
-      </span>
+
+    <div class="page-header">
+
+      <h2>👥 Refer & Earn</h2>
 
       <small>
-        Profile
+        Invite friends and earn rewards
       </small>
 
-    </button>
+    </div>
 
 
-  </nav>
+    <div class="refer-card">
+
+      <span class="ico">
+        👥
+      </span>
+
+      <h3>
+        Invite Friends
+      </h3>
+
+      <p>
+        Share your referral link with friends
+        and earn eligible rewards.
+      </p>
+
+
+      <div class="ref-code">
+
+        <small>
+          YOUR REFERRAL CODE
+        </small>
+
+        <strong id="referralCode">
+          Loading...
+        </strong>
+
+      </div>
+
+
+      <button
+        class="btn primary full"
+        onclick="copyReferralLink()">
+
+        COPY REFERRAL LINK
+
+      </button>
+
+    </div>
+
+
+  </section>
 
 
 
-  <!-- =========================
-       TOAST
-  ========================== -->
+  <!-- ===================================================
+       PROFILE
+  ==================================================== -->
+
+  <section
+    id="profilePage"
+    class="page hidden">
+
+
+    <div class="page-header">
+
+      <h2>👤 Profile</h2>
+
+      <small>
+        Your account information
+      </small>
+
+    </div>
+
+
+    <div class="profile-card">
+
+
+      <div
+        class="profile-image"
+        id="profileImage">
+
+        👤
+
+      </div>
+
+
+      <h2 id="profileName">
+        User
+      </h2>
+
+
+      <p id="profileUsername">
+        @username
+      </p>
+
+
+      <div class="profile-info">
+
+        <div>
+
+          <span>
+            Telegram ID
+          </span>
+
+          <strong id="profileId">
+            —
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Coins
+          </span>
+
+          <strong id="profileCoins">
+            0
+          </strong>
+
+        </div>
+
+
+        <div>
+
+          <span>
+            Status
+          </span>
+
+          <strong id="profileStatus">
+            Normal
+          </strong>
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+  </section>
+
+
+
+  <!-- ===================================================
+       SUPPORT
+  ==================================================== -->
+
+  <button
+    class="support-float"
+    onclick="openSupport()">
+
+    <span class="ripple"></span>
+
+    💬
+
+  </button>
+
 
   <div
-    id="toastBox"
-    class="toast">
+    id="supportPopup"
+    class="support-overlay hidden">
+
+
+    <div class="support-popup">
+
+
+      <button
+        class="support-close"
+        onclick="closeSupport()">
+
+        ×
+
+      </button>
+
+
+      <div class="support-title">
+
+        <div class="support-icon">
+          💬
+        </div>
+
+        <h2>Support</h2>
+
+        <p>
+          Need help with AG EARN HUB?
+        </p>
+
+      </div>
+
+
+      <a
+        class="support-option"
+        href="https://wa.me/"
+        target="_blank">
+
+        <span>🟢</span>
+
+        <div>
+
+          <b>WhatsApp</b>
+
+          <small>
+            Chat with us
+          </small>
+
+        </div>
+
+        <strong>›</strong>
+
+      </a>
+
+
+      <a
+        class="support-option"
+        href="https://t.me/ag_support_bd"
+        target="_blank">
+
+        <span>✈️</span>
+
+        <div>
+
+          <b>Telegram</b>
+
+          <small>
+            @ag_support_bd
+          </small>
+
+        </div>
+
+        <strong>›</strong>
+
+      </a>
+
+
+      <a
+        class="support-option"
+        href="mailto:mails.official99@gmail.com">
+
+        <span>📧</span>
+
+        <div>
+
+          <b>E-mail</b>
+
+          <small>
+            mails.official99@gmail.com
+          </small>
+
+        </div>
+
+        <strong>›</strong>
+
+      </a>
+
+
+    </div>
+
   </div>
 
 
 
-  <!-- =========================
-       JAVASCRIPT
-  ========================== -->
+</main>
 
-  <script src="script.js"></script>
 
+
+<!-- =====================================================
+     BOTTOM NAV
+===================================================== -->
+
+<nav class="nav">
+
+
+  <button
+    class="active"
+    onclick="
+      showPage('homePage');
+      nav(this,'Home')
+    ">
+
+    <span>⌂</span>
+
+    <small>Home</small>
+
+  </button>
+
+
+  <button
+    onclick="
+      showPage('tasksPage');
+      nav(this,'Tasks')
+    ">
+
+    <span>◈</span>
+
+    <small>Tasks</small>
+
+  </button>
+
+
+  <button
+    onclick="
+      showPage('withdrawPage');
+      nav(this,'Withdraw')
+    ">
+
+    <span>৳</span>
+
+    <small>Withdraw</small>
+
+  </button>
+
+
+  <button
+    onclick="
+      showPage('referPage');
+      nav(this,'Refer')
+    ">
+
+    <span>♧</span>
+
+    <small>Refer</small>
+
+  </button>
+
+
+  <button
+    onclick="
+      showPage('profilePage');
+      nav(this,'Profile')
+    ">
+
+    <span>◎</span>
+
+    <small>Profile</small>
+
+  </button>
+
+
+</nav>
+
+
+
+<!-- =====================================================
+     TOAST
+===================================================== -->
+
+<div
+  id="toastBox"
+  class="toast">
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="script.js"></script>
 
 </body>
-        </html>
+</html>
