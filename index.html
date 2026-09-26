@@ -1,290 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width,
-                   initial-scale=1.0,
-                   maximum-scale=1.0,
-                   user-scalable=no">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <meta name="theme-color" content="#050814">
+  <title>AG EARN HUB</title>
+  <meta name="theme-color" content="#070b16">
 
-    <title>AG EARN HUB</title>
+  <link rel="stylesheet" href="style.css">
 
-    <link rel="stylesheet" href="style.css">
-
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 
 <body>
 
-<div id="loading">
-    <div class="loading-logo">AG</div>
-    <h2>AG EARN HUB</h2>
-    <p>Loading...</p>
-</div>
-
-
 <div id="app">
 
-    <!-- HOME -->
-    <section id="homePage" class="page active">
+  <!-- HOME -->
+  <section id="homePage" class="page active">
+    <div class="topbar">
+      <div>
+        <div class="brand">AG EARN HUB</div>
+        <div class="sub">Earn • Complete Tasks • Rewards</div>
+      </div>
 
-        <div class="header">
-            <div>
-                <small>WELCOME TO</small>
-                <h1>AG EARN HUB</h1>
-            </div>
+      <div class="coinBox">
+        🪙 <span id="coinBalance">0</span>
+      </div>
+    </div>
 
-            <div class="coin-box">
-                🪙 <span id="coinBalance">0</span>
-            </div>
+    <div class="profileCard">
+      <div class="avatar" id="homeAvatar">AG</div>
+      <div>
+        <div id="homeName">Loading...</div>
+        <small id="homeUsername">@user</small>
+      </div>
+    </div>
+
+    <div class="hero">
+      <h1>Welcome to AG EARN HUB</h1>
+      <p>Complete available tasks and collect coins.</p>
+      <button onclick="openPage('tasksPage')">START EARNING</button>
+    </div>
+
+    <div class="grid">
+      <div class="statCard">
+        <span>🪙</span>
+        <b id="homeCoins">0</b>
+        <small>Coins</small>
+      </div>
+
+      <div class="statCard">
+        <span>📋</span>
+        <b id="completedCount">0</b>
+        <small>Completed</small>
+      </div>
+
+      <div class="statCard">
+        <span>💎</span>
+        <b id="premiumStatus">FREE</b>
+        <small>Status</small>
+      </div>
+
+      <div class="statCard">
+        <span>👥</span>
+        <b id="refCount">0</b>
+        <small>Referrals</small>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- TASKS -->
+  <section id="tasksPage" class="page">
+
+    <div class="pageHeader">
+      <h2>📋 Tasks</h2>
+      <div class="coinBox">🪙 <span id="taskCoins">0</span></div>
+    </div>
+
+    <div id="taskList"></div>
+
+  </section>
+
+
+  <!-- PREMIUM -->
+  <section id="premiumPage" class="page">
+
+    <div class="pageHeader">
+      <h2>💎 Premium</h2>
+    </div>
+
+    <div class="premiumHero">
+      <div class="vipIcon">💎</div>
+      <h2>AG EARN HUB PREMIUM</h2>
+      <p>Premium features are available through the plans below.</p>
+    </div>
+
+    <div class="plans">
+
+      <div class="plan">
+        <h3>1 DAY</h3>
+        <strong>20 Coins</strong>
+        <button onclick="buyPremium(1,20)">SELECT</button>
+      </div>
+
+      <div class="plan">
+        <h3>7 DAYS</h3>
+        <strong>100 Coins</strong>
+        <button onclick="buyPremium(7,100)">SELECT</button>
+      </div>
+
+      <div class="plan">
+        <h3>30 DAYS</h3>
+        <strong>300 Coins</strong>
+        <button onclick="buyPremium(30,300)">SELECT</button>
+      </div>
+
+    </div>
+
+    <div class="infoBox">
+      Current status:
+      <b id="premiumText">FREE</b>
+    </div>
+
+  </section>
+
+
+  <!-- SHOP -->
+  <section id="shopPage" class="page">
+
+    <div class="pageHeader">
+      <h2>🛍️ AG SHOP</h2>
+    </div>
+
+    <div class="shopCard">
+      <div class="shopIcon">🛒</div>
+      <h2>AG SHOP</h2>
+      <p>Shop system will be connected with the backend.</p>
+      <span class="coming">COMING SOON</span>
+    </div>
+
+  </section>
+
+
+  <!-- REFER -->
+  <section id="referPage" class="page">
+
+    <div class="pageHeader">
+      <h2>👥 Refer & Earn</h2>
+    </div>
+
+    <div class="referCard">
+      <div class="bigIcon">👥</div>
+
+      <h2>Invite Friends</h2>
+
+      <p>
+        Share your referral link with your friends.
+      </p>
+
+      <div class="refLink" id="refLink">
+        Loading...
+      </div>
+
+      <button onclick="copyReferral()">COPY REFERRAL LINK</button>
+
+      <div class="refStats">
+        <span>Referrals</span>
+        <b id="referCount">0</b>
+      </div>
+    </div>
+
+  </section>
+
+
+  <!-- PROFILE -->
+  <section id="profilePage" class="page">
+
+    <div class="pageHeader">
+      <h2>👤 Profile</h2>
+    </div>
+
+    <div class="profileBig">
+      <div class="avatar large" id="profileAvatar">AG</div>
+
+      <h2 id="profileName">Loading...</h2>
+      <p id="profileUsername">@user</p>
+
+      <div class="profileStats">
+        <div>
+          <b id="profileCoins">0</b>
+          <small>Coins</small>
         </div>
 
-
-        <div class="hero-card">
-
-            <div class="hero-icon">💰</div>
-
-            <h2>Earn Rewards</h2>
-
-            <p>
-                Complete available tasks and earn
-                rewards inside AG EARN HUB.
-            </p>
-
-            <button onclick="go('tasks')">
-                START EARNING
-            </button>
-
+        <div>
+          <b id="profileTasks">0</b>
+          <small>Tasks</small>
         </div>
 
-
-        <div class="home-grid">
-
-            <button onclick="go('tasks')">
-                <span>🎯</span>
-                <b>Tasks</b>
-            </button>
-
-            <button onclick="go('premium')">
-                <span>👑</span>
-                <b>Premium</b>
-            </button>
-
-            <button onclick="go('shop')">
-                <span>🛒</span>
-                <b>AG Shop</b>
-            </button>
-
-            <button onclick="go('refer')">
-                <span>👥</span>
-                <b>Refer</b>
-            </button>
-
+        <div>
+          <b id="profileRefs">0</b>
+          <small>Refs</small>
         </div>
+      </div>
+    </div>
 
-    </section>
+    <button class="supportBtn" onclick="openSupport()">
+      📩 SUPPORT
+    </button>
 
-
-    <!-- TASKS -->
-    <section id="tasksPage" class="page">
-
-        <div class="page-header">
-            <button onclick="go('home')">←</button>
-
-            <div>
-                <h2>Tasks</h2>
-                <small>Complete tasks and earn coins</small>
-            </div>
-        </div>
-
-        <div class="progress-card">
-
-            <div>
-                <b>Task Progress</b>
-                <span id="taskPercent">0%</span>
-            </div>
-
-            <div class="progress">
-                <span id="progressBar"></span>
-            </div>
-
-            <small>
-                Completed:
-                <span id="taskDone">0</span>/10
-            </small>
-
-        </div>
-
-        <div id="tasksContainer"></div>
-
-    </section>
+  </section>
 
 
-    <!-- PREMIUM -->
-    <section id="premiumPage" class="page">
+  <!-- BOTTOM NAV -->
+  <nav class="bottomNav">
 
-        <div class="page-header">
-            <button onclick="go('home')">←</button>
+    <button class="navItem active" onclick="openPage('homePage',this)">
+      <span>🏠</span>
+      <small>Home</small>
+    </button>
 
-            <div>
-                <h2>Premium</h2>
-                <small>Premium membership</small>
-            </div>
-        </div>
+    <button class="navItem" onclick="openPage('tasksPage',this)">
+      <span>📋</span>
+      <small>Tasks</small>
+    </button>
 
-        <div class="premium-card">
+    <button class="navItem" onclick="openPage('premiumPage',this)">
+      <span>💎</span>
+      <small>Premium</small>
+    </button>
 
-            <div class="premium-icon">👑</div>
+    <button class="navItem" onclick="openPage('referPage',this)">
+      <span>👥</span>
+      <small>Refer</small>
+    </button>
 
-            <h2>AG PREMIUM</h2>
+    <button class="navItem" onclick="openPage('profilePage',this)">
+      <span>👤</span>
+      <small>Profile</small>
+    </button>
 
-            <p>
-                Unlock premium features and
-                exclusive tasks.
-            </p>
-
-            <div class="plans">
-
-                <button onclick="selectPremium('1 Day')">
-                    <b>1 DAY</b>
-                    <small>Premium</small>
-                </button>
-
-                <button onclick="selectPremium('7 Days')">
-                    <b>7 DAYS</b>
-                    <small>Premium</small>
-                </button>
-
-                <button onclick="selectPremium('30 Days')">
-                    <b>30 DAYS</b>
-                    <small>Premium</small>
-                </button>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- SHOP -->
-    <section id="shopPage" class="page">
-
-        <div class="page-header">
-            <button onclick="go('home')">←</button>
-
-            <div>
-                <h2>AG SHOP</h2>
-                <small>Coming soon</small>
-            </div>
-        </div>
-
-        <div class="empty-card">
-            🛒
-            <h3>AG SHOP</h3>
-            <p>Coming Soon</p>
-        </div>
-
-    </section>
-
-
-    <!-- REFER -->
-    <section id="referPage" class="page">
-
-        <div class="page-header">
-            <button onclick="go('home')">←</button>
-
-            <div>
-                <h2>Refer & Earn</h2>
-                <small>Invite your friends</small>
-            </div>
-        </div>
-
-        <div class="refer-card">
-
-            <div class="refer-icon">👥</div>
-
-            <h2>Invite Friends</h2>
-
-            <p>
-                Share your referral link with friends.
-            </p>
-
-            <button onclick="copyReferral()">
-                COPY REFERRAL LINK
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- PROFILE -->
-    <section id="profilePage" class="page">
-
-        <div class="page-header">
-            <button onclick="go('home')">←</button>
-
-            <div>
-                <h2>Profile</h2>
-                <small>Your account</small>
-            </div>
-        </div>
-
-        <div class="profile-card">
-
-            <div class="profile-avatar">
-                👤
-            </div>
-
-            <h2 id="profileName">
-                Telegram User
-            </h2>
-
-            <p>
-                ID:
-                <span id="profileId">---</span>
-            </p>
-
-            <div class="profile-balance">
-                🪙
-                <span id="profileCoins">0</span>
-                Coins
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- BOTTOM NAV -->
-
-    <nav class="bottom-nav">
-
-        <button onclick="go('home')" data-page="home">
-            🏠
-            <span>Home</span>
-        </button>
-
-        <button onclick="go('tasks')" data-page="tasks">
-            🎯
-            <span>Tasks</span>
-        </button>
-
-        <button onclick="go('premium')" data-page="premium">
-            👑
-            <span>Premium</span>
-        </button>
-
-        <button onclick="go('profile')" data-page="profile">
-            👤
-            <span>Profile</span>
-        </button>
-
-    </nav>
+  </nav>
 
 </div>
 
@@ -294,4 +251,4 @@
 <script src="script.js"></script>
 
 </body>
-                  </html>
+    </html>
