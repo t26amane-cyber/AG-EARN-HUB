@@ -1,307 +1,33 @@
-/* =========================================
-   AG EARN HUB — SCRIPT.JS
-   ========================================= */
-
-const tg = window.Telegram?.WebApp || null;
-
-const API_URL = "https://ag-earn-hub.onrender.com";
-
-/* =========================================
-   TELEGRAM MINI APP
-   ========================================= */
+const tg = window.Telegram?.WebApp;
 
 if (tg) {
     tg.ready();
     tg.expand();
-
-    tg.setHeaderColor?.("#050814");
-    tg.setBackgroundColor?.("#050814");
 }
 
-/* =========================================
-   APP STATE
-   ========================================= */
+const pages = document.querySelectorAll(".page");
+const navButtons = document.querySelectorAll(".bottom-nav button");
 
-let user = {
-    id: "",
-    name: "Telegram User",
-    username: "",
-    coins: 0,
-    premium: false
-};
+function go(page) {
 
-let selectedPremiumPlan = null;
-let selectedPaymentMethod = null;
-
-let currentTasks = [];
-
-const completedTasks = new Set();
-
-/* =========================================
-   DEFAULT TASKS
-   =========================================
-   এগুলো এখন task structure।
-   আসল link/reward backend থেকে দিলে
-   পরে backend data দিয়ে replace করা যাবে।
-   ========================================= */
-
-const DEFAULT_TASKS = [
-    {
-        id: "task_1",
-        title: "AD NETWORK TASK 1",
-        description: "Open the assigned task",
-        icon: "📢",
-        reward: 5,
-        url: "#",
-        status: "demo"
-    },
-    {
-        id: "task_2",
-        title: "AD NETWORK TASK 2",
-        description: "Open the assigned task",
-        icon: "🌐",
-        reward: 5,
-        url: "#",
-        status: "demo"
-    },
-    {
-        id: "task_3",
-        title: "AD NETWORK TASK 3",
-        description: "Open the assigned task",
-        icon: "🚀",
-        reward: 10,
-        url: "#",
-        status: "demo"
-    },
-    {
-        id: "task_4",
-        title: "AD NETWORK TASK 4",
-        description: "Open the assigned task",
-        icon: "🎯",
-        reward: 10,
-        url: "#",
-        status: "demo"
-    },
-    {
-        id: "task_5",
-        title: "AD NETWORK TASK 5",
-        description: "Open the assigned task",
-        icon: "💎",
-        reward: 10,
-        url: "#",
-        status: "demo"
-    },
-    {
-        id: "task_6",
-        title: "AD NETWORK TASK 6",
-        description: "Open the assigned task",
-        icon: "⭐",
-        reward: 15,
-        url: "#",
-        status: "demo"
-    },
-    {
-        id: "task_7",
-        title: "AD NETWORK TASK 7",
-        description: "Open the assigned task",
-        icon: "🔥",
-        reward: 15,
-        url: "#",
-        status: "demo"
-    },
-    {
-        id: "task_8",
-        title: "AD NETWORK TASK 8",
-        description: "Open the assigned task",
-        icon: "💰",
-        reward: 20,
-        url: "#",
-        status: "demo"
-    },
-    {
-        id: "task_9",
-        title: "AD NETWORK TASK 9",
-        description: "Open the assigned task",
-        icon: "🏆",
-        reward: 20,
-        url: "#",
-        status: "demo"
-    },
-    {
-        id: "task_10",
-        title: "AD NETWORK TASK 10",
-        description: "Open the assigned task",
-        icon: "👑",
-        reward: 25,
-        url: "#",
-        status: "demo"
-    }
-];
-
-/* =========================================
-   TOAST
-   ========================================= */
-
-function toast(message) {
-
-    const box = document.getElementById("toastBox");
-
-    if (!box) return;
-
-    box.textContent = message;
-    box.classList.add("show");
-
-    clearTimeout(window.toastTimer);
-
-    window.toastTimer = setTimeout(() => {
-        box.classList.remove("show");
-    }, 2200);
-}
-
-/* =========================================
-   API HELPER
-   ========================================= */
-
-async function apiRequest(path, options = {}) {
-
-    try {
-
-        const headers = {
-            "Content-Type": "application/json",
-            ...(options.headers || {})
-        };
-
-        const response = await fetch(
-            API_URL + path,
-            {
-                ...options,
-                headers
-            }
-        );
-
-        const data = await response.json().catch(() => ({}));
-
-        return {
-            ok: response.ok,
-            status: response.status,
-            data
-        };
-
-    } catch (error) {
-
-        console.log("API Error:", error);
-
-        return {
-            ok: false,
-            status: 0,
-            data: {}
-        };
-    }
-}
-
-/* =========================================
-   TELEGRAM USER
-   ========================================= */
-
-function getTelegramUser() {
-
-    if (!tg?.initDataUnsafe?.user) {
-        return null;
-    }
-
-    return tg.initDataUnsafe.user;
-}
-
-/* =========================================
-   USER INITIALIZATION
-   ========================================= */
-
-async function initializeUser() {
-
-    const telegramUser = getTelegramUser();
-
-    if (telegramUser) {
-
-        user.id = String(telegramUser.id || "");
-        user.name =
-            telegramUser.first_name ||
-            telegramUser.username ||
-            "Telegram User";
-
-        user.username =
-            telegramUser.username
-                ? "@" + telegramUser.username
-                : "";
-
-        updateProfile();
-    }
-
-    /*
-      Backend endpoint না থাকলে UI চালু থাকবে।
-      Backend-এ /api/user/init যোগ করলে এখানে
-      real user data নেওয়া যাবে।
-    */
-
-    if (!tg?.initData) {
-        console.log("Telegram initData unavailable.");
-        return;
-    }
-
-    const result = await apiRequest(
-        "/api/user/init",
-        {
-            method: "POST",
-            body: JSON.stringify({
-                initData: tg.initData
-            })
-        }
-    );
-
-    if (result.ok && result.data?.user) {
-
-        user = {
-            ...user,
-            ...result.data.user
-        };
-
-        updateAllUI();
-    }
-}
-
-/* =========================================
-   PAGE NAVIGATION
-   ========================================= */
-
-function showPage(pageId) {
-
-    const pages = [
-        "homePage",
-        "tasksPage",
-        "premiumPage",
-        "premiumTasksPage",
-        "advancedPage",
-        "shopPage",
-        "withdrawPage",
-        "referPage",
-        "profilePage"
-    ];
-
-    pages.forEach(id => {
-
-        const page = document.getElementById(id);
-
-        if (page) {
-            page.classList.add("hidden");
-        }
+    pages.forEach(function(item) {
+        item.classList.remove("active");
     });
 
-    const selected = document.getElementById(pageId);
+    const target = document.getElementById(page + "Page");
 
-    if (selected) {
-        selected.classList.remove("hidden");
+    if (target) {
+        target.classList.add("active");
     }
 
-    updateNav(pageId);
+    navButtons.forEach(function(button) {
+
+        button.classList.toggle(
+            "active",
+            button.dataset.page === page
+        );
+
+    });
 
     window.scrollTo({
         top: 0,
@@ -309,53 +35,57 @@ function showPage(pageId) {
     });
 }
 
-/* =========================================
-   BOTTOM NAV
-   ========================================= */
 
-function updateNav(pageId) {
+function showToast(message) {
 
-    const navButtons =
-        document.querySelectorAll(".nav button");
+    const toast = document.getElementById("toast");
 
-    navButtons.forEach(button => {
-        button.classList.remove("active");
-    });
+    toast.textContent = message;
+    toast.classList.add("show");
 
-    const pageToNav = {
-        homePage: 0,
-        tasksPage: 1,
-        withdrawPage: 2,
-        referPage: 3,
-        profilePage: 4
-    };
+    clearTimeout(window.toastTimer);
 
-    const index = pageToNav[pageId];
-
-    if (
-        index !== undefined &&
-        navButtons[index]
-    ) {
-        navButtons[index].classList.add("active");
-    }
+    window.toastTimer = setTimeout(function() {
+        toast.classList.remove("show");
+    }, 1800);
 }
 
-function nav(button, name) {
 
-    document
-        .querySelectorAll(".nav button")
-        .forEach(item => {
-            item.classList.remove("active");
-        });
+/* =========================
+   TASK SYSTEM
+========================= */
 
-    button.classList.add("active");
+const tasks = [
+    "Task 1",
+    "Task 2",
+    "Task 3",
+    "Task 4",
+    "Task 5",
+    "Task 6",
+    "Task 7",
+    "Task 8",
+    "Task 9",
+    "Task 10"
+];
 
-    toast(name + " opened");
+let taskState = [];
+
+try {
+
+    taskState =
+        JSON.parse(
+            localStorage.getItem("ag_tasks")
+        ) || [];
+
+} catch (e) {
+
+    taskState = [];
 }
 
-/* =========================================
-   TASK RENDER
-   ========================================= */
+while (taskState.length < 10) {
+    taskState.push(false);
+}
+
 
 function renderTasks() {
 
@@ -366,652 +96,231 @@ function renderTasks() {
 
     container.innerHTML = "";
 
-    currentTasks.forEach((task, index) => {
+    let completed = 0;
 
-        const completed =
-            completedTasks.has(task.id);
+    tasks.forEach(function(task, index) {
+
+        if (taskState[index]) {
+            completed++;
+        }
 
         const card =
             document.createElement("div");
 
         card.className = "task-card";
 
-        card.innerHTML = `
-            <div class="task-head">
+        const number =
+            document.createElement("div");
 
-                <div class="task-icon">
-                    ${escapeHTML(task.icon || "🎯")}
-                </div>
+        number.className = "task-number";
+        number.textContent = index + 1;
 
-                <div class="task-info">
+        const info =
+            document.createElement("div");
 
-                    <h3>
-                        ${escapeHTML(task.title)}
-                    </h3>
+        info.className = "task-info";
 
-                    <p>
-                        ${escapeHTML(
-                            task.description ||
-                            "Complete this task"
-                        )}
-                    </p>
-
-                </div>
-
-                <div class="task-reward">
-                    +${Number(task.reward || 0)}
-                </div>
-
-            </div>
-
-            <div class="task-buttons">
-
-                <button
-                    class="btn btn-primary"
-                    onclick="startTask('${task.id}')"
-                >
-                    🔗 OPEN
-                </button>
-
-                <button
-                    class="btn ${
-                        completed
-                            ? "btn-success"
-                            : "btn-secondary"
-                    }"
-                    onclick="completeTask('${task.id}')"
-                    ${completed ? "disabled" : ""}
-                >
-                    ${
-                        completed
-                            ? "✅ DONE"
-                            : "✓ COMPLETE"
-                    }
-                </button>
-
-            </div>
+        info.innerHTML = `
+            <b>${task}</b>
+            <small>Complete task • +5 coins</small>
         `;
 
+        const button =
+            document.createElement("button");
+
+        button.className = "task-button";
+
+        if (taskState[index]) {
+
+            button.textContent = "✓ DONE";
+            button.classList.add("done");
+
+        } else {
+
+            button.textContent = "START";
+
+            button.onclick = function() {
+
+                taskState[index] = true;
+
+                localStorage.setItem(
+                    "ag_tasks",
+                    JSON.stringify(taskState)
+                );
+
+                updateCoins(5);
+
+                renderTasks();
+
+                showToast(
+                    "+5 coins • Task completed"
+                );
+            };
+        }
+
+        card.appendChild(number);
+        card.appendChild(info);
+        card.appendChild(button);
+
         container.appendChild(card);
+
     });
 
-    updateTaskCounter();
+    const percent =
+        Math.round((completed / 10) * 100);
+
+    document.getElementById(
+        "taskDone"
+    ).textContent = completed;
+
+    document.getElementById(
+        "taskPercent"
+    ).textContent = percent + "%";
+
+    document.getElementById(
+        "progressBar"
+    ).style.width = percent + "%";
 }
 
-/* =========================================
-   TASK LIMIT
-   ========================================= */
 
-function getTaskLimit() {
+/* =========================
+   COINS
+========================= */
 
-    return user.premium
-        ? 20
-        : 10;
+let coins =
+    Number(
+        localStorage.getItem("ag_coins") || 0
+    );
+
+
+function updateCoins(amount) {
+
+    coins += Number(amount);
+
+    localStorage.setItem(
+        "ag_coins",
+        coins
+    );
+
+    updateCoinUI();
 }
 
-function updateTaskCounter() {
 
-    const counter =
-        document.getElementById("taskCounter");
+function updateCoinUI() {
 
-    if (!counter) return;
+    document.getElementById(
+        "coinBalance"
+    ).textContent = coins;
 
-    counter.textContent =
-        completedTasks.size +
-        " / " +
-        getTaskLimit() +
-        " completed";
+    document.getElementById(
+        "profileCoins"
+    ).textContent = coins;
 }
 
-/* =========================================
-   START TASK
-   ========================================= */
 
-function startTask(taskId) {
+/* =========================
+   TELEGRAM USER
+========================= */
 
-    const task =
-        currentTasks.find(
-            item => item.id === taskId
-        );
-
-    if (!task) {
-        toast("❌ Task not found");
-        return;
-    }
-
-    if (completedTasks.has(taskId)) {
-        toast("✅ Task already completed");
-        return;
-    }
+function loadTelegramUser() {
 
     if (
-        completedTasks.size >=
-        getTaskLimit()
-    ) {
-        toast("⚠️ Daily task limit reached");
-        return;
-    }
-
-    if (
-        !task.url ||
-        task.url === "#"
-    ) {
-        toast("⚠️ Task link not added yet");
-        return;
-    }
-
-    window.currentTask = taskId;
-
-    window.open(
-        task.url,
-        "_blank"
-    );
-
-    toast("🔗 Task opened");
-}
-
-/* =========================================
-   COMPLETE TASK
-   =========================================
-   IMPORTANT:
-   Frontend নিজে real reward দেয় না।
-   Backend verification থাকলে সেখানে request যাবে।
-   ========================================= */
-
-async function completeTask(taskId) {
-
-    const task =
-        currentTasks.find(
-            item => item.id === taskId
-        );
-
-    if (!task) {
-        toast("❌ Task not found");
-        return;
-    }
-
-    if (completedTasks.has(taskId)) {
-        toast("✅ Already completed");
-        return;
-    }
-
-    if (
-        completedTasks.size >=
-        getTaskLimit()
-    ) {
-        toast("⚠️ Daily task limit reached");
-        return;
-    }
-
-    /*
-      Demo/manual task হলে automatic coin award করা হবে না।
-    */
-
-    if (task.status === "demo") {
-
-        toast(
-            "ℹ️ This task needs verification"
-        );
-
-        return;
-    }
-
-    if (!tg?.initData) {
-
-        toast(
-            "⚠️ Telegram authentication required"
-        );
-
-        return;
-    }
-
-    const result = await apiRequest(
-        "/api/tasks/complete",
-        {
-            method: "POST",
-            body: JSON.stringify({
-                initData: tg.initData,
-                task_id: taskId
-            })
-        }
-    );
-
-    if (
-        result.ok &&
-        result.data?.ok
+        tg &&
+        tg.initDataUnsafe &&
+        tg.initDataUnsafe.user
     ) {
 
-        completedTasks.add(taskId);
+        const user =
+            tg.initDataUnsafe.user;
+
+        const name =
+            [
+                user.first_name,
+                user.last_name
+            ]
+            .filter(Boolean)
+            .join(" ");
 
-        if (
-            typeof result.data.coins === "number"
-        ) {
-            user.coins =
-                result.data.coins;
-        }
-
-        updateAllUI();
-
-        renderTasks();
-
-        toast(
-            "🎉 Task completed! +" +
-            (task.reward || 0) +
-            " coins"
-        );
-
-    } else {
-
-        toast(
-            result.data?.message ||
-            "❌ Task verification failed"
-        );
-    }
-}
-
-/* =========================================
-   PREMIUM
-   ========================================= */
-
-function selectPremiumPlan(plan) {
-
-    selectedPremiumPlan = plan;
-
-    const names = {
-        "1_day": "1 Day Premium",
-        "7_day": "7 Days Premium",
-        "30_day": "30 Days Premium"
-    };
-
-    toast(
-        "⭐ " +
-        (names[plan] || "Premium plan") +
-        " selected"
-    );
-
-    const paymentBox =
-        document.querySelector(".payment-box");
-
-    if (paymentBox) {
-        paymentBox.scrollIntoView({
-            behavior: "smooth",
-            block: "center"
-        });
-    }
-}
-
-/* =========================================
-   PAYMENT METHOD
-   ========================================= */
-
-function selectPaymentMethod(method) {
-
-    selectedPaymentMethod = method;
-
-    document
-        .querySelectorAll(".payment-method")
-        .forEach(item => {
-            item.classList.remove("active");
-        });
-
-    const selected =
-        document.querySelector(
-            `[data-payment="${method}"]`
-        );
-
-    if (selected) {
-        selected.classList.add("active");
-    }
-
-    const names = {
-        bkash: "bKash",
-        nagad: "Nagad",
-        wallet: "AG Wallet"
-    };
-
-    toast(
-        (names[method] || "Payment") +
-        " selected"
-    );
-}
-
-/* =========================================
-   COPY PAYMENT NUMBER
-   ========================================= */
-
-async function copyPaymentNumber() {
-
-    const element =
-        document.getElementById(
-            "paymentNumber"
-        );
-
-    if (!element) return;
-
-    const text =
-        element.textContent.trim();
-
-    try {
-
-        await navigator.clipboard.writeText(text);
-
-        toast("📋 Copied");
-
-    } catch {
-
-        toast("⚠️ Copy failed");
-    }
-}
-
-/* =========================================
-   SUBMIT PAYMENT
-   ========================================= */
-
-async function submitPayment() {
-
-    const transactionInput =
-        document.getElementById(
-            "transactionId"
-        );
-
-    const transactionId =
-        transactionInput?.value.trim();
-
-    if (!selectedPremiumPlan) {
-        toast("⚠️ Select a premium plan");
-        return;
-    }
-
-    if (!selectedPaymentMethod) {
-        toast("⚠️ Select payment method");
-        return;
-    }
-
-    if (!transactionId) {
-        toast("⚠️ Enter Transaction ID");
-        return;
-    }
-
-    /*
-      Manual verification:
-      Transaction ID backend-এ পাঠানো হবে।
-      Admin verify না করা পর্যন্ত Premium active হবে না।
-    */
-
-    if (!tg?.initData) {
-
-        toast(
-            "⚠️ Open this inside Telegram"
-        );
-
-        return;
-    }
-
-    const result = await apiRequest(
-        "/api/payment/submit",
-        {
-            method: "POST",
-            body: JSON.stringify({
-                initData: tg.initData,
-                plan: selectedPremiumPlan,
-                method: selectedPaymentMethod,
-                transaction_id: transactionId
-            })
-        }
-    );
-
-    if (result.ok) {
-
-        toast(
-            "✅ Payment submitted for review"
-        );
-
-        transactionInput.value = "";
-
-    } else {
-
-        toast(
-            result.data?.message ||
-            "❌ Payment submission failed"
-        );
-    }
-}
-
-/* =========================================
-   PREMIUM TASKS
-   ========================================= */
-
-function openPremiumTasks() {
-
-    if (!user.premium) {
-
-        showPage("premiumPage");
-
-        toast(
-            "🔒 Premium required"
-        );
-
-        return;
-    }
-
-    showPage("premiumTasksPage");
-
-    renderPremiumTasks();
-}
-
-function renderPremiumTasks() {
-
-    const container =
-        document.getElementById(
-            "premiumTasksContainer"
-        );
-
-    const lock =
-        document.getElementById(
-            "premiumTasksLock"
-        );
-
-    if (!container) return;
-
-    if (!user.premium) {
-
-        if (lock) {
-            lock.classList.remove("hidden");
-        }
-
-        container.innerHTML = "";
-
-        return;
-    }
-
-    if (lock) {
-        lock.classList.add("hidden");
-    }
-
-    container.innerHTML = `
-        <div class="task-card">
-
-            <div class="task-head">
-
-                <div class="task-icon">
-                    👑
-                </div>
-
-                <div class="task-info">
-                    <h3>PREMIUM TASKS</h3>
-                    <p>
-                        Premium task system
-                    </p>
-                </div>
-
-                <div class="task-reward">
-                    VIP
-                </div>
-
-            </div>
-
-            <div class="info-box">
-                Premium task verification
-                will be connected to the
-                backend/provider system.
-            </div>
-
-        </div>
-    `;
-}
-
-/* =========================================
-   WITHDRAW
-   ========================================= */
-
-function openWithdraw(method) {
-
-    const names = {
-        bkash: "bKash",
-        nagad: "Nagad",
-        wallet: "AG Wallet"
-    };
-
-    toast(
-        (names[method] || "Withdraw") +
-        " selected"
-    );
-
-    /*
-      Real withdrawal should be handled
-      by backend/admin verification.
-    */
-}
-
-/* =========================================
-   REFERRAL
-   ========================================= */
-
-async function copyReferralLink() {
-
-    let userId =
-        user.id || "USER";
-
-    const botUsername =
-        "ag_earn_hub_bot";
-
-    const link =
-        "https://t.me/" +
-        botUsername +
-        "?start=ref_" +
-        encodeURIComponent(userId);
-
-    try {
-
-        await navigator.clipboard.writeText(link);
-
-        toast("📋 Referral link copied");
-
-    } catch {
-
-        toast("⚠️ Copy failed");
-    }
-}
-
-/* =========================================
-   PROFILE
-   ========================================= */
-
-function updateProfile() {
-
-    const name =
         document.getElementById(
             "profileName"
-        );
+        ).textContent =
+            name || "Telegram User";
 
-    const username =
         document.getElementById(
-            "profileUsername"
-        );
-
-    const id =
-        document.getElementById(
-            "profileUserId"
-        );
-
-    const coins =
-        document.getElementById(
-            "profileCoins"
-        );
-
-    if (name) {
-        name.textContent =
-            user.name || "Telegram User";
-    }
-
-    if (username) {
-        username.textContent =
-            user.username || "Telegram";
-    }
-
-    if (id) {
-        id.textContent =
-            user.id || "—";
-    }
-
-    if (coins) {
-        coins.textContent =
-            String(user.coins || 0);
+            "profileId"
+        ).textContent =
+            user.id;
     }
 }
 
-/* =========================================
-   GLOBAL UI UPDATE
-   ========================================= */
 
-function updateAllUI() {
+/* =========================
+   REFERRAL
+========================= */
 
-    updateProfile();
+function copyReferral() {
 
-    updateBalance();
+    const link =
+        "https://t.me/AG_EARN_HUB_BOT?start=ref";
 
-    updatePremiumStatus();
+    if (
+        navigator.clipboard
+    ) {
 
-    updateTaskCounter();
+        navigator.clipboard.writeText(link);
 
-    renderPremiumTasks();
-}
-
-/* =========================================
-   BALANCE
-   ========================================= */
-
-function updateBalance() {
-
-    const balance =
-        document.getElementById(
-            "balance"
+        showToast(
+            "Referral link copied"
         );
 
-    if (balance) {
-        balance.textContent =
-            String(user.coins || 0);
+    } else {
+
+        showToast(
+            "Referral link ready"
+        );
     }
 }
 
-/* =========================================
-   PREMIUM STATUS
-   ========================================= */
 
-function updatePremiumStatus() {
+/* =========================
+   PREMIUM
+========================= */
 
-    const status =
-        document.querySelector(
-            ".premium-status"
-        );
+function selectPremium(plan) {
 
-    if (!status) return;
-
-    status.textContent =
-        user.premium
-            ? "⭐ PREMIUM ACTIVE"
-            : "FREE USER";
+    showToast(
+        plan + " selected"
+    );
 }
 
-/* =========================================
-   DAILY 
+
+/* =========================
+   LOADING
+========================= */
+
+setTimeout(function() {
+
+    const loading =
+        document.getElementById("loading");
+
+    if (loading) {
+        loading.classList.add("hide");
+    }
+
+}, 1800);
+
+
+/* =========================
+   START
+========================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        updateCoinUI();
+        loadTelegramUser();
+        renderTasks();
+
+    }
+);
