@@ -1,326 +1,418 @@
 const tg = window.Telegram?.WebApp;
 
 if (tg) {
-    tg.ready();
-    tg.expand();
+  tg.ready();
+  tg.expand();
 }
 
-const pages = document.querySelectorAll(".page");
-const navButtons = document.querySelectorAll(".bottom-nav button");
+const STORAGE_KEY = "AG_EARN_HUB_DATA_V1";
 
-function go(page) {
+const defaultData = {
+  coins: 0,
+  completed: [],
+  premiumUntil: 0,
+  referrals: 0
+};
 
-    pages.forEach(function(item) {
-        item.classList.remove("active");
-    });
-
-    const target = document.getElementById(page + "Page");
-
-    if (target) {
-        target.classList.add("active");
-    }
-
-    navButtons.forEach(function(button) {
-
-        button.classList.toggle(
-            "active",
-            button.dataset.page === page
-        );
-
-    });
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
-}
-
-
-function showToast(message) {
-
-    const toast = document.getElementById("toast");
-
-    toast.textContent = message;
-    toast.classList.add("show");
-
-    clearTimeout(window.toastTimer);
-
-    window.toastTimer = setTimeout(function() {
-        toast.classList.remove("show");
-    }, 1800);
-}
-
-
-/* =========================
-   TASK SYSTEM
-========================= */
+let data = loadData();
 
 const tasks = [
-    "Task 1",
-    "Task 2",
-    "Task 3",
-    "Task 4",
-    "Task 5",
-    "Task 6",
-    "Task 7",
-    "Task 8",
-    "Task 9",
-    "Task 10"
+  {
+    id: 1,
+    title: "Task 1",
+    description: "Open the task link and complete the required action.",
+    reward: 5,
+    url: "https://t.me/AG_EARN_HUB_BOT"
+  },
+  {
+    id: 2,
+    title: "Task 2",
+    description: "Open the task link and complete the required action.",
+    reward: 5,
+    url: "https://t.me/AG_EARN_HUB_BOT"
+  },
+  {
+    id: 3,
+    title: "Task 3",
+    description: "Open the task link and complete the required action.",
+    reward: 5,
+    url: "https://t.me/AG_EARN_HUB_BOT"
+  },
+  {
+    id: 4,
+    title: "Task 4",
+    description: "Open the task link and complete the required action.",
+    reward: 5,
+    url: "https://t.me/AG_EARN_HUB_BOT"
+  },
+  {
+    id: 5,
+    title: "Task 5",
+    description: "Open the task link and complete the required action.",
+    reward: 5,
+    url: "https://t.me/AG_EARN_HUB_BOT"
+  },
+  {
+    id: 6,
+    title: "Task 6",
+    description: "Open the task link and complete the required action.",
+    reward: 5,
+    url: "https://t.me/AG_EARN_HUB_BOT"
+  },
+  {
+    id: 7,
+    title: "Task 7",
+    description: "Open the task link and complete the required action.",
+    reward: 5,
+    url: "https://t.me/AG_EARN_HUB_BOT"
+  },
+  {
+    id: 8,
+    title: "Task 8",
+    description: "Open the task link and complete the required action.",
+    reward: 5,
+    url: "https://t.me/AG_EARN_HUB_BOT"
+  },
+  {
+    id: 9,
+    title: "Task 9",
+    description: "Open the task link and complete the required action.",
+    reward: 5,
+    url: "https://t.me/AG_EARN_HUB_BOT"
+  },
+  {
+    id: 10,
+    title: "Task 10",
+    description: "Open the task link and complete the required action.",
+    reward: 5,
+    url: "https://t.me/AG_EARN_HUB_BOT"
+  }
 ];
 
-let taskState = [];
+function loadData() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-try {
+    if (!saved) {
+      return {...defaultData};
+    }
 
-    taskState =
-        JSON.parse(
-            localStorage.getItem("ag_tasks")
-        ) || [];
+    return {
+      ...defaultData,
+      ...JSON.parse(saved)
+    };
 
-} catch (e) {
-
-    taskState = [];
+  } catch (error) {
+    return {...defaultData};
+  }
 }
 
-while (taskState.length < 10) {
-    taskState.push(false);
+function saveData() {
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(data)
+  );
 }
 
+function getTelegramUser() {
+
+  const user = tg?.initDataUnsafe?.user;
+
+  if (!user) {
+    return {
+      name: "AG User",
+      username: "@user",
+      initials: "AG"
+    };
+  }
+
+  const name =
+    [user.first_name, user.last_name]
+      .filter(Boolean)
+      .join(" ") || "Telegram User";
+
+  const username =
+    user.username ? "@" + user.username : "@user";
+
+  const initials =
+    name
+      .split(" ")
+      .map(x => x[0])
+      .join("")
+      .slice(0,2)
+      .toUpperCase();
+
+  return {
+    name,
+    username,
+    initials
+  };
+}
+
+function updateUser() {
+
+  const user = getTelegramUser();
+
+  document.getElementById("homeName").textContent = user.name;
+  document.getElementById("homeUsername").textContent = user.username;
+
+  document.getElementById("profileName").textContent = user.name;
+  document.getElementById("profileUsername").textContent = user.username;
+
+  document.getElementById("homeAvatar").textContent = user.initials;
+  document.getElementById("profileAvatar").textContent = user.initials;
+}
+
+function updateUI() {
+
+  document.getElementById("coinBalance").textContent = data.coins;
+  document.getElementById("homeCoins").textContent = data.coins;
+  document.getElementById("taskCoins").textContent = data.coins;
+  document.getElementById("profileCoins").textContent = data.coins;
+
+  const completed = data.completed.length;
+
+  document.getElementById("completedCount").textContent = completed;
+  document.getElementById("profileTasks").textContent = completed;
+
+  document.getElementById("refCount").textContent = data.referrals;
+  document.getElementById("referCount").textContent = data.referrals;
+  document.getElementById("profileRefs").textContent = data.referrals;
+
+  const premiumActive =
+    data.premiumUntil > Date.now();
+
+  const status =
+    premiumActive ? "PREMIUM" : "FREE";
+
+  document.getElementById("premiumStatus").textContent = status;
+  document.getElementById("premiumText").textContent = status;
+
+  renderTasks();
+}
 
 function renderTasks() {
 
-    const container =
-        document.getElementById("tasksContainer");
+  const list =
+    document.getElementById("taskList");
 
-    if (!container) return;
+  list.innerHTML = "";
 
-    container.innerHTML = "";
+  tasks.forEach(task => {
 
-    let completed = 0;
+    const done =
+      data.completed.includes(task.id);
 
-    tasks.forEach(function(task, index) {
+    const div =
+      document.createElement("div");
 
-        if (taskState[index]) {
-            completed++;
-        }
+    div.className = "task";
 
-        const card =
-            document.createElement("div");
+    div.innerHTML = `
+      <div class="taskTop">
+        <div class="taskTitle">
+          ${task.title}
+        </div>
 
-        card.className = "task-card";
+        <div class="reward">
+          +${task.reward} 🪙
+        </div>
+      </div>
 
-        const number =
-            document.createElement("div");
+      <p>${task.description}</p>
 
-        number.className = "task-number";
-        number.textContent = index + 1;
+      ${
+        done
+        ?
+        `<button class="done" disabled>
+          ✓ COMPLETED
+        </button>`
+        :
+        `<button onclick="startTask(${task.id})">
+          START TASK
+        </button>`
+      }
+    `;
 
-        const info =
-            document.createElement("div");
-
-        info.className = "task-info";
-
-        info.innerHTML = `
-            <b>${task}</b>
-            <small>Complete task • +5 coins</small>
-        `;
-
-        const button =
-            document.createElement("button");
-
-        button.className = "task-button";
-
-        if (taskState[index]) {
-
-            button.textContent = "✓ DONE";
-            button.classList.add("done");
-
-        } else {
-
-            button.textContent = "START";
-
-            button.onclick = function() {
-
-                taskState[index] = true;
-
-                localStorage.setItem(
-                    "ag_tasks",
-                    JSON.stringify(taskState)
-                );
-
-                updateCoins(5);
-
-                renderTasks();
-
-                showToast(
-                    "+5 coins • Task completed"
-                );
-            };
-        }
-
-        card.appendChild(number);
-        card.appendChild(info);
-        card.appendChild(button);
-
-        container.appendChild(card);
-
-    });
-
-    const percent =
-        Math.round((completed / 10) * 100);
-
-    document.getElementById(
-        "taskDone"
-    ).textContent = completed;
-
-    document.getElementById(
-        "taskPercent"
-    ).textContent = percent + "%";
-
-    document.getElementById(
-        "progressBar"
-    ).style.width = percent + "%";
+    list.appendChild(div);
+  });
 }
 
+function startTask(id) {
 
-/* =========================
-   COINS
-========================= */
+  const task =
+    tasks.find(x => x.id === id);
 
-let coins =
-    Number(
-        localStorage.getItem("ag_coins") || 0
-    );
+  if (!task) return;
 
+  if (data.completed.includes(id)) {
+    showToast("Task already completed");
+    return;
+  }
 
-function updateCoins(amount) {
+  window.open(
+    task.url,
+    "_blank"
+  );
 
-    coins += Number(amount);
+  setTimeout(() => {
 
-    localStorage.setItem(
-        "ag_coins",
-        coins
-    );
+    const confirmTask =
+      confirm(
+        "Did you complete this task?"
+      );
 
-    updateCoinUI();
-}
-
-
-function updateCoinUI() {
-
-    document.getElementById(
-        "coinBalance"
-    ).textContent = coins;
-
-    document.getElementById(
-        "profileCoins"
-    ).textContent = coins;
-}
-
-
-/* =========================
-   TELEGRAM USER
-========================= */
-
-function loadTelegramUser() {
-
-    if (
-        tg &&
-        tg.initDataUnsafe &&
-        tg.initDataUnsafe.user
-    ) {
-
-        const user =
-            tg.initDataUnsafe.user;
-
-        const name =
-            [
-                user.first_name,
-                user.last_name
-            ]
-            .filter(Boolean)
-            .join(" ");
-
-        document.getElementById(
-            "profileName"
-        ).textContent =
-            name || "Telegram User";
-
-        document.getElementById(
-            "profileId"
-        ).textContent =
-            user.id;
+    if (!confirmTask) {
+      return;
     }
+
+    completeTask(id);
+
+  }, 1000);
 }
 
+function completeTask(id) {
 
-/* =========================
-   REFERRAL
-========================= */
+  const task =
+    tasks.find(x => x.id === id);
+
+  if (!task) return;
+
+  if (data.completed.includes(id)) {
+    return;
+  }
+
+  data.completed.push(id);
+  data.coins += task.reward;
+
+  saveData();
+  updateUI();
+
+  showToast(
+    `+${task.reward} coins added`
+  );
+}
+
+function buyPremium(days, cost) {
+
+  if (data.coins < cost) {
+
+    showToast(
+      `Need ${cost} coins`
+    );
+
+    return;
+  }
+
+  data.coins -= cost;
+
+  const now = Date.now();
+
+  const base =
+    data.premiumUntil > now
+      ? data.premiumUntil
+      : now;
+
+  data.premiumUntil =
+    base + days * 24 * 60 * 60 * 1000;
+
+  saveData();
+  updateUI();
+
+  showToast(
+    `${days} day Premium activated`
+  );
+}
+
+function makeReferralLink() {
+
+  const user =
+    tg?.initDataUnsafe?.user;
+
+  const id =
+    user?.id || "user";
+
+  return `https://t.me/AG_EARN_HUB_BOT?start=ref_${id}`;
+}
 
 function copyReferral() {
 
-    const link =
-        "https://t.me/AG_EARN_HUB_BOT?start=ref";
+  const link =
+    makeReferralLink();
 
-    if (
-        navigator.clipboard
-    ) {
-
-        navigator.clipboard.writeText(link);
-
-        showToast(
-            "Referral link copied"
-        );
-
-    } else {
-
-        showToast(
-            "Referral link ready"
-        );
-    }
+  navigator.clipboard
+    .writeText(link)
+    .then(() => {
+      showToast("Referral link copied");
+    })
+    .catch(() => {
+      showToast("Copy failed");
+    });
 }
 
+function updateReferral() {
 
-/* =========================
-   PREMIUM
-========================= */
-
-function selectPremium(plan) {
-
-    showToast(
-        plan + " selected"
-    );
+  document.getElementById(
+    "refLink"
+  ).textContent =
+    makeReferralLink();
 }
 
+function openPage(pageId, button) {
 
-/* =========================
-   LOADING
-========================= */
+  document
+    .querySelectorAll(".page")
+    .forEach(page => {
+      page.classList.remove("active");
+    });
 
-setTimeout(function() {
+  const page =
+    document.getElementById(pageId);
 
-    const loading =
-        document.getElementById("loading");
+  if (page) {
+    page.classList.add("active");
+  }
 
-    if (loading) {
-        loading.classList.add("hide");
-    }
+  document
+    .querySelectorAll(".navItem")
+    .forEach(item => {
+      item.classList.remove("active");
+    });
 
-}, 1800);
+  if (button) {
+    button.classList.add("active");
+  }
 
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+}
 
-/* =========================
-   START
-========================= */
+function showToast(message) {
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function() {
+  const toast =
+    document.getElementById("toast");
 
-        updateCoinUI();
-        loadTelegramUser();
-        renderTasks();
+  toast.textContent = message;
+  toast.classList.add("show");
 
-    }
-);
+  clearTimeout(window.toastTimer);
+
+  window.toastTimer =
+    setTimeout(() => {
+      toast.classList.remove("show");
+    }, 2200);
+}
+
+function openSupport() {
+
+  window.open(
+    "https://t.me/ag_support_bd",
+    "_blank"
+  );
+}
+
+updateUser();
+updateReferral();
+updateUI();
