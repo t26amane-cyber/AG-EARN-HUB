@@ -1,1 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+  <meta name="theme-color" content="#050814">
+  <title>AG EARN HUB — Admin Panel</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <main class="admin-page">
+    <header class="admin-header">
+      <div class="brand">
+        <div class="brandmark">AG</div>
+        <div>
+          <small>ADMIN CONTROL</small>
+          <strong>AG EARN HUB</strong>
+        </div>
+      </div>
+      <div class="admin-status" id="adminStatus">🟡 CHECKING</div>
+    </header>
 
+    <section id="loginState" class="panel hidden">
+      <div class="empty-icon">🔐</div>
+      <h2>Admin Authentication</h2>
+      <p>Open this page inside your authorized Telegram Mini App.</p>
+      <button class="admin-btn primary full" onclick="adminLogin()">🔄 Try Again</button>
+    </section>
+
+    <section id="dashboardView" class="hidden">
+      <section class="admin-section">
+        <div class="section-title">
+          <div>
+            <h2>Dashboard</h2>
+            <small>AG EARN HUB overview</small>
+          </div>
+          <button class="mini-btn" onclick="loadAll()">↻ Refresh</button>
+        </div>
+
+        <div class="admin-grid">
+          <div class="admin-card"><span class="admin-icon">👥</span><small>TOTAL USERS</small><strong id="totalUsers">0</strong></div>
+          <div class="admin-card"><span class="admin-icon">💰</span><small>TOTAL BALANCE</small><strong>৳ <span id="totalBalance">0.00</span></strong></div>
+          <div class="admin-card"><span class="admin-icon">🎯</span><small>ACTIVE TASKS</small><strong id="activeTasks">0</strong></div>
+          <div class="admin-card"><span class="admin-icon">💸</span><small>PENDING WITHDRAW</small><strong id="pendingWithdraw">0</strong></div>
+        </div>
+      </section>
+
+      <section class="admin-section">
+        <div class="section-title">
+          <div><h2>Task Management</h2><small>Create and control earning tasks</small></div>
+        </div>
+        <div class="admin-actions">
+          <button class="admin-btn primary" onclick="openTaskModal()">➕ Add Task</button>
+          <button class="admin-btn" onclick="showSection('tasks')">🎯 Manage Tasks</button>
+        </div>
+      </section>
+
+      <section class="admin-section">
+        <div class="section-title">
+          <div><h2>User Management</h2><small>View and manage users</small></div>
+        </div>
+        <div class="admin-actions">
+          <button class="admin-btn" onclick="showSection('users')">👥 Users</button>
+          <button class="admin-btn" onclick="showSection('balance')">💰 Balance</button>
+        </div>
+      </section>
+
+      <section class="admin-section">
+        <div class="section-title">
+          <div><h2>Withdraw Management</h2><small>Review withdrawal requests</small></div>
+        </div>
+        <div class="admin-actions">
+          <button class="admin-btn" onclick="showSection('withdraw')">💸 Withdraw Requests</button>
+        </div>
+      </section>
+
+      <section class="admin-section">
+        <div class="section-title">
+          <div><h2>Platform</h2><small>Announcements and configuration</small></div>
+        </div>
+        <div class="admin-actions">
+          <button class="admin-btn" onclick="showSection('settings')">⚙️ Settings</button>
+          <button class="admin-btn" onclick="showSection('announcement')">📢 Announcement</button>
+        </div>
+      </section>
+
+      <section id="contentSection" class="admin-section hidden">
+        <div class="section-title">
+          <div><h2 id="contentTitle">Management</h2><small id="contentSubtitle"></small></div>
+          <button class="mini-btn" onclick="closeSection()">✕ Close</button>
+        </div>
+        <div id="contentBody"></div>
+      </section>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="modalTitle">Add Task</h3>
+        <button class="close-btn" onclick="closeModal()">✕</button>
+      </div>
+      <form id="taskForm" onsubmit="saveTask(event)">
+        <label>Task Title<input id="taskTitle" required placeholder="Example: Watch Sponsored Video"></label>
+        <label>Category
+          <select id="taskCategory">
+            <option>GAME</option><option>WATCH / ADS</option><option>TYPING</option>
+            <option>MICRO TASK</option><option>AFFILIATE</option><option>APP / WEBSITE TASK</option>
+            <option>SURVEY</option><option>BONUS TASK</option><option>ONE-TIME TASK</option>
+          </select>
+        </label>
+        <label>Reward (৳)<input id="taskReward" type="number" min="0" step="0.01" required value="5"></label>
+        <label>Task URL<input id="taskUrl" type="url" placeholder="https://..."></label>
+        <label>Access
+          <select id="taskAccess"><option value="all">Normal + VIP</option><option value="vip">VIP Only</option></select>
+        </label>
+        <label>Verification
+          <select id="taskVerification"><option value="manual">Manual Review</option><option value="auto">Auto</option></select>
+        </label>
+        <label class="switch-row"><span>Active</span><input id="taskActive" type="checkbox" checked></label>
+        <button class="admin-btn primary full" type="submit">💾 Save Task</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="adminToast" class="toast"></div>
+
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
