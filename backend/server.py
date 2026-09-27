@@ -35,7 +35,7 @@ DB_PATH = os.environ.get(
 
 # Render / server environment variable
 # DO NOT put the real bot token directly in this file.
-BOT_TOKEN = os.environ.get("8020765987:AAG0zRVNV4v6nMRr1JH7s7uWIwfHj0gGz_Q", "")
+BOT_TOKEN = os.environ.get("8020765987:AAFeTlAbDw6EdwRvTWZsEkKBUrA4Ge_0mGY", "")
 
 ADMIN_IDS = {
     "6650444747",
