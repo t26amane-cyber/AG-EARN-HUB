@@ -1,128 +1,177 @@
+// ==================== CONFIG ====================
+const API_BASE = "https://ag-earn-hub-1.onrender.com";
+
 // ==================== STATE ====================
 let userData = {
+  id: null,
   balance: 0,
   totalEarned: 0,
   referrals: 0,
   referralEarnings: 0,
   name: 'User Name',
-  username: '@user123456'
+  username: '@user',
+  referral_code: '',
+  premium: false
 };
 
 let selectedPayment = 'bkash';
 
-// ==================== AD NETWORK INTEGRATION POINTS ====================
-/*
- * ============================================
- *  AD NETWORK INTEGRATION GUIDE
- * ============================================
- * 
- * 1. Banner Ads:
- *    - Home:    #ad-home-banner
- *    - Withdraw:#ad-withdraw-banner
- *    - Refer:   #ad-refer-banner
- * 
- * 2. Rewarded Video (Tasks):
- *    - Call showRewardedAd(callback) when user starts a video task
- * 
- * 3. Recommended Networks for Telegram Mini Apps / Web:
- *    - Google AdMob (Web)
- *    - Unity Ads
- *    - AppLovin MAX
- *    - ironSource
- *    - Monetag / PropellerAds (for web)
- * 
- * 4. Example Integration (AdMob Rewarded):
- * 
- *    function showRewardedAd(onSuccess) {
- *      // Load & show rewarded ad
- *      // On complete: onSuccess();
- *    }
- * 
- * 5. For Telegram Mini App:
- *    - Use Telegram.WebApp for haptic & theme
- *    - Ads work best with external browser or WebView support
- */
+// ==================== API CALL ====================
+async function apiCall(endpoint, method = "GET", body = null) {
+  const headers = {
+    "Content-Type": "application/json",
+  };
 
-// Dummy Rewarded Ad function (replace with real ad network)
-function showRewardedAd(onReward) {
-  showToast('🎬 Loading Rewarded Ad...');
-  
-  // Simulate ad loading & watching (2 seconds)
-  setTimeout(() => {
-    showToast('✅ Ad completed! Reward granted');
-    if (typeof onReward === 'function') onReward();
-  }, 2000);
-  
-  // REAL INTEGRATION EXAMPLE:
-  // if (window.adNetwork) {
-  //   window.adNetwork.showRewarded({
-  //     onComplete: onReward,
-  //     onError: () => showToast('Ad failed to load')
-  //   });
-  // }
+  if (window.Telegram?.WebApp?.initData) {
+    headers["X-Telegram-Init-Data"] = window.Telegram.WebApp.initData;
+  }
+
+  const options = { method, headers };
+
+  if (body) {
+    options.body = JSON.stringify(body);
+  }
+
+  try {
+    const res = await fetch(`\( {API_BASE} \){endpoint}`, options);
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error("API Error:", err);
+    showToast("নেটওয়ার্ক এরর। আবার চেষ্টা করুন।");
+    return { ok: false };
+  }
 }
 
-// Load Banner Ads (call this after ad network SDK loads)
-function loadBannerAds() {
-  // Example:
-  // document.getElementById('ad-home-banner').innerHTML = realAdHtml;
-  console.log('Ad Network: Banner slots ready for integration');
+// ==================== LOAD USER ====================
+async function loadUser() {
+  const data = await apiCall("/api/auth", "POST");
+
+  if (data.ok && data.user) {
+    const u = data.user;
+    userData.id = u.id;
+    userData.balance = u.coins || 0;
+    userData.name = (u.first_name || "") + (u.last_name ? " " + u.last_name : "");
+    userData.username = u.username ? "@" + u.username : "@user" + u.id;
+    userData.referral_code = u.referral_code || "";
+    userData.premium = u.premium || false;
+
+    updateUI();
+    updateProfile();
+  } else {
+    showToast("লগইন ব্যর্থ। Telegram থেকে আবার খুলুন।");
+  }
+}
+
+// ==================== UI UPDATE ====================
+function updateUI() {
+  const bal = `৳ ${Number(userData.balance).toFixed(2)}`;
+
+  const els = {
+    'home-balance': bal,
+    'home-earned': bal,
+    'home-refs': userData.referrals,
+    'withdraw-balance': bal,
+    'ref-count': userData.referrals,
+    'ref-earn': `৳ ${Number(userData.referralEarnings).toFixed(2)}`,
+    'profile-balance': bal,
+    'profile-earned': bal,
+    'profile-refs': userData.referrals
+  };
+
+  for (const [id, value] of Object.entries(els)) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+}
+
+function updateProfile() {
+  const nameEl = document.getElementById('profile-name');
+  const handleEl = document.querySelector('.user-handle');
+  
+  if (nameEl) nameEl.textContent = userData.name || "User";
+  if (handleEl) handleEl.textContent = userData.username;
+
+  const refLink = document.getElementById('ref-link');
+  if (refLink && userData.referral_code) {
+    refLink.textContent = `https://t.me/agearnhub_bot?start=${userData.referral_code}`;
+  }
 }
 
 // ==================== NAVIGATION ====================
 function switchScreen(screenId) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(screenId).classList.add('active');
+  const screen = document.getElementById(screenId);
+  if (screen) screen.classList.add('active');
 
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.querySelector(`.nav-item[data-screen="${screenId}"]`).classList.add('active');
+  const navBtn = document.querySelector(`.nav-item[data-screen="${screenId}"]`);
+  if (navBtn) navBtn.classList.add('active');
 
-  // Optional: Telegram haptic
   if (window.Telegram?.WebApp?.HapticFeedback) {
     Telegram.WebApp.HapticFeedback.impactOccurred('light');
   }
 }
 
 // ==================== TASKS ====================
-function filterTasks(status, btn) {
-  document.querySelectorAll('.task-tab').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
+async function loadTasks() {
+  const data = await apiCall("/api/tasks");
+  if (!data.ok) return;
 
-  document.querySelectorAll('.task-card').forEach(card => {
-    if (status === 'available' || card.dataset.status === status) {
-      card.style.display = 'block';
-    } else {
-      card.style.display = 'none';
-    }
+  const taskList = document.getElementById('task-list');
+  if (!taskList) return;
+
+  taskList.innerHTML = "";
+
+  data.tasks.forEach(task => {
+    const isCompleted = task.completed;
+
+    const card = document.createElement('div');
+    card.className = 'task-card';
+    card.dataset.status = isCompleted ? 'completed' : 'available';
+
+    card.innerHTML = `
+      <div class="task-badge">${isCompleted ? 'Completed' : 'Available'}</div>
+      <div class="task-header">
+        <div class="task-icon yt"><i class="fas fa-ad"></i></div>
+        <div class="task-info">
+          <h4>${task.title}</h4>
+          <div class="task-meta">${task.network} • ৳ ${task.reward}</div>
+        </div>
+      </div>
+      <div class="task-reward">
+        <div class="reward-text">Reward: ৳ ${task.reward}</div>
+        <button class="start-btn" ${isCompleted ? 'disabled' : ''} 
+                onclick="startTask('${task.id}', ${task.reward})">
+          ${isCompleted ? 'Completed' : 'Start Task'}
+        </button>
+      </div>
+    `;
+    taskList.appendChild(card);
   });
 }
 
-function startTask(taskId, reward) {
-  // For video tasks → show rewarded ad first
-  if (taskId === 1) {
-    showRewardedAd(() => {
-      completeTask(taskId, reward);
-    });
-  } else {
-    completeTask(taskId, reward);
-  }
-}
+async function startTask(taskId, reward) {
+  const startRes = await apiCall("/api/tasks/start", "POST", { task_id: taskId });
 
-function completeTask(taskId, reward) {
-  userData.balance += reward;
-  userData.totalEarned += reward;
-  updateUI();
-  showToast(`🎉 Task completed! +৳ ${reward}`);
-  
-  // Mark task as completed visually (demo)
-  const cards = document.querySelectorAll('.task-card');
-  if (cards[taskId - 1]) {
-    cards[taskId - 1].dataset.status = 'completed';
-    cards[taskId - 1].querySelector('.task-badge').textContent = 'Completed';
-    cards[taskId - 1].querySelector('.task-badge').style.background = 'rgba(0,230,118,0.15)';
-    cards[taskId - 1].querySelector('.start-btn').disabled = true;
-    cards[taskId - 1].querySelector('.start-btn').textContent = 'Completed';
+  if (!startRes.ok) {
+    showToast(startRes.message || "টাস্ক স্টার্ট করা যায়নি");
+    return;
   }
+
+  showToast("টাস্ক শুরু হয়েছে... ১০ সেকেন্ড অপেক্ষা করুন");
+
+  setTimeout(async () => {
+    const completeRes = await apiCall("/api/tasks/complete", "POST", { task_id: taskId });
+
+    if (completeRes.ok) {
+      showToast(`🎉 টাস্ক সম্পন্ন! +৳ ${reward}`);
+      await loadUser();
+      await loadTasks();
+    } else {
+      showToast(completeRes.message || "টাস্ক কমপ্লিট হয়নি");
+    }
+  }, 11000);
 }
 
 // ==================== WITHDRAW ====================
@@ -137,7 +186,7 @@ function requestWithdraw() {
   const mobile = document.getElementById('withdraw-mobile').value;
 
   if (!amount || amount < 50) {
-    showToast('⚠️ Minimum withdrawal is ৳ 50');
+    showToast('⚠️ Minimum withdrawal ৳ 50');
     return;
   }
   if (amount > userData.balance) {
@@ -149,89 +198,51 @@ function requestWithdraw() {
     return;
   }
 
-  userData.balance -= amount;
-  updateUI();
-  showToast(`✅ Withdrawal request of ৳ ${amount} submitted via ${selectedPayment.toUpperCase()}`);
-  
-  // Clear inputs
+  showToast(`✅ Withdraw request submitted (Backend API শীঘ্রই আসছে)`);
   document.getElementById('withdraw-amount').value = '';
   document.getElementById('withdraw-mobile').value = '';
 }
 
 // ==================== REFER ====================
 function copyReferral() {
-  const link = document.getElementById('ref-link').textContent;
+  const link = document.getElementById('ref-link')?.textContent || '';
   navigator.clipboard.writeText(link).then(() => {
     showToast('📋 Referral link copied!');
-  }).catch(() => {
-    showToast('📋 Link: ' + link);
-  });
+  }).catch(() => showToast(link));
 }
 
 function shareReferral() {
-  const link = document.getElementById('ref-link').textContent;
-  const text = `🚀 Join AG EARN HUB & earn money by completing simple tasks!\n\n${link}`;
-  
-  if (navigator.share) {
-    navigator.share({ title: 'AG EARN HUB', text, url: link });
-  } else if (window.Telegram?.WebApp) {
-    // Telegram share
-    Telegram.WebApp.openTelegramLink(`https://t.me/share/url?url=\( {encodeURIComponent(link)}&text= \){encodeURIComponent(text)}`);
+  const link = document.getElementById('ref-link')?.textContent || '';
+  const text = `🚀 Join AG EARN HUB & earn money!\n\n${link}`;
+
+  if (window.Telegram?.WebApp) {
+    Telegram.WebApp.openTelegramLink(
+      `https://t.me/share/url?url=\( {encodeURIComponent(link)}&text= \){encodeURIComponent(text)}`
+    );
   } else {
     copyReferral();
   }
 }
 
-// ==================== UI UPDATE ====================
-function updateUI() {
-  const bal = `৳ ${userData.balance.toFixed(2)}`;
-  const earned = `৳ ${userData.totalEarned.toFixed(2)}`;
-  
-  document.getElementById('home-balance').textContent = bal;
-  document.getElementById('home-earned').textContent = earned;
-  document.getElementById('home-refs').textContent = userData.referrals;
-  
-  document.getElementById('withdraw-balance').textContent = bal;
-  
-  document.getElementById('ref-count').textContent = userData.referrals;
-  document.getElementById('ref-earn').textContent = `৳ ${userData.referralEarnings.toFixed(2)}`;
-  
-  document.getElementById('profile-balance').textContent = bal;
-  document.getElementById('profile-earned').textContent = earned;
-  document.getElementById('profile-refs').textContent = userData.referrals;
-}
-
 // ==================== TOAST ====================
 function showToast(msg) {
   const toast = document.getElementById('toast');
+  if (!toast) return;
   toast.textContent = msg;
   toast.classList.add('show');
-  setTimeout(() => toast.classList.remove('show'), 2500);
+  setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-// ==================== TELEGRAM WEBAPP INIT ====================
-function initTelegram() {
+// ==================== INIT ====================
+document.addEventListener('DOMContentLoaded', async () => {
   if (window.Telegram?.WebApp) {
     const tg = Telegram.WebApp;
     tg.ready();
     tg.expand();
     tg.setHeaderColor('#0a0e1a');
     tg.setBackgroundColor('#060b1a');
-    
-    // Get user data from Telegram
-    if (tg.initDataUnsafe?.user) {
-      const user = tg.initDataUnsafe.user;
-      userData.name = user.first_name + (user.last_name ? ' ' + user.last_name : '');
-      userData.username = user.username ? '@' + user.username : '@user' + user.id;
-      document.getElementById('profile-name').textContent = userData.name;
-      document.querySelector('.user-handle').textContent = userData.username;
-    }
   }
-}
 
-// ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', () => {
-  initTelegram();
-  updateUI();
-  loadBannerAds(); // Ad Network ready
+  await loadUser();
+  await loadTasks();
 });
