@@ -1,131 +1,557 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-  <meta name="theme-color" content="#050814">
-  <title>AG EARN HUB — Admin Panel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AG EARN HUB | Admin Panel</title>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- External CSS -->
   <link rel="stylesheet" href="admin.css">
 </head>
 <body>
-  <main class="admin-page">
-    <header class="admin-header">
-      <div class="brand">
-        <div class="brandmark">AG</div>
-        <div>
-          <small>ADMIN CONTROL</small>
-          <strong>AG EARN HUB</strong>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-circle">AG</div>
+      <div>
+        <div class="logo-text">AG EARN HUB</div>
+        <div class="logo-sub">Admin Panel</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-link active" onclick="switchAdminPage('dashboard')" data-page="dashboard">
+        <i class="fas fa-tachometer-alt"></i> Dashboard
+      </button>
+      <button class="nav-link" onclick="switchAdminPage('users')" data-page="users">
+        <i class="fas fa-users"></i> Users
+      </button>
+      <button class="nav-link" onclick="switchAdminPage('tasks')" data-page="tasks">
+        <i class="fas fa-tasks"></i> Tasks
+      </button>
+      <button class="nav-link" onclick="switchAdminPage('withdrawals')" data-page="withdrawals">
+        <i class="fas fa-money-bill-wave"></i> Withdrawals
+      </button>
+      <button class="nav-link" onclick="switchAdminPage('referrals')" data-page="referrals">
+        <i class="fas fa-user-plus"></i> Referrals
+      </button>
+      <button class="nav-link" onclick="switchAdminPage('settings')" data-page="settings">
+        <i class="fas fa-cog"></i> Settings
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" onclick="adminLogout()">
+        <i class="fas fa-sign-out-alt"></i> Logout
+      </button>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+    
+    <!-- TOP BAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="menu-toggle" onclick="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </button>
+        <h1 id="page-title">Dashboard</h1>
+      </div>
+      <div class="topbar-right">
+        <div class="admin-info">
+          <span class="admin-name">Admin</span>
+          <div class="admin-avatar">A</div>
         </div>
       </div>
-      <div class="admin-status" id="adminStatus">🟡 CHECKING</div>
     </header>
 
-    <section id="loginState" class="panel hidden">
-      <div class="empty-icon">🔐</div>
-      <h2>Admin Authentication</h2>
-      <p>Open this page inside your authorized Telegram Mini App.</p>
-      <button class="admin-btn primary full" onclick="adminLogin()">🔄 Try Again</button>
-    </section>
-
-    <section id="dashboardView" class="hidden">
-      <section class="admin-section">
-        <div class="section-title">
+    <!-- ==================== DASHBOARD ==================== -->
+    <section id="dashboard" class="admin-page active">
+      <div class="stats-row">
+        <div class="stat-box green">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
           <div>
-            <h2>Dashboard</h2>
-            <small>AG EARN HUB overview</small>
+            <div class="stat-number" id="stat-users">1,248</div>
+            <div class="stat-label">Total Users</div>
           </div>
-          <button class="mini-btn" onclick="loadAll()">↻ Refresh</button>
+        </div>
+        <div class="stat-box blue">
+          <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+          <div>
+            <div class="stat-number" id="stat-tasks">36</div>
+            <div class="stat-label">Active Tasks</div>
+          </div>
+        </div>
+        <div class="stat-box orange">
+          <div class="stat-icon"><i class="fas fa-clock"></i></div>
+          <div>
+            <div class="stat-number" id="stat-pending">18</div>
+            <div class="stat-label">Pending Withdrawals</div>
+          </div>
+        </div>
+        <div class="stat-box purple">
+          <div class="stat-icon"><i class="fas fa-coins"></i></div>
+          <div>
+            <div class="stat-number" id="stat-paid">৳ 2,45,600</div>
+            <div class="stat-label">Total Paid</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3>Recent Withdrawals</h3>
+            <button class="btn-sm" onclick="switchAdminPage('withdrawals')">View All</button>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Amount</th>
+                  <th>Method</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recent-withdraw-table">
+                <tr>
+                  <td>@karim123</td>
+                  <td>৳ 200</td>
+                  <td>bKash</td>
+                  <td><span class="badge pending">Pending</span></td>
+                </tr>
+                <tr>
+                  <td>@rahim_bd</td>
+                  <td>৳ 500</td>
+                  <td>Nagad</td>
+                  <td><span class="badge paid">Paid</span></td>
+                </tr>
+                <tr>
+                  <td>@sakib_ahmed</td>
+                  <td>৳ 150</td>
+                  <td>bKash</td>
+                  <td><span class="badge pending">Pending</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        <div class="admin-grid">
-          <div class="admin-card"><span class="admin-icon">👥</span><small>TOTAL USERS</small><strong id="totalUsers">0</strong></div>
-          <div class="admin-card"><span class="admin-icon">💰</span><small>TOTAL BALANCE</small><strong>৳ <span id="totalBalance">0.00</span></strong></div>
-          <div class="admin-card"><span class="admin-icon">🎯</span><small>ACTIVE TASKS</small><strong id="activeTasks">0</strong></div>
-          <div class="admin-card"><span class="admin-icon">💸</span><small>PENDING WITHDRAW</small><strong id="pendingWithdraw">0</strong></div>
+        <div class="card">
+          <div class="card-header">
+            <h3>Recent Users</h3>
+            <button class="btn-sm" onclick="switchAdminPage('users')">View All</button>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Joined</th>
+                  <th>Balance</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>@newuser01</td>
+                  <td>27 Sep 2026</td>
+                  <td>৳ 45</td>
+                  <td><span class="badge active">Active</span></td>
+                </tr>
+                <tr>
+                  <td>@fatima_k</td>
+                  <td>26 Sep 2026</td>
+                  <td>৳ 120</td>
+                  <td><span class="badge active">Active</span></td>
+                </tr>
+                <tr>
+                  <td>@mehedi_hasan</td>
+                  <td>25 Sep 2026</td>
+                  <td>৳ 0</td>
+                  <td><span class="badge active">Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-      </section>
-
-      <section class="admin-section">
-        <div class="section-title">
-          <div><h2>Task Management</h2><small>Create and control earning tasks</small></div>
-        </div>
-        <div class="admin-actions">
-          <button class="admin-btn primary" onclick="openTaskModal()">➕ Add Task</button>
-          <button class="admin-btn" onclick="showSection('tasks')">🎯 Manage Tasks</button>
-        </div>
-      </section>
-
-      <section class="admin-section">
-        <div class="section-title">
-          <div><h2>User Management</h2><small>View and manage users</small></div>
-        </div>
-        <div class="admin-actions">
-          <button class="admin-btn" onclick="showSection('users')">👥 Users</button>
-          <button class="admin-btn" onclick="showSection('balance')">💰 Balance</button>
-        </div>
-      </section>
-
-      <section class="admin-section">
-        <div class="section-title">
-          <div><h2>Withdraw Management</h2><small>Review withdrawal requests</small></div>
-        </div>
-        <div class="admin-actions">
-          <button class="admin-btn" onclick="showSection('withdraw')">💸 Withdraw Requests</button>
-        </div>
-      </section>
-
-      <section class="admin-section">
-        <div class="section-title">
-          <div><h2>Platform</h2><small>Announcements and configuration</small></div>
-        </div>
-        <div class="admin-actions">
-          <button class="admin-btn" onclick="showSection('settings')">⚙️ Settings</button>
-          <button class="admin-btn" onclick="showSection('announcement')">📢 Announcement</button>
-        </div>
-      </section>
-
-      <section id="contentSection" class="admin-section hidden">
-        <div class="section-title">
-          <div><h2 id="contentTitle">Management</h2><small id="contentSubtitle"></small></div>
-          <button class="mini-btn" onclick="closeSection()">✕ Close</button>
-        </div>
-        <div id="contentBody"></div>
-      </section>
+      </div>
     </section>
+
+    <!-- ==================== USERS ==================== -->
+    <section id="users" class="admin-page">
+      <div class="page-actions">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="user-search" placeholder="Search users..." onkeyup="searchUsers()">
+        </div>
+        <button class="btn primary" onclick="showToast('Export Users feature')">
+          <i class="fas fa-download"></i> Export
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Telegram ID</th>
+                <th>Balance</th>
+                <th>Total Earned</th>
+                <th>Referrals</th>
+                <th>Joined</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="users-table">
+              <tr>
+                <td>1001</td>
+                <td>@karim123</td>
+                <td>123456789</td>
+                <td>৳ 320</td>
+                <td>৳ 1,250</td>
+                <td>12</td>
+                <td>15 Sep 2026</td>
+                <td><span class="badge active">Active</span></td>
+                <td>
+                  <button class="btn-icon" onclick="banUser(1001)"><i class="fas fa-ban"></i></button>
+                  <button class="btn-icon" onclick="viewUser(1001)"><i class="fas fa-eye"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>1002</td>
+                <td>@rahim_bd</td>
+                <td>987654321</td>
+                <td>৳ 85</td>
+                <td>৳ 680</td>
+                <td>5</td>
+                <td>18 Sep 2026</td>
+                <td><span class="badge active">Active</span></td>
+                <td>
+                  <button class="btn-icon" onclick="banUser(1002)"><i class="fas fa-ban"></i></button>
+                  <button class="btn-icon" onclick="viewUser(1002)"><i class="fas fa-eye"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>1003</td>
+                <td>@sakib_ahmed</td>
+                <td>456789123</td>
+                <td>৳ 0</td>
+                <td>৳ 210</td>
+                <td>2</td>
+                <td>20 Sep 2026</td>
+                <td><span class="badge banned">Banned</span></td>
+                <td>
+                  <button class="btn-icon" onclick="unbanUser(1003)"><i class="fas fa-check"></i></button>
+                  <button class="btn-icon" onclick="viewUser(1003)"><i class="fas fa-eye"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TASKS ==================== -->
+    <section id="tasks" class="admin-page">
+      <div class="page-actions">
+        <h3 style="margin:0;color:var(--text)">Manage Tasks</h3>
+        <button class="btn primary" onclick="openAddTaskModal()">
+          <i class="fas fa-plus"></i> Add New Task
+        </button>
+      </div>
+
+      <div class="card">
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Reward</th>
+                <th>Time</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="tasks-table">
+              <tr>
+                <td>#001</td>
+                <td>Watch Video & Like</td>
+                <td><span class="badge yt">YouTube</span></td>
+                <td>৳ 5</td>
+                <td>2-5 min</td>
+                <td><span class="badge active">Active</span></td>
+                <td>
+                  <button class="btn-icon" onclick="editTask(1)"><i class="fas fa-edit"></i></button>
+                  <button class="btn-icon danger" onclick="deleteTask(1)"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>#002</td>
+                <td>Join Channel</td>
+                <td><span class="badge tg">Telegram</span></td>
+                <td>৳ 3</td>
+                <td>2-3 min</td>
+                <td><span class="badge active">Active</span></td>
+                <td>
+                  <button class="btn-icon" onclick="editTask(2)"><i class="fas fa-edit"></i></button>
+                  <button class="btn-icon danger" onclick="deleteTask(2)"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+              <tr>
+                <td>#003</td>
+                <td>Fill Survey</td>
+                <td><span class="badge survey">Survey</span></td>
+                <td>৳ 10</td>
+                <td>5-10 min</td>
+                <td><span class="badge active">Active</span></td>
+                <td>
+                  <button class="btn-icon" onclick="editTask(3)"><i class="fas fa-edit"></i></button>
+                  <button class="btn-icon danger" onclick="deleteTask(3)"><i class="fas fa-trash"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== WITHDRAWALS ==================== -->
+    <section id="withdrawals" class="admin-page">
+      <div class="page-actions">
+        <div class="filter-tabs">
+          <button class="filter-btn active" onclick="filterWithdrawals('all', this)">All</button>
+          <button class="filter-btn" onclick="filterWithdrawals('pending', this)">Pending</button>
+          <button class="filter-btn" onclick="filterWithdrawals('paid', this)">Paid</button>
+          <button class="filter-btn" onclick="filterWithdrawals('rejected', this)">Rejected</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Amount</th>
+                <th>Method</th>
+                <th>Mobile</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="withdrawals-table">
+              <tr data-status="pending">
+                <td>W-501</td>
+                <td>@karim123</td>
+                <td>৳ 200</td>
+                <td>bKash</td>
+                <td>017XXXXXXXX</td>
+                <td>27 Sep 2026</td>
+                <td><span class="badge pending">Pending</span></td>
+                <td>
+                  <button class="btn-sm success" onclick="approveWithdraw('W-501')">Approve</button>
+                  <button class="btn-sm danger" onclick="rejectWithdraw('W-501')">Reject</button>
+                </td>
+              </tr>
+              <tr data-status="pending">
+                <td>W-502</td>
+                <td>@sakib_ahmed</td>
+                <td>৳ 150</td>
+                <td>Nagad</td>
+                <td>018XXXXXXXX</td>
+                <td>26 Sep 2026</td>
+                <td><span class="badge pending">Pending</span></td>
+                <td>
+                  <button class="btn-sm success" onclick="approveWithdraw('W-502')">Approve</button>
+                  <button class="btn-sm danger" onclick="rejectWithdraw('W-502')">Reject</button>
+                </td>
+              </tr>
+              <tr data-status="paid">
+                <td>W-498</td>
+                <td>@rahim_bd</td>
+                <td>৳ 500</td>
+                <td>bKash</td>
+                <td>019XXXXXXXX</td>
+                <td>25 Sep 2026</td>
+                <td><span class="badge paid">Paid</span></td>
+                <td>
+                  <span style="color:var(--text-muted);font-size:13px">Completed</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== REFERRALS ==================== -->
+    <section id="referrals" class="admin-page">
+      <div class="stats-row" style="margin-bottom:20px;">
+        <div class="stat-box green">
+          <div class="stat-icon"><i class="fas fa-user-plus"></i></div>
+          <div>
+            <div class="stat-number">3,842</div>
+            <div class="stat-label">Total Referrals</div>
+          </div>
+        </div>
+        <div class="stat-box blue">
+          <div class="stat-icon"><i class="fas fa-coins"></i></div>
+          <div>
+            <div class="stat-number">৳ 19,210</div>
+            <div class="stat-label">Referral Paid</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>Top Referrers</h3>
+        </div>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Username</th>
+                <th>Total Referrals</th>
+                <th>Earnings</th>
+                <th>Last Referral</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>@karim123</td>
+                <td>48</td>
+                <td>৳ 240</td>
+                <td>26 Sep 2026</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>@fatima_k</td>
+                <td>35</td>
+                <td>৳ 175</td>
+                <td>25 Sep 2026</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>@mehedi_hasan</td>
+                <td>29</td>
+                <td>৳ 145</td>
+                <td>24 Sep 2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SETTINGS ==================== -->
+    <section id="settings" class="admin-page">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3>App Settings</h3>
+          </div>
+          <div class="form-group">
+            <label>Minimum Withdrawal Amount (৳)</label>
+            <input type="number" id="min-withdraw" value="50">
+          </div>
+          <div class="form-group">
+            <label>Referral Reward (৳)</label>
+            <input type="number" id="ref-reward" value="5">
+          </div>
+          <div class="form-group">
+            <label>App Status</label>
+            <select id="app-status">
+              <option value="active">Active</option>
+              <option value="maintenance">Maintenance</option>
+            </select>
+          </div>
+          <button class="btn primary" onclick="saveSettings()">Save Settings</button>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h3>Admin Account</h3>
+          </div>
+          <div class="form-group">
+            <label>Admin Username</label>
+            <input type="text" value="admin" disabled>
+          </div>
+          <div class="form-group">
+            <label>New Password</label>
+            <input type="password" id="new-password" placeholder="Enter new password">
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" id="confirm-password" placeholder="Confirm password">
+          </div>
+          <button class="btn primary" onclick="changePassword()">Change Password</button>
+        </div>
+      </div>
+    </section>
+
   </main>
 
-  <div id="modal" class="modal hidden">
-    <div class="modal-card">
-      <div class="modal-head">
-        <h3 id="modalTitle">Add Task</h3>
-        <button class="close-btn" onclick="closeModal()">✕</button>
+  <!-- ADD TASK MODAL -->
+  <div class="modal" id="addTaskModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Add New Task</h3>
+        <button class="close-btn" onclick="closeAddTaskModal()">&times;</button>
       </div>
-      <form id="taskForm" onsubmit="saveTask(event)">
-        <label>Task Title<input id="taskTitle" required placeholder="Example: Watch Sponsored Video"></label>
-        <label>Category
-          <select id="taskCategory">
-            <option>GAME</option><option>WATCH / ADS</option><option>TYPING</option>
-            <option>MICRO TASK</option><option>AFFILIATE</option><option>APP / WEBSITE TASK</option>
-            <option>SURVEY</option><option>BONUS TASK</option><option>ONE-TIME TASK</option>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Task Title</label>
+          <input type="text" id="task-title" placeholder="e.g. Watch Video & Like">
+        </div>
+        <div class="form-group">
+          <label>Task Type</label>
+          <select id="task-type">
+            <option value="youtube">YouTube</option>
+            <option value="telegram">Telegram</option>
+            <option value="survey">Survey</option>
+            <option value="other">Other</option>
           </select>
-        </label>
-        <label>Reward (৳)<input id="taskReward" type="number" min="0" step="0.01" required value="5"></label>
-        <label>Task URL<input id="taskUrl" type="url" placeholder="https://..."></label>
-        <label>Access
-          <select id="taskAccess"><option value="all">Normal + VIP</option><option value="vip">VIP Only</option></select>
-        </label>
-        <label>Verification
-          <select id="taskVerification"><option value="manual">Manual Review</option><option value="auto">Auto</option></select>
-        </label>
-        <label class="switch-row"><span>Active</span><input id="taskActive" type="checkbox" checked></label>
-        <button class="admin-btn primary full" type="submit">💾 Save Task</button>
-      </form>
+        </div>
+        <div class="form-group">
+          <label>Reward (৳)</label>
+          <input type="number" id="task-reward" placeholder="5">
+        </div>
+        <div class="form-group">
+          <label>Estimated Time</label>
+          <input type="text" id="task-time" placeholder="2-5 Minutes">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" onclick="closeAddTaskModal()">Cancel</button>
+        <button class="btn primary" onclick="addNewTask()">Add Task</button>
+      </div>
     </div>
   </div>
 
-  <div id="adminToast" class="toast"></div>
+  <!-- Toast -->
+  <div class="toast" id="admin-toast"></div>
 
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <!-- External JS -->
   <script src="admin.js"></script>
 </body>
 </html>
