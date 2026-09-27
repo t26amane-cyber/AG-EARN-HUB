@@ -1,1194 +1,374 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>AG EARN HUB</title>
-
-    <!-- Telegram Mini App -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AG EARN HUB | Telegram Mini App</title>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div id="app">
-
-    <!-- =========================
-         HOME PAGE
-    ========================== -->
-    <section id="homePage" class="page active">
-
-        <!-- Header -->
-        <header class="app-header">
-            <div class="brand">
-                <span class="brand-icon">🏠</span>
-                <div>
-                    <h1>AG EARN HUB</h1>
-                    <p>Earn • Complete • Grow</p>
-                </div>
-            </div>
-
-            <button class="notification-button" onclick="openPage('notificationsPage')">
-                🔔
-                <span id="notificationBadge">1</span>
-            </button>
-        </header>
-
-
-        <!-- Welcome Card -->
-        <div class="card welcome-card">
-
-            <div class="welcome-top">
-                <div>
-                    <p class="small-title">👋 Welcome</p>
-                    <h2 id="userName">User!</h2>
-                </div>
-
-                <div class="verified-badge">
-                    ✅
-                </div>
-            </div>
-
-            <div class="account-info">
-
-                <div class="info-item">
-                    <span>🟢</span>
-                    <div>
-                        <small>Account</small>
-                        <strong>Active</strong>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <span>📈</span>
-                    <div>
-                        <small>Level</small>
-                        <strong id="userLevel">2</strong>
-                    </div>
-                </div>
-
-                <div class="info-item">
-                    <span>✅</span>
-                    <div>
-                        <small>Profile</small>
-                        <strong>Verified</strong>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- Level Progress -->
-            <div class="level-section">
-
-                <div class="level-text">
-                    <span>Level Progress</span>
-                    <span id="levelPercent">65%</span>
-                </div>
-
-                <div class="progress-bar">
-                    <div id="levelProgress" class="progress-fill"></div>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Live Time -->
-        <div class="card live-time-card">
-
-            <div class="section-heading">
-                <span>🕐</span>
-                <h3>LIVE TIME</h3>
-            </div>
-
-            <div id="liveTime" class="live-time">
-                03:42:18 PM
-            </div>
-
-            <div id="liveDate" class="live-date">
-                26 September 2026
-            </div>
-
-        </div>
-
-
-        <!-- Today's Work Time -->
-        <div class="card work-time-card">
-
-            <div class="section-heading">
-                <span>⏱️</span>
-                <h3>TODAY'S WORK TIME</h3>
-            </div>
-
-            <div class="work-time-display" id="todayWorkTime">
-                02h 35m
-            </div>
-
-            <div class="work-status">
-                <span class="status-dot"></span>
-                <span id="workStatus">Working</span>
-            </div>
-
-            <div class="work-details">
-
-                <div>
-                    <small>🕐 Current Session</small>
-                    <strong id="currentSession">00m 00s</strong>
-                </div>
-
-                <div>
-                    <small>📊 Today's Activity</small>
-                    <strong id="todayActivity">4 Sessions</strong>
-                </div>
-
-            </div>
-
-            <button class="primary-button" onclick="startTaskTimer()">
-                💻 START TASK
-            </button>
-
-        </div>
-
-
-        <!-- Balance -->
-        <div class="card balance-card">
-
-            <div class="section-heading">
-                <span>💰</span>
-                <h3>AVAILABLE BALANCE</h3>
-            </div>
-
-            <div class="balance-amount">
-                ৳ <span id="balance">1250.00</span>
-            </div>
-
-            <div class="balance-details">
-
-                <div>
-                    <small>🕐 Pending</small>
-                    <strong>৳ <span id="pendingBalance">150.00</span></strong>
-                </div>
-
-                <div>
-                    <small>📈 Total Earned</small>
-                    <strong>৳ <span id="totalEarned">3500.00</span></strong>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <!-- Available Tasks -->
-        <div class="card tasks-summary-card">
-
-            <div class="section-heading">
-                <span>💻</span>
-                <h3>AVAILABLE TASKS</h3>
-            </div>
-
-            <div class="task-summary">
-
-                <div class="summary-box available">
-                    <span>🟢</span>
-                    <small>Available</small>
-                    <strong id="availableTasks">20</strong>
-                </div>
-
-                <div class="summary-box completed">
-                    <span>✅</span>
-                    <small>Completed</small>
-                    <strong id="completedTasks">7</strong>
-                </div>
-
-            </div>
-
-            <button class="primary-button" onclick="openPage('tasksPage')">
-                💻 START TASKS
-            </button>
-
-        </div>
-
-
-        <!-- Referral -->
-        <div class="card referral-card">
-
-            <div class="section-heading">
-                <span>👥</span>
-                <h3>REFERRALS</h3>
-            </div>
-
-            <div class="referral-stats">
-
-                <div>
-                    <strong id="totalReferrals">12</strong>
-                    <small>👥 Total</small>
-                </div>
-
-                <div>
-                    <strong id="activeReferrals">8</strong>
-                    <small>🟢 Active</small>
-                </div>
-
-                <div>
-                    <strong id="inactiveReferrals">4</strong>
-                    <small>⚪ Inactive</small>
-                </div>
-
-            </div>
-
-            <button class="secondary-button" onclick="openPage('referPage')">
-                👥 REFER & EARN
-            </button>
-
-        </div>
-
-
-        <!-- VIP -->
-        <div class="card vip-card">
-
-            <div class="section-heading">
-                <span>💎</span>
-                <h3>VIP STATUS</h3>
-            </div>
-
-            <div class="vip-status">
-
-                <div class="vip-icon">
-                    👑
-                </div>
-
-                <div>
-                    <h3 id="vipStatus">VIP Active</h3>
-                    <p id="vipPlan">VIP Plan</p>
-                </div>
-
-            </div>
-
-            <div class="vip-details">
-
-                <div>
-                    <small>📅 Plan</small>
-                    <strong>VIP Monthly</strong>
-                </div>
-
-                <div>
-                    <small>⏳ Remaining</small>
-                    <strong id="vipRemaining">12 Days</strong>
-                </div>
-
-                <div>
-                    <small>🔓 Task Limit</small>
-                    <strong>50 Tasks</strong>
-                </div>
-
-            </div>
-
-            <button class="secondary-button" onclick="openPage('vipPage')">
-                💎 VIP CENTER
-            </button>
-
-        </div>
-
-
-        <!-- Quick Actions -->
-        <div class="card quick-actions-card">
-
-            <div class="section-heading">
-                <span>⚡</span>
-                <h3>QUICK ACTION</h3>
-            </div>
-
-            <div class="quick-actions">
-
-                <button onclick="openPage('tasksPage')">
-                    💻
-                    <span>START TASKS</span>
-                </button>
-
-                <button onclick="openPage('withdrawPage')">
-                    💵
-                    <span>WITHDRAW</span>
-                </button>
-
-                <button onclick="openPage('referPage')">
-                    👥
-                    <span>INVITE FRIENDS</span>
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- Announcement -->
-        <div class="card announcement-card">
-
-            <div class="section-heading">
-                <span>📢</span>
-                <h3>ANNOUNCEMENTS</h3>
-            </div>
-
-            <div class="announcement-content">
-
-                <div class="announcement-icon">
-                    📌
-                </div>
-
-                <div>
-                    <h4 id="announcementTitle">
-                        New tasks are available!
-                    </h4>
-
-                    <p id="announcementDate">
-                        26 September 2026
-                    </p>
-                </div>
-
-            </div>
-
-            <button class="text-button" onclick="openPage('announcementPage')">
-                📖 READ MORE →
-            </button>
-
-        </div>
-
-
-        <!-- Notifications -->
-        <div class="card notifications-card">
-
-            <div class="section-heading">
-                <span>🔔</span>
-                <h3>NOTIFICATIONS</h3>
-            </div>
-
-            <div class="notification-item">
-                <span>🎉</span>
-                <div>
-                    <strong>New Task Available</strong>
-                    <small>New earning task is available.</small>
-                </div>
-            </div>
-
-            <button class="text-button" onclick="openPage('notificationsPage')">
-                📖 VIEW ALL →
-            </button>
-
-        </div>
-
-
-        <!-- Earning Overview -->
-        <div class="card earning-overview-card">
-
-            <div class="section-heading">
-                <span>📊</span>
-                <h3>EARNING OVERVIEW</h3>
-            </div>
-
-            <div class="earning-row">
-                <span>💻 Task Earnings</span>
-                <strong>৳ <span id="taskEarnings">2100</span></strong>
-            </div>
-
-            <div class="earning-row">
-                <span>🎁 Referral Earnings</span>
-                <strong>৳ <span id="referralEarnings">400</span></strong>
-            </div>
-
-            <div class="earning-row">
-                <span>💰 Available</span>
-                <strong>৳ <span id="overviewAvailable">1250</span></strong>
-            </div>
-
-            <div class="earning-row">
-                <span>🕐 Pending</span>
-                <strong>৳ <span id="overviewPending">150</span></strong>
-            </div>
-
-            <div class="earning-row total">
-                <span>📈 Total Earned</span>
-                <strong>৳ <span id="overviewTotal">3500</span></strong>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         TASKS PAGE
-    ========================== -->
-    <section id="tasksPage" class="page">
-
-        <div class="page-header">
-            <button onclick="goHome()">←</button>
-            <h2>💻 TASKS</h2>
-            <span></span>
-        </div>
-
-        <!-- User Task Limit -->
-        <div class="card task-limit-card">
-
-            <div class="user-task-status">
-
-                <div>
-                    <small>Account Type</small>
-                    <strong id="taskUserType">💎 VIP USER</strong>
-                </div>
-
-                <div>
-                    <small>Task Limit</small>
-                    <strong>
-                        <span id="taskCompletedCount">7</span> / 
-                        <span id="taskLimit">50</span>
-                    </strong>
-                </div>
-
-            </div>
-
-            <div class="progress-bar">
-                <div id="taskLimitProgress" class="progress-fill"></div>
-            </div>
-
-        </div>
-
-
-        <!-- Game -->
-        <div class="task-category">
-
-            <div class="category-title">
-                <span>🎮</span>
-                <div>
-                    <h3>GAME</h3>
-                    <small>Play sponsored games and complete tasks</small>
-                </div>
-            </div>
-
-            <div id="gameTasks"></div>
-
-        </div>
-
-
-        <!-- Watch Ads -->
-        <div class="task-category">
-
-            <div class="category-title">
-                <span>📺</span>
-                <div>
-                    <h3>WATCH / ADS</h3>
-                    <small>Watch available sponsored content</small>
-                </div>
-            </div>
-
-            <div id="watchTasks"></div>
-
-        </div>
-
-
-        <!-- Typing -->
-        <div class="task-category">
-
-            <div class="category-title">
-                <span>⌨️</span>
-                <div>
-                    <h3>TYPING</h3>
-                    <small>Complete typing tasks</small>
-                </div>
-            </div>
-
-            <div id="typingTasks"></div>
-
-        </div>
-
-
-        <!-- Micro Task -->
-        <div class="task-category">
-
-            <div class="category-title">
-                <span>📝</span>
-                <div>
-                    <h3>MICRO TASK</h3>
-                    <small>Small online tasks</small>
-                </div>
-            </div>
-
-            <div id="microTasks"></div>
-
-        </div>
-
-
-        <!-- Affiliate -->
-        <div class="task-category">
-
-            <div class="category-title">
-                <span>🔗</span>
-                <div>
-                    <h3>AFFILIATE</h3>
-                    <small>Complete legitimate affiliate tasks</small>
-                </div>
-            </div>
-
-            <div id="affiliateTasks"></div>
-
-        </div>
-
-
-        <!-- App / Website -->
-        <div class="task-category">
-
-            <div class="category-title">
-                <span>📱</span>
-                <div>
-                    <h3>APP / WEBSITE TASK</h3>
-                    <small>Complete app and website tasks</small>
-                </div>
-            </div>
-
-            <div id="appTasks"></div>
-
-        </div>
-
-
-        <!-- Survey -->
-        <div class="task-category">
-
-            <div class="category-title">
-                <span>📊</span>
-                <div>
-                    <h3>SURVEY</h3>
-                    <small>Answer available surveys</small>
-                </div>
-            </div>
-
-            <div id="surveyTasks"></div>
-
-        </div>
-
-
-        <!-- Bonus -->
-        <div class="task-category">
-
-            <div class="category-title">
-                <span>🎁</span>
-                <div>
-                    <h3>BONUS TASK</h3>
-                    <small>Special bonus opportunities</small>
-                </div>
-            </div>
-
-            <div id="bonusTasks"></div>
-
-        </div>
-
-
-        <!-- One Time -->
-        <div class="task-category one-time-category">
-
-            <div class="category-title">
-
-                <span>🎯</span>
-
-                <div>
-                    <h3>ONE-TIME TASK</h3>
-                    <small>These tasks can only be completed once</small>
-                </div>
-
-            </div>
-
-            <div class="one-time-task-list">
-
-                <div class="task-item" id="oneTimeYT1">
-
-                    <div class="task-icon">
-                        ▶️
-                    </div>
-
-                    <div class="task-info">
-
-                        <h4>YT 1</h4>
-
-                        <p>
-                            Complete the required YouTube task.
-                        </p>
-
-                        <span class="reward">
-                            💰 ৳10
-                        </span>
-
-                    </div>
-
-                    <button onclick="completeOneTimeTask('yt1')">
-                        START
-                    </button>
-
-                </div>
-
-
-                <div class="task-item" id="oneTimeYT2">
-
-                    <div class="task-icon">
-                        ▶️
-                    </div>
-
-                    <div class="task-info">
-
-                        <h4>YT 2</h4>
-
-                        <p>
-                            Complete the required YouTube task.
-                        </p>
-
-                        <span class="reward">
-                            💰 ৳10
-                        </span>
-
-                    </div>
-
-                    <button onclick="completeOneTimeTask('yt2')">
-                        START
-                    </button>
-
-                </div>
-
-
-                <div class="task-item" id="oneTimeTelegram">
-
-                    <div class="task-icon">
-                        ✈️
-                    </div>
-
-                    <div class="task-info">
-
-                        <h4>TELEGRAM</h4>
-
-                        <p>
-                            Complete the required Telegram task.
-                        </p>
-
-                        <span class="reward">
-                            💰 ৳10
-                        </span>
-
-                    </div>
-
-                    <button onclick="completeOneTimeTask('telegram')">
-                        START
-                    </button>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         WITHDRAW PAGE
-    ========================== -->
-    <section id="withdrawPage" class="page">
-
-        <div class="page-header">
-            <button onclick="goHome()">←</button>
-            <h2>💵 WITHDRAW</h2>
-            <span></span>
-        </div>
-
-        <div class="card withdraw-balance">
-
-            <small>AVAILABLE BALANCE</small>
-
-            <div>
-                ৳ <span id="withdrawBalance">1250.00</span>
-            </div>
-
-        </div>
-
-        <div class="card withdraw-form">
-
-            <label>💳 Payment Method</label>
-
-            <select id="withdrawMethod">
-                <option value="bkash">bKash</option>
-                <option value="nagad">Nagad</option>
-                <option value="upay">Upay</option>
-            </select>
-
-            <label>📱 Account Number</label>
-
-            <input
-                type="tel"
-                id="withdrawNumber"
-                placeholder="01XXXXXXXXX"
-            >
-
-            <label>💰 Amount</label>
-
-            <input
-                type="number"
-                id="withdrawAmount"
-                placeholder="Minimum amount"
-            >
-
-            <button class="primary-button" onclick="submitWithdraw()">
-                💵 REQUEST WITHDRAW
-            </button>
-
-        </div>
-
-
-        <div class="card pending-withdraw">
-
-            <div class="section-heading">
-                <span>🕐</span>
-                <h3>PENDING REQUEST</h3>
-            </div>
-
-            <div id="withdrawHistory">
-                No pending withdrawal.
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         REFER & EARN PAGE
-    ========================== -->
-    <section id="referPage" class="page">
-
-        <div class="page-header">
-            <button onclick="goHome()">←</button>
-            <h2>👥 REFER & EARN</h2>
-            <span></span>
-        </div>
-
-        <div class="card referral-main">
-
-            <div class="referral-big-icon">
-                👥
-            </div>
-
-            <h2>Invite Friends</h2>
-
-            <p>
-                Invite your friends and earn referral rewards.
-            </p>
-
-            <div class="referral-link-box">
-
-                <input
-                    id="referralLink"
-                    value="https://t.me/AG_EARN_HUB_BOT?start=123456"
-                    readonly
-                >
-
-                <button onclick="copyReferral()">
-                    📋
-                </button>
-
-            </div>
-
-            <button class="primary-button" onclick="shareReferral()">
-                🔗 INVITE FRIENDS
-            </button>
-
-        </div>
-
-
-        <div class="card referral-stat-card">
-
-            <div>
-                <strong id="referTotal">12</strong>
-                <small>Total Referrals</small>
-            </div>
-
-            <div>
-                <strong id="referActive">8</strong>
-                <small>Active</small>
-            </div>
-
-            <div>
-                <strong id="referEarned">৳400</strong>
-                <small>Earned</small>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         PROFILE PAGE
-    ========================== -->
-    <section id="profilePage" class="page">
-
-        <div class="page-header">
-            <button onclick="goHome()">←</button>
-            <h2>👤 PROFILE</h2>
-            <span></span>
-        </div>
-
-        <div class="card profile-card">
-
-            <div class="profile-avatar">
-                👤
-            </div>
-
-            <h2 id="profileName">User</h2>
-
-            <p id="profileUsername">
-                @username
-            </p>
-
-            <div class="verified-profile">
-                ✅ Verified Profile
-            </div>
-
-        </div>
-
-
-        <div class="card profile-level">
-
-            <div class="profile-row">
-                <span>📈 Level</span>
-                <strong id="profileLevel">2</strong>
-            </div>
-
-            <div class="progress-bar">
-                <div class="progress-fill" style="width:65%"></div>
-            </div>
-
-        </div>
-
-
-        <!-- Work History -->
-        <div class="card work-history">
-
-            <div class="section-heading">
-                <span>⏱️</span>
-                <h3>WORK TIME</h3>
-            </div>
-
-            <div class="history-box">
-
-                <div>
-                    <small>📅 TODAY</small>
-                    <strong id="profileTodayWork">02h 35m</strong>
-                    <span>🟢 Active Sessions: 4</span>
-                </div>
-
-                <div>
-                    <small>📅 YESTERDAY</small>
-                    <strong>03h 12m</strong>
-                </div>
-
-                <div>
-                    <small>📊 THIS WEEK</small>
-                    <strong>15h 48m</strong>
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="card profile-earnings">
-
-            <div class="profile-row">
-                <span>💻 Task Earnings</span>
-                <strong>৳2100</strong>
-            </div>
-
-            <div class="profile-row">
-                <span>🎁 Referral Earnings</span>
-                <strong>৳400</strong>
-            </div>
-
-            <div class="profile-row">
-                <span>📈 Total Earned</span>
-                <strong>৳3500</strong>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         VIP PAGE
-    ========================== -->
-    <section id="vipPage" class="page">
-
-        <div class="page-header">
-            <button onclick="goHome()">←</button>
-            <h2>💎 VIP CENTER</h2>
-            <span></span>
-        </div>
-
-        <div class="card vip-main-card">
-
-            <div class="vip-crown">
-                👑
-            </div>
-
-            <h2>VIP ACTIVE</h2>
-
-            <p>
-                Your VIP access is currently active.
-            </p>
-
-            <div class="vip-main-info">
-
-                <div>
-                    <small>📅 Plan</small>
-                    <strong>Monthly VIP</strong>
-                </div>
-
-                <div>
-                    <small>⏳ Remaining</small>
-                    <strong>12 Days</strong>
-                </div>
-
-                <div>
-                    <small>💻 Tasks</small>
-                    <strong>50</strong>
-                </div>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         ANNOUNCEMENT PAGE
-    ========================== -->
-    <section id="announcementPage" class="page">
-
-        <div class="page-header">
-            <button onclick="goHome()">←</button>
-            <h2>📢 ANNOUNCEMENT</h2>
-            <span></span>
-        </div>
-
-        <div class="card announcement-full">
-
-            <div class="announcement-large-icon">
-                📢
-            </div>
-
-            <h2>New tasks are available!</h2>
-
-            <p class="announcement-full-date">
-                📅 26 September 2026
-            </p>
-
-            <p>
-                New earning tasks have been added to AG EARN HUB.
-                Check the Tasks section to see currently available tasks.
-            </p>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         NOTIFICATIONS PAGE
-    ========================== -->
-    <section id="notificationsPage" class="page">
-
-        <div class="page-header">
-            <button onclick="goHome()">←</button>
-            <h2>🔔 NOTIFICATIONS</h2>
-            <button onclick="clearNotifications()">✓</button>
-        </div>
-
-        <div class="notification-list">
-
-            <div class="card notification-full-item">
-                <span>🎉</span>
-                <div>
-                    <strong>New Task Available</strong>
-                    <p>A new earning task is available.</p>
-                    <small>Just now</small>
-                </div>
-            </div>
-
-            <div class="card notification-full-item">
-                <span>✅</span>
-                <div>
-                    <strong>Task Approved</strong>
-                    <p>Your previous task has been approved.</p>
-                    <small>Today</small>
-                </div>
-            </div>
-
-            <div class="card notification-full-item">
-                <span>💰</span>
-                <div>
-                    <strong>Payment Update</strong>
-                    <p>Your earning balance has been updated.</p>
-                    <small>Today</small>
-                </div>
-            </div>
-
-            <div class="card notification-full-item">
-                <span>💎</span>
-                <div>
-                    <strong>VIP Update</strong>
-                    <p>Your VIP status is active.</p>
-                    <small>Yesterday</small>
-                </div>
-            </div>
-
-        </div>
-
-    </section>
-
-
-    <!-- =========================
-         BOTTOM NAVIGATION
-    ========================== -->
-    <nav class="bottom-navigation">
-
-        <button
-            id="navHome"
-            class="nav-item active"
-            onclick="openPage('homePage')"
-        >
-            <span>🏠</span>
-            <small>HOME</small>
-        </button>
-
-
-        <button
-            id="navTasks"
-            class="nav-item"
-            onclick="openPage('tasksPage')"
-        >
-            <span>💻</span>
-            <small>TASKS</small>
-        </button>
-
-
-        <button
-            id="navWithdraw"
-            class="nav-item"
-            onclick="openPage('withdrawPage')"
-        >
-            <span>💵</span>
-            <small>WITHDRAW</small>
-        </button>
-
-
-        <button
-            id="navRefer"
-            class="nav-item"
-            onclick="openPage('referPage')"
-        >
-            <span>👥</span>
-            <small>REFER EARN</small>
-        </button>
-
-
-        <button
-            id="navProfile"
-            class="nav-item"
-            onclick="openPage('profilePage')"
-        >
-            <span>👤</span>
-            <small>PROFILE</small>
-        </button>
-
-    </nav>
-
-</div>
-
-
-<!-- =========================
-     TASK MODAL
-========================== -->
-<div id="taskModal" class="modal">
-
-    <div class="modal-overlay" onclick="closeTaskModal()"></div>
-
-    <div class="modal-content">
-
-        <button class="modal-close" onclick="closeTaskModal()">
-            ✕
-        </button>
-
-        <div id="modalTaskIcon" class="modal-task-icon">
-            💻
-        </div>
-
-        <h2 id="modalTaskTitle">
-            Task
-        </h2>
-
-        <p id="modalTaskDescription">
-            Task description
-        </p>
-
-        <div class="modal-reward">
-            💰 Reward:
-            <strong id="modalTaskReward">
-                ৳10
-            </strong>
-        </div>
-
-        <button
-            id="modalStartButton"
-            class="primary-button"
-            onclick="startSelectedTask()"
-        >
-            🚀 START TASK
-        </button>
-
+  <!-- HEADER -->
+  <div class="app-header">
+    <div class="logo-area">
+      <div class="logo-circle">AG</div>
+      <div class="app-title">AG <span>EARN</span> HUB</div>
+    </div>
+    <div class="header-right">
+      <div class="tg-badge"><i class="fab fa-telegram-plane"></i> Mini App</div>
+    </div>
+  </div>
+
+  <!-- ==================== HOME SCREEN ==================== -->
+  <div id="home" class="screen active">
+    <div class="welcome-card">
+      <div class="wallet-icon">💰</div>
+      <div class="welcome-title">Welcome Back User! 👋</div>
+      <div class="welcome-sub">Let's earn together!</div>
     </div>
 
-</div>
-
-
-<!-- =========================
-     TOAST
-========================== -->
-<div id="toast" class="toast">
-    <span id="toastIcon">✅</span>
-    <span id="toastMessage">Success</span>
-</div>
-
-
-<!-- =========================
-     LOADING
-========================== -->
-<div id="loadingScreen" class="loading-screen">
-
-    <div class="loading-logo">
-        ✨
+    <div class="stats-grid">
+      <div class="stat-card green">
+        <div class="stat-label"><i class="fas fa-wallet"></i> Balance</div>
+        <div class="stat-value green" id="home-balance">৳ 0.00</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-label"><i class="fas fa-chart-line"></i> Total Earned</div>
+        <div class="stat-value blue" id="home-earned">৳ 0.00</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-label"><i class="fas fa-tasks"></i> Available Tasks</div>
+        <div class="stat-value" id="home-tasks">3</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="stat-label"><i class="fas fa-users"></i> Total Referrals</div>
+        <div class="stat-value" id="home-refs">0</div>
+      </div>
     </div>
 
-    <h2>AG EARN HUB</h2>
+    <!-- AD NETWORK: Banner Ad Slot (Home) -->
+    <div class="ad-slot banner" id="ad-home-banner">
+      <i class="fas fa-ad"></i>
+      <span>Ad Network Banner Placeholder</span>
+    </div>
 
-    <div class="loading-spinner"></div>
+    <div class="quick-actions">
+      <div class="section-title">Quick Actions</div>
+      <button class="action-btn green" onclick="switchScreen('tasks')">
+        <span><i class="fas fa-play-circle"></i> Start Tasks</span>
+        <i class="fas fa-arrow-right right"></i>
+      </button>
+      <button class="action-btn blue" onclick="switchScreen('withdraw')">
+        <span><i class="fas fa-money-bill-wave"></i> Withdraw Money</span>
+        <i class="fas fa-arrow-right right"></i>
+      </button>
+      <button class="action-btn purple" onclick="switchScreen('refer')">
+        <span><i class="fas fa-user-plus"></i> Invite Friends</span>
+        <i class="fas fa-arrow-right right"></i>
+      </button>
+    </div>
+  </div>
 
-    <p>Loading...</p>
+  <!-- ==================== TASKS SCREEN ==================== -->
+  <div id="tasks" class="screen">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <i class="fas fa-clipboard-list" style="font-size:22px;color:var(--primary)"></i>
+      <div>
+        <h3 style="font-size:18px;font-weight:700">Tasks</h3>
+        <p style="font-size:12px;color:var(--text-muted)">Complete tasks & earn money</p>
+      </div>
+    </div>
 
-</div>
+    <div class="task-tabs">
+      <button class="task-tab active" onclick="filterTasks('available', this)">Available</button>
+      <button class="task-tab" onclick="filterTasks('pending', this)">Pending</button>
+      <button class="task-tab" onclick="filterTasks('completed', this)">Completed</button>
+    </div>
 
+    <!-- AD NETWORK: Rewarded Ad Slot (Tasks) -->
+    <div class="ad-slot rewarded" id="ad-tasks-rewarded">
+      <i class="fas fa-play-circle" style="color:var(--primary)"></i>
+      <span>Rewarded Video Ad Placeholder</span>
+      <small style="opacity:0.6">Integrate AdMob / Unity Ads / AppLovin here</small>
+    </div>
 
-<!-- JavaScript -->
-<script src="script.js"></script>
+    <div id="task-list">
+      <!-- Task 1 -->
+      <div class="task-card" data-status="available">
+        <div class="task-badge">Available</div>
+        <div class="task-header">
+          <div class="task-icon yt"><i class="fab fa-youtube"></i></div>
+          <div class="task-info">
+            <h4>Task #001 - Watch Video & Like</h4>
+            <div class="task-meta">Time: 2-5 Minutes</div>
+          </div>
+        </div>
+        <div class="task-reward">
+          <div class="reward-text">Reward: ৳ 5</div>
+          <button class="start-btn" onclick="startTask(1, 5)">Start Task</button>
+        </div>
+      </div>
 
+      <!-- Task 2 -->
+      <div class="task-card" data-status="available">
+        <div class="task-badge">Available</div>
+        <div class="task-header">
+          <div class="task-icon tg"><i class="fab fa-telegram-plane"></i></div>
+          <div class="task-info">
+            <h4>Task #002 - Join Channel</h4>
+            <div class="task-meta">Time: 2-3 Minutes</div>
+          </div>
+        </div>
+        <div class="task-reward">
+          <div class="reward-text">Reward: ৳ 3</div>
+          <button class="start-btn" onclick="startTask(2, 3)">Start Task</button>
+        </div>
+      </div>
+
+      <!-- Task 3 -->
+      <div class="task-card" data-status="available">
+        <div class="task-badge">Available</div>
+        <div class="task-header">
+          <div class="task-icon survey"><i class="fas fa-poll"></i></div>
+          <div class="task-info">
+            <h4>Task #003 - Fill Survey</h4>
+            <div class="task-meta">Time: 5-10 Minutes</div>
+          </div>
+        </div>
+        <div class="task-reward">
+          <div class="reward-text">Reward: ৳ 10</div>
+          <button class="start-btn" onclick="startTask(3, 10)">Start Task</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== WITHDRAW SCREEN ==================== -->
+  <div id="withdraw" class="screen">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <i class="fas fa-wallet" style="font-size:22px;color:var(--primary)"></i>
+      <div>
+        <h3 style="font-size:18px;font-weight:700">Withdraw Money</h3>
+        <p style="font-size:12px;color:var(--text-muted)">Get your earnings to bKash / Nagad</p>
+      </div>
+    </div>
+
+    <div class="balance-box">
+      <div class="balance-label">Available Balance</div>
+      <div class="balance-amount" id="withdraw-balance">৳ 0.00</div>
+    </div>
+
+    <div class="section-title">Select Payment Method</div>
+    <div class="payment-methods">
+      <div class="pay-method active" onclick="selectPayment(this, 'bkash')">
+        <div class="icon bkash"><i class="fas fa-mobile-alt"></i></div>
+        bKash
+      </div>
+      <div class="pay-method" onclick="selectPayment(this, 'nagad')">
+        <div class="icon nagad"><i class="fas fa-mobile-alt"></i></div>
+        Nagad
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Enter Amount</label>
+      <input type="number" id="withdraw-amount" placeholder="৳ 50" min="50">
+    </div>
+
+    <div class="form-group">
+      <label>Enter Mobile Number</label>
+      <input type="tel" id="withdraw-mobile" placeholder="01XXXXXXXXX">
+    </div>
+
+    <div class="min-note">
+      <i class="fas fa-info-circle"></i> Minimum withdrawal ৳ 50
+    </div>
+
+    <button class="withdraw-btn" onclick="requestWithdraw()">Request Withdrawal</button>
+
+    <!-- AD NETWORK: Banner Ad Slot (Withdraw) -->
+    <div class="ad-slot banner" id="ad-withdraw-banner">
+      <i class="fas fa-ad"></i>
+      <span>Ad Network Banner Placeholder</span>
+    </div>
+
+    <div class="recent-list">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span class="section-title" style="margin:0">Recent Withdrawals</span>
+        <span style="font-size:12px;color:var(--blue);cursor:pointer">View All</span>
+      </div>
+      <div class="recent-item">
+        <div>
+          <div style="font-weight:600">৳ 100 · bKash</div>
+          <div style="font-size:12px;color:var(--text-muted)">12 Sep 2026</div>
+        </div>
+        <span class="status-badge status-pending">Pending</span>
+      </div>
+      <div class="recent-item">
+        <div>
+          <div style="font-weight:600">৳ 200 · Nagad</div>
+          <div style="font-size:12px;color:var(--text-muted)">10 Sep 2026</div>
+        </div>
+        <span class="status-badge status-paid">Paid</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== REFER SCREEN ==================== -->
+  <div id="refer" class="screen">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+      <i class="fas fa-gift" style="font-size:22px;color:var(--primary)"></i>
+      <div>
+        <h3 style="font-size:18px;font-weight:700">Refer & Earn</h3>
+        <p style="font-size:12px;color:var(--text-muted)">Invite your friends and get bonus</p>
+      </div>
+    </div>
+
+    <div class="referral-link-box">
+      <div class="section-title">Your Referral Link</div>
+      <div class="link-input" id="ref-link">https://t.me/AGEarnHubBot?start=refUSER123</div>
+      <button class="copy-btn" onclick="copyReferral()">
+        <i class="fas fa-copy"></i> Copy Link
+      </button>
+    </div>
+
+    <div class="ref-stats">
+      <div class="stat-card purple">
+        <div class="stat-label"><i class="fas fa-users"></i> Total Referrals</div>
+        <div class="stat-value" id="ref-count">0</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-label"><i class="fas fa-coins"></i> Referral Earnings</div>
+        <div class="stat-value green" id="ref-earn">৳ 0.00</div>
+      </div>
+    </div>
+
+    <div class="reward-info">
+      <i class="fas fa-info-circle" style="color:var(--primary);margin-top:2px"></i>
+      <div>
+        <strong>Referral Reward</strong><br>
+        Get ৳ 5 for each valid referral (when they complete their first task).
+      </div>
+    </div>
+
+    <button class="share-btn" onclick="shareReferral()">
+      <i class="fas fa-share-alt"></i> Share with Friends
+    </button>
+
+    <!-- AD NETWORK: Banner Ad Slot (Refer) -->
+    <div class="ad-slot banner" id="ad-refer-banner">
+      <i class="fas fa-ad"></i>
+      <span>Ad Network Banner Placeholder</span>
+    </div>
+
+    <div class="recent-list">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span class="section-title" style="margin:0">Recent Referrals</span>
+        <span style="font-size:12px;color:var(--blue);cursor:pointer">View All</span>
+      </div>
+      <div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">
+        <i class="fas fa-user-friends" style="font-size:28px;margin-bottom:8px;display:block;opacity:0.5"></i>
+        No referrals yet<br>
+        Invite your friends and start earning!
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PROFILE SCREEN ==================== -->
+  <div id="profile" class="screen">
+    <div class="profile-header">
+      <div class="avatar">👤</div>
+      <div class="user-name" id="profile-name">User Name</div>
+      <div class="user-handle">@user123456</div>
+      <span class="active-badge">● Active</span>
+    </div>
+
+    <div class="profile-stats">
+      <div class="p-stat">
+        <div class="val" id="profile-balance">৳ 0.00</div>
+        <div class="lbl">Balance</div>
+      </div>
+      <div class="p-stat">
+        <div class="val" id="profile-earned">৳ 0.00</div>
+        <div class="lbl">Total Earned</div>
+      </div>
+      <div class="p-stat">
+        <div class="val" id="profile-refs">0</div>
+        <div class="lbl">Referrals</div>
+      </div>
+    </div>
+
+    <div class="menu-list" style="margin-bottom:16px;">
+      <div class="menu-item">
+        <div class="menu-left"><i class="fab fa-telegram"></i> Telegram ID</div>
+        <span style="color:var(--text-muted);font-size:13px">123456789</span>
+      </div>
+      <div class="menu-item">
+        <div class="menu-left"><i class="fas fa-calendar-alt"></i> Joined Date</div>
+        <span style="color:var(--text-muted);font-size:13px">26 Sep 2026</span>
+      </div>
+      <div class="menu-item">
+        <div class="menu-left"><i class="fas fa-shield-alt"></i> Account Status</div>
+        <span class="active-badge" style="font-size:11px">Active</span>
+      </div>
+    </div>
+
+    <div class="menu-list">
+      <div class="menu-item" onclick="showToast('Edit Profile coming soon')">
+        <div class="menu-left"><i class="fas fa-user-edit"></i> Edit Profile</div>
+        <i class="fas fa-chevron-right" style="color:var(--text-muted)"></i>
+      </div>
+      <div class="menu-item" onclick="showToast('Change Password coming soon')">
+        <div class="menu-left"><i class="fas fa-lock"></i> Change Password</div>
+        <i class="fas fa-chevron-right" style="color:var(--text-muted)"></i>
+      </div>
+      <div class="menu-item" onclick="showToast('Help & Support')">
+        <div class="menu-left"><i class="fas fa-question-circle"></i> Help & Support</div>
+        <i class="fas fa-chevron-right" style="color:var(--text-muted)"></i>
+      </div>
+      <div class="menu-item logout" onclick="showToast('Logged out')">
+        <div class="menu-left"><i class="fas fa-sign-out-alt"></i> Logout</div>
+        <i class="fas fa-chevron-right" style="color:var(--red)"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAVIGATION -->
+  <div class="bottom-nav">
+    <button class="nav-item active" onclick="switchScreen('home')" data-screen="home">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </button>
+    <button class="nav-item" onclick="switchScreen('tasks')" data-screen="tasks">
+      <i class="fas fa-tasks"></i>
+      <span>Tasks</span>
+    </button>
+    <button class="nav-item" onclick="switchScreen('withdraw')" data-screen="withdraw">
+      <i class="fas fa-wallet"></i>
+      <span>Withdraw</span>
+    </button>
+    <button class="nav-item" onclick="switchScreen('refer')" data-screen="refer">
+      <i class="fas fa-users"></i>
+      <span>Refer</span>
+    </button>
+    <button class="nav-item" onclick="switchScreen('profile')" data-screen="profile">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </button>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- External JS -->
+  <script src="script.js"></script>
 </body>
-                          </html>
+</html>
