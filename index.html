@@ -1,1380 +1,1012 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>AG EARN HUB</title>
-
-<style>
-:root{
-  --bg:#06172b;
-  --card:#0d2743;
-  --blue:#218cff;
-  --cyan:#00d9ff;
-  --purple:#7147ff;
-  --green:#10d98b;
-  --gold:#ffc928;
-  --text:#f5f8ff;
-  --muted:#91a7c2;
-  --border:rgba(255,255,255,.08);
+:root {
+  --bg: #06172b;
+  --card: #0d2743;
+  --card-light: #102f50;
+  --blue: #218cff;
+  --cyan: #00d9ff;
+  --purple: #7147ff;
+  --green: #10d98b;
+  --gold: #ffc928;
+  --text: #f5f8ff;
+  --muted: #91a7c2;
+  --border: rgba(255, 255, 255, 0.08);
 }
-
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-body{
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:linear-gradient(145deg,#041326,#082442 55%,#06172b);
-  color:var(--text);
-  min-height:100vh;
-}
-
-button{
-  font:inherit;
-  border:0;
-  cursor:pointer;
-}
-
-.app{
-  max-width:520px;
-  margin:auto;
-  min-height:100vh;
-  padding:16px 14px 95px;
-}
-
-/* TOP BAR */
-
-.topbar{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:18px;
-}
-
-.brand{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.logo{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-  display:grid;
-  place-items:center;
-  background:linear-gradient(135deg,#12bfff,#5d39ff);
-  font-weight:900;
-  font-size:17px;
-  box-shadow:0 8px 24px rgba(33,140,255,.25);
-}
-
-.brand h1{
-  font-size:19px;
-}
-
-.brand p{
-  font-size:11px;
-  color:var(--muted);
-  margin-top:2px;
-}
-
-.icon-btn{
-  width:40px;
-  height:40px;
-  border-radius:13px;
-  background:var(--card);
-  color:white;
-  border:1px solid var(--border);
-  font-size:18px;
-}
-
-/* PAGE */
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-/* BALANCE HERO */
-
-.hero{
-  position:relative;
-  overflow:hidden;
-  padding:20px;
-  border-radius:24px;
-  background:linear-gradient(135deg,#1469ed,#2446ff 48%,#713fff);
-  box-shadow:0 16px 38px rgba(33,94,255,.25);
-  margin-bottom:14px;
-}
-
-.hero:after{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  right:-80px;
-  top:-80px;
-  background:rgba(255,255,255,.09);
-}
-
-.eyebrow{
-  font-size:12px;
-  opacity:.85;
-}
-
-.balance{
-  font-size:34px;
-  font-weight:800;
-  margin:5px 0;
-}
-
-.usd{
-  font-size:12px;
-  opacity:.85;
-}
-
-.withdraw{
-  margin-top:15px;
-  padding:12px 20px;
-  border-radius:14px;
-  background:#10dc8b;
-  color:#052b25;
-  font-weight:800;
-}
-
-/* QUICK MENU */
-
-.quick{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:9px;
-  margin:14px 0;
-}
-
-.quick button{
-  background:var(--card);
-  color:white;
-  border:1px solid var(--border);
-  border-radius:17px;
-  padding:12px 5px;
-  font-size:11px;
-}
-
-.quick .emoji{
-  font-size:22px;
-  display:block;
-  margin-bottom:5px;
-}
-
-/* PROMO */
-
-.promo{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:16px;
-  border-radius:20px;
-  background:linear-gradient(135deg,#3d24b9,#185ce7);
-  margin-bottom:14px;
-}
-
-.promo h2{
-  font-size:16px;
-}
-
-.promo p{
-  font-size:11px;
-  color:#d6e3ff;
-  margin:5px 0 10px;
-}
-
-.promo button{
-  background:#16dd91;
-  color:#062c24;
-  padding:9px 14px;
-  border-radius:12px;
-  font-weight:800;
-  font-size:12px;
-}
-
-.gift{
-  font-size:44px;
-}
-
-/* SECTION */
-
-.section-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin:18px 2px 10px;
-}
-
-.section-head h2{
-  font-size:17px;
-}
-
-.section-head span{
-  font-size:11px;
-  color:var(--cyan);
-}
-
-/* PROGRESS */
-
-.progress-card{
-  background:var(--card);
-  border:1px solid var(--border);
-  padding:15px;
-  border-radius:18px;
-}
-
-.progress-row{
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  margin-bottom:9px;
-}
-
-.bar{
-  height:8px;
-  background:#1b3b5b;
-  border-radius:99px;
-  overflow:hidden;
-}
-
-.bar i{
-  display:block;
-  width:60%;
-  height:100%;
-  background:linear-gradient(90deg,#00e4a0,#1f9cff);
-  border-radius:99px;
-}
-
-/* TASK */
-
-.task{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  padding:13px;
-  margin-bottom:9px;
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:18px;
-}
-
-.task-icon{
-  width:45px;
-  height:45px;
-  border-radius:14px;
-  display:grid;
-  place-items:center;
-  background:#173e68;
-  font-size:22px;
-  flex:none;
-}
-
-.task-info{
-  flex:1;
-  min-width:0;
-}
-
-.task-info strong{
-  font-size:13px;
-}
-
-.task-info small{
-  display:block;
-  color:var(--muted);
-  font-size:10px;
-  margin-top:4px;
-}
-
-.reward{
-  color:var(--gold);
-  font-size:11px;
-  font-weight:800;
-  margin-top:5px;
-}
-
-.start{
-  background:var(--blue);
-  color:white;
-  padding:9px 13px;
-  border-radius:12px;
-  font-size:11px;
-  font-weight:800;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* BOTTOM NAV */
-
-.nav{
-  position:fixed;
-  bottom:10px;
-  left:50%;
-  transform:translateX(-50%);
-  width:min(492px,calc(100% - 20px));
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  padding:8px;
-  background:rgba(7,24,43,.94);
-  backdrop-filter:blur(14px);
-  border:1px solid var(--border);
-  border-radius:22px;
-  box-shadow:0 12px 35px rgba(0,0,0,.3);
-  z-index:100;
+html {
+  scroll-behavior: smooth;
 }
 
-.nav button{
-  background:none;
-  color:#7890aa;
-  font-size:10px;
-  padding:7px 2px;
-}
-
-.nav button.active{
-  color:#00dfff;
-}
-
-.nav-icon{
-  display:block;
-  font-size:20px;
-  margin-bottom:3px;
-}
-
-/* INNER PAGE */
-
-.back{
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin:4px 0 18px;
-}
-
-.back button{
-  background:var(--card);
-  color:white;
-  width:38px;
-  height:38px;
-  border-radius:12px;
-}
+body {
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 
-.back h2{
-  font-size:19px;
-}
-
-/* BONUS */
-
-.bonus{
-  padding:25px 16px;
-  text-align:center;
-  border-radius:22px;
-  background:linear-gradient(135deg,#24136f,#5a2dce);
-  margin-bottom:14px;
-}
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(90, 70, 255, 0.16),
+      transparent 30%
+    ),
+    linear-gradient(
+      145deg,
+      #041326,
+      #082442 55%,
+      #06172b
+    );
 
-.bonus .big{
-  font-size:55px;
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
-.bonus h2{
-  margin:4px 0;
+button {
+  font: inherit;
+  border: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.bonus p{
-  color:#c8c6ef;
-  font-size:12px;
+button:active {
+  transform: scale(0.97);
 }
 
-.days{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-top:18px;
+.app {
+  width: 100%;
+  max-width: 520px;
+  min-height: 100vh;
+  margin: auto;
+  padding: 16px 14px 100px;
 }
 
-.day{
-  background:#102f50;
-  border:1px solid var(--border);
-  padding:11px 4px;
-  border-radius:13px;
-  font-size:10px;
-}
+/* =========================
+   TOP BAR
+========================= */
 
-.day strong{
-  display:block;
-  color:var(--gold);
-  font-size:13px;
-  margin-top:5px;
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
 }
 
-.claim{
-  width:100%;
-  padding:13px;
-  border-radius:14px;
-  background:#6d48ff;
-  color:white;
-  font-weight:800;
-  margin-top:14px;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-/* INFO */
-
-.info-card{
-  background:var(--card);
-  padding:16px;
-  border-radius:18px;
-  border:1px solid var(--border);
-  margin-bottom:10px;
-}
+.logo {
+  width: 44px;
+  height: 44px;
 
-.info-card h3{
-  font-size:14px;
-  margin-bottom:9px;
-}
+  display: grid;
+  place-items: center;
 
-.info-card p{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.6;
-}
+  border-radius: 14px;
 
-/* BALANCE */
+  background:
+    linear-gradient(
+      135deg,
+      #12bfff,
+      #5d39ff
+    );
 
-.balance-big{
-  text-align:center;
-  padding:22px;
-  border-radius:20px;
-  background:linear-gradient(135deg,#1764e8,#0b2f67);
-}
+  font-size: 17px;
+  font-weight: 900;
 
-.balance-big strong{
-  font-size:34px;
-  display:block;
-  margin:5px;
+  box-shadow:
+    0 8px 24px rgba(33, 140, 255, 0.25);
 }
 
-.balance-big small{
-  color:#d3e4ff;
+.brand h1 {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
 }
 
-.stat-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-top:12px;
-}
+.brand p {
+  margin-top: 2px;
 
-.stat{
-  background:var(--card);
-  padding:15px;
-  border-radius:16px;
-  border:1px solid var(--border);
-}
+  color: var(--muted);
 
-.stat small{
-  color:var(--muted);
-  font-size:10px;
+  font-size: 11px;
 }
 
-.stat b{
-  display:block;
-  margin-top:6px;
-  font-size:18px;
-}
+.icon-btn {
+  width: 40px;
+  height: 40px;
 
-/* REFERRAL */
-
-.ref-code{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  background:#071a30;
-  padding:13px;
-  border-radius:13px;
-  margin-top:10px;
-}
+  display: grid;
+  place-items: center;
 
-.ref-code span{
-  font-weight:800;
-  color:#4ec7ff;
-}
+  border-radius: 13px;
 
-.copy{
-  background:#ffc928;
-  color:#251900;
-  padding:8px 12px;
-  border-radius:10px;
-  font-weight:800;
-  font-size:11px;
-}
+  background: var(--card);
+  color: white;
 
-/* PROFILE */
+  border: 1px solid var(--border);
 
-.profile{
-  text-align:center;
+  font-size: 18px;
 }
 
-.avatar{
-  width:76px;
-  height:76px;
-  border-radius:50%;
-  display:grid;
-  place-items:center;
-  background:#244b76;
-  font-size:40px;
-  margin:0 auto 10px;
-}
+/* =========================
+   PAGE SYSTEM
+========================= */
 
-.menu-item{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  background:var(--card);
-  padding:15px;
-  border-radius:15px;
-  margin:8px 0;
-  border:1px solid var(--border);
-}
+.page {
+  display: none;
 
-.menu-item span:first-child{
-  font-size:13px;
+  animation: pageIn 0.25s ease;
 }
 
-.menu-item span:last-child{
-  color:var(--muted);
+.page.active {
+  display: block;
 }
-
-/* MOBILE */
-
-@media(max-width:360px){
 
-  .balance{
-    font-size:29px;
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
 
-  .quick button{
-    font-size:9px;
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================
+   HERO / BALANCE
+========================= */
+
+.hero {
+  position: relative;
+
+  overflow: hidden;
+
+  padding: 21px;
+
+  border-radius: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1469ed,
+      #2446ff 48%,
+      #713fff
+    );
+
+  box-shadow:
+    0 16px 38px rgba(33, 94, 255, 0.25);
+
+  margin-bottom: 14px;
+}
+
+.hero::after {
+  content: "";
+
+  position: absolute;
+
+  width: 190px;
+  height: 190px;
+
+  right: -90px;
+  top: -90px;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.hero::before {
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 90px;
+
+  right: 50px;
+  bottom: -55px;
+
+  border-radius: 50%;
+
+  background: rgba(0, 217, 255, 0.08);
+}
+
+.eyebrow {
+  position: relative;
+  z-index: 2;
+
+  font-size: 12px;
+
+  opacity: 0.85;
+}
+
+.balance {
+  position: relative;
+  z-index: 2;
+
+  margin: 5px 0;
+
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.usd {
+  position: relative;
+  z-index: 2;
+
+  font-size: 12px;
+
+  opacity: 0.85;
+}
+
+.withdraw {
+  position: relative;
+  z-index: 2;
+
+  margin-top: 15px;
+
+  padding: 12px 20px;
+
+  border-radius: 14px;
+
+  background: var(--green);
+  color: #052b25;
+
+  font-weight: 800;
+
+  box-shadow:
+    0 8px 20px rgba(16, 217, 139, 0.2);
+}
+
+/* =========================
+   QUICK MENU
+========================= */
+
+.quick {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 9px;
+
+  margin: 14px 0;
+}
+
+.quick button {
+  min-height: 76px;
+
+  background: var(--card);
+
+  color: white;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 17px;
+
+  padding: 11px 5px;
+
+  font-size: 11px;
+
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+
+.quick button:hover {
+  background: var(--card-light);
+  transform: translateY(-2px);
+}
+
+.quick .emoji {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 23px;
+}
+
+/* =========================
+   PROMO CARD
+========================= */
+
+.promo {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding: 17px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #3d24b9,
+      #185ce7
+    );
+
+  margin-bottom: 14px;
+
+  overflow: hidden;
+}
+
+.promo h2 {
+  font-size: 16px;
+}
+
+.promo p {
+  margin: 5px 0 10px;
+
+  color: #d6e3ff;
+
+  font-size: 11px;
+}
+
+.promo button {
+  padding: 9px 14px;
+
+  border-radius: 12px;
+
+  background: var(--green);
+
+  color: #062c24;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.gift {
+  font-size: 45px;
+
+  filter:
+    drop-shadow(
+      0 8px 15px rgba(0, 0, 0, 0.2)
+    );
+}
+
+/* =========================
+   SECTION HEADER
+========================= */
+
+.section-head {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin:
+    18px 2px
+    10px;
+}
+
+.section-head h2 {
+  font-size: 17px;
+}
+
+.section-head span {
+  color: var(--cyan);
+
+  font-size: 11px;
+
+  cursor: pointer;
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-card {
+  padding: 15px;
+
+  background: var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 18px;
+}
+
+.progress-row {
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-bottom: 9px;
+
+  font-size: 12px;
+}
+
+.progress-row b {
+  color: var(--cyan);
+}
+
+.bar {
+  width: 100%;
+  height: 8px;
+
+  overflow: hidden;
+
+  border-radius: 99px;
+
+  background: #1b3b5b;
+}
+
+.bar i {
+  display: block;
+
+  width: 60%;
+  height: 100%;
+
+  border-radius: 99px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #00e4a0,
+      #1f9cff
+    );
+}
+
+/* =========================
+   TASK CARD
+========================= */
+
+.task {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 13px;
+
+  margin-bottom: 9px;
+
+  background: var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 18px;
+
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+
+.task:hover {
+  background: var(--card-light);
+
+  transform: translateY(-2px);
+}
+
+.task-icon {
+  width: 45px;
+  height: 45px;
+
+  flex: 0 0 45px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 14px;
+
+  background: #173e68;
+
+  font-size: 22px;
+}
+
+.task-info {
+  flex: 1;
+
+  min-width: 0;
+}
+
+.task-info strong {
+  display: block;
+
+  overflow: hidden;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  font-size: 13px;
+}
+
+.task-info small {
+  display: block;
+
+  margin-top: 4px;
+
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+.reward {
+  margin-top: 5px;
+
+  color: var(--gold);
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.start {
+  flex-shrink: 0;
+
+  padding: 9px 13px;
+
+  border-radius: 12px;
+
+  background: var(--blue);
+
+  color: white;
+
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
+.nav {
+  position: fixed;
+
+  z-index: 100;
+
+  bottom: 10px;
+  left: 50%;
+
+  width:
+    min(
+      492px,
+      calc(100% - 20px)
+    );
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(5, 1fr);
+
+  padding: 8px;
+
+  transform: translateX(-50%);
+
+  background:
+    rgba(7, 24, 43, 0.94);
+
+  backdrop-filter: blur(14px);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 12px 35px
+    rgba(0, 0, 0, 0.3);
+}
+
+.nav button {
+  padding: 7px 2px;
+
+  background: transparent;
+
+  color: #7890aa;
+
+  font-size: 10px;
+
+  transition: color 0.2s;
+}
+
+.nav button.active {
+  color: var(--cyan);
+}
+
+.nav-icon {
+  display: block;
+
+  margin-bottom: 3px;
+
+  font-size: 20px;
+}
+
+/* =========================
+   INNER PAGE HEADER
+========================= */
+
+.back {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin:
+    4px 0
+    18px;
+}
+
+.back button {
+  width: 38px;
+  height: 38px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+
+  background: var(--card);
+
+  color: white;
+
+  border:
+    1px solid var(--border);
+
+  font-size: 18px;
+}
+
+.back h2 {
+  font-size: 19px;
+}
+
+/* =========================
+   BONUS
+========================= */
+
+.bonus {
+  padding: 25px 16px;
+
+  text-align: center;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #24136f,
+      #5a2dce
+    );
+
+  margin-bottom: 14px;
+}
+
+.bonus .big {
+  font-size: 55px;
+}
+
+.bonus h2 {
+  margin: 4px 0;
+}
+
+.bonus p {
+  color: #c8c6ef;
+
+  font-size: 12px;
+}
+
+.days {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 8px;
+
+  margin-top: 18px;
+}
+
+.day {
+  padding: 11px 4px;
+
+  background: #102f50;
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 13px;
+
+  font-size: 10px;
+}
+
+.day strong {
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--gold);
+
+  font-size: 13px;
+}
+
+.claim {
+  width: 100%;
+
+  margin-top: 14px;
+
+  padding: 13px;
+
+  border-radius: 14px;
+
+  background: var(--purple);
+
+  color: white;
+
+  font-weight: 800;
+}
+
+/* =========================
+   INFO CARD
+========================= */
+
+.info-card {
+  padding: 16px;
+
+  margin-bottom: 10px;
+
+  background: var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 18px;
+}
+
+.info-card h3 {
+  margin-bottom: 9px;
+
+  font-size: 14px;
+}
+
+.info-card p {
+  color: var(--muted);
+
+  font-size: 12px;
+
+  line-height: 1.6;
+}
+
+/* =========================
+   BALANCE PAGE
+========================= */
+
+.balance-big {
+  padding: 22px;
+
+  text-align: center;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1764e8,
+      #0b2f67
+    );
+}
+
+.balance-big strong {
+  display: block;
+
+  margin: 5px;
+
+  font-size: 34px;
+  font-weight: 900;
+}
+
+.balance-big small {
+  color: #d3e4ff;
+}
+
+.stat-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(2, 1fr);
+
+  gap: 10px;
+
+  margin-top: 12px;
+}
+
+.stat {
+  padding: 15px;
+
+  background: var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 16px;
+}
+
+.stat small {
+  color: var(--muted);
+
+  font-size: 10px;
+}
+
+.stat b {
+  display: block;
+
+  margin-top: 6px;
+
+  font-size: 18px;
+}
+
+/* =========================
+   REFERRAL
+========================= */
+
+.ref-code {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 10px;
+
+  padding: 13px;
+
+  background: #071a30;
+
+  border-radius: 13px;
+}
+
+.ref-code span {
+  color: #4ec7ff;
+
+  font-weight: 800;
+
+  font-size: 12px;
+}
+
+.copy {
+  padding: 8px 12px;
+
+  border-radius: 10px;
+
+  background: var(--gold);
+
+  color: #251900;
+
+  font-size: 11px;
+
+  font-weight: 800;
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+.profile {
+  text-align: center;
+}
+
+.avatar {
+  width: 76px;
+  height: 76px;
+
+  display: grid;
+  place-items: center;
+
+  margin:
+    0 auto
+    10px;
+
+  border-radius: 50%;
+
+  background: #244b76;
+
+  font-size: 40px;
+
+  border:
+    3px solid
+    rgba(0, 217, 255, 0.2);
+}
+
+.menu-item {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 15px;
+
+  margin: 8px 0;
+
+  background: var(--card);
+
+  border:
+    1px solid var(--border);
+
+  border-radius: 15px;
+}
+
+.menu-item span:first-child {
+  font-size: 13px;
+}
+
+.menu-item span:last-child {
+  color: var(--muted);
+
+  font-size: 12px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 380px) {
+
+  .app {
+    padding-left: 11px;
+    padding-right: 11px;
   }
 
-  .quick .emoji{
-    font-size:19px;
+  .balance {
+    font-size: 29px;
   }
 
-}
-</style>
-</head>
-
-<body>
-
-<div class="app">
-
-<!-- HOME -->
-
-<section id="home" class="page active">
-
-<header class="topbar">
-
-<div class="brand">
-
-<div class="logo">AG</div>
-
-<div>
-<h1>AG EARN HUB</h1>
-<p>Earn • Complete • Grow</p>
-</div>
-
-</div>
-
-<button class="icon-btn">🔔</button>
-
-</header>
-
-
-<div class="hero">
-
-<div class="eyebrow">Your Balance</div>
-
-<div class="balance">
-1,250 🪙
-</div>
-
-<div class="usd">
-≈ 12.50 USDT
-</div>
-
-<button class="withdraw"
-onclick="showPage('balance')">
-Withdraw
-</button>
-
-</div>
-
-
-<div class="quick">
-
-<button onclick="showPage('tasks')">
-<span class="emoji">📋</span>
-Tasks
-</button>
-
-<button onclick="showPage('bonus')">
-<span class="emoji">🎁</span>
-Bonus
-</button>
-
-<button onclick="showPage('referral')">
-<span class="emoji">👥</span>
-Referral
-</button>
-
-<button onclick="showPage('profile')">
-<span class="emoji">👤</span>
-Profile
-</button>
-
-</div>
-
-
-<div class="promo">
-
-<div>
-
-<h2>Complete Tasks</h2>
-
-<p>
-Simple tasks, extra rewards!
-</p>
-
-<button onclick="showPage('tasks')">
-Start Now
-</button>
-
-</div>
-
-<div class="gift">
-🎁
-</div>
-
-</div>
-
-
-<div class="section-head">
-
-<h2>Today's Progress</h2>
-
-<span>3/5 tasks</span>
-
-</div>
-
-
-<div class="progress-card">
-
-<div class="progress-row">
-
-<span>⭐ Keep going!</span>
-
-<b>60%</b>
-
-</div>
-
-<div class="bar">
-<i></i>
-</div>
-
-</div>
-
-
-<div class="section-head">
-
-<h2>Available Tasks</h2>
-
-<span onclick="showPage('tasks')">
-View all →
-</span>
-
-</div>
-
-
-<div class="task">
-
-<div class="task-icon">
-✈️
-</div>
-
-<div class="task-info">
-
-<strong>
-Join our Telegram Channel
-</strong>
-
-<small>
-One-time task
-</small>
-
-<div class="reward">
-🪙 +50
-</div>
-
-</div>
-
-<button class="start">
-Start
-</button>
-
-</div>
-
-
-<div class="task">
-
-<div class="task-icon">
-▶️
-</div>
-
-<div class="task-info">
-
-<strong>
-Watch a short video
-</strong>
-
-<small>
-Daily task
-</small>
-
-<div class="reward">
-🪙 +30
-</div>
-
-</div>
-
-<button class="start">
-Watch
-</button>
-
-</div>
-
-</section>
-
-
-<!-- TASKS -->
-
-<section id="tasks" class="page">
-
-<div class="back">
-
-<button onclick="showPage('home')">
-←
-</button>
-
-<h2>Tasks</h2>
-
-</div>
-
-
-<div class="section-head">
-
-<h2>Available Tasks</h2>
-
-<span>
-1,250 🪙
-</span>
-
-</div>
-
-
-<div class="task">
-
-<div class="task-icon">
-✈️
-</div>
-
-<div class="task-info">
-
-<strong>
-Join our Telegram Channel
-</strong>
-
-<small>
-One-time
-</small>
-
-<div class="reward">
-🪙 +50
-</div>
-
-</div>
-
-<button class="start">
-Start
-</button>
-
-</div>
-
-
-<div class="task">
-
-<div class="task-icon">
-𝕏
-</div>
-
-<div class="task-info">
-
-<strong>
-Follow on X
-</strong>
-
-<small>
-One-time
-</small>
-
-<div class="reward">
-🪙 +50
-</div>
-
-</div>
-
-<button class="start">
-Start
-</button>
-
-</div>
-
-
-<div class="task">
-
-<div class="task-icon">
-▶️
-</div>
-
-<div class="task-info">
-
-<strong>
-Watch Video
-</strong>
-
-<small>
-Daily
-</small>
-
-<div class="reward">
-🪙 +30
-</div>
-
-</div>
-
-<button class="start">
-Watch
-</button>
-
-</div>
-
-
-<div class="task">
-
-<div class="task-icon">
-📥
-</div>
-
-<div class="task-info">
-
-<strong>
-Complete an app task
-</strong>
-
-<small>
-Available
-</small>
-
-<div class="reward">
-🪙 +100
-</div>
-
-</div>
-
-<button class="start">
-Start
-</button>
-
-</div>
-
-</section>
-
-
-<!-- BONUS -->
-
-<section id="bonus" class="page">
-
-<div class="back">
-
-<button onclick="showPage('home')">
-←
-</button>
-
-<h2>Daily Bonus</h2>
-
-</div>
-
-
-<div class="bonus">
-
-<div class="big">
-🎁
-</div>
-
-<h2>
-Daily Check-in
-</h2>
-
-<p>
-Come back every day and keep your streak!
-</p>
-
-
-<div class="days">
-
-<div class="day">
-Day 1
-<strong>+10</strong>
-</div>
-
-<div class="day">
-Day 2
-<strong>+20</strong>
-</div>
-
-<div class="day">
-Day 3
-<strong>+30</strong>
-</div>
-
-<div class="day">
-Day 4
-<strong>+50</strong>
-</div>
-
-</div>
-
-
-<button class="claim">
-🎁 Claim Today's Bonus
-</button>
-
-</div>
-
-
-<div class="info-card">
-
-<h3>
-Bonus Rules
-</h3>
-
-<p>
-✓ Login daily to keep your streak<br>
-✓ Missing a day may reset the streak<br>
-✓ Bonus values can change based on your campaign
-</p>
-
-</div>
-
-</section>
-
-
-<!-- BALANCE -->
-
-<section id="balance" class="page">
-
-<div class="back">
-
-<button onclick="showPage('home')">
-←
-</button>
-
-<h2>My Balance</h2>
-
-</div>
-
-
-<div class="balance-big">
-
-<small>
-Total Balance
-</small>
-
-<strong>
-1,250 🪙
-</strong>
-
-<small>
-≈ 12.50 USDT
-</small>
-
-</div>
-
-
-<div class="stat-grid">
-
-<div class="stat">
-
-<small>
-Today Earned
-</small>
-
-<b>
-+320 🪙
-</b>
-
-</div>
-
-
-<div class="stat">
-
-<small>
-Total Earned
-</small>
-
-<b>
-+1,250 🪙
-</b>
-
-</div>
-
-</div>
-
-
-<div class="section-head">
-
-<h2>
-Balance Breakdown
-</h2>
-
-</div>
-
-
-<div class="info-card">
-
-<p>
-🎯 Task Rewards
-
-<b style="float:right;color:#ffc928">
-850
-</b>
-
-</p>
-
-</div>
-
-
-<div class="info-card">
-
-<p>
-👥 Referral Bonus
-
-<b style="float:right;color:#ffc928">
-250
-</b>
-
-</p>
-
-</div>
-
-
-<div class="info-card">
-
-<p>
-🎁 Daily Bonus
-
-<b style="float:right;color:#ffc928">
-150
-</b>
-
-</p>
-
-</div>
-
-
-<button class="claim"
-onclick="alert('Withdrawal system will be connected to the backend.')">
-
-💸 Request Withdrawal
-
-</button>
-
-</section>
-
-
-<!-- REFERRAL -->
-
-<section id="referral" class="page">
-
-<div class="back">
-
-<button onclick="showPage('home')">
-←
-</button>
-
-<h2>Referral</h2>
-
-</div>
-
-
-<div class="bonus">
-
-<div class="big">
-👥
-</div>
-
-<h2>
-Invite Your Friends
-</h2>
-
-<p>
-Share your link and earn referral rewards.
-</p>
-
-
-<div class="ref-code">
-
-<span>
-AG123456
-</span>
-
-<button class="copy" onclick="copyRef()">
-Copy Link
-</button>
-
-</div>
-
-</div>
-
-
-<div class="stat-grid">
-
-<div class="stat">
-
-<small>
-Total Referrals
-</small>
-
-<b>
-12
-</b>
-
-</div>
-
-
-<div class="stat">
-
-<small>
-Referral Earned
-</small>
-
-<b>
-2,400 🪙
-</b>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- PROFILE -->
-
-<section id="profile" class="page">
-
-<div class="back">
-
-<button onclick="showPage('home')">
-←
-</button>
-
-<h2>
-Profile
-</h2>
-
-</div>
-
-
-<div class="profile">
-
-<div class="avatar">
-👨‍💻
-</div>
-
-<h2>
-AG User
-</h2>
-
-<p style="color:var(--muted);font-size:11px;margin-top:4px">
-@username
-</p>
-
-</div>
-
-
-<div style="margin-top:18px">
-
-<div class="menu-item">
-<span>✏️ Edit Profile</span>
-<span>›</span>
-</div>
-
-<div class="menu-item">
-<span>🔔 Notification Settings</span>
-<span>›</span>
-</div>
-
-<div class="menu-item">
-<span>🌐 Language</span>
-<span>English</span>
-</div>
-
-<div class="menu-item">
-<span>ℹ️ About AG EARN HUB</span>
-<span>›</span>
-</div>
-
-<div class="menu-item">
-<span>💬 Support</span>
-<span>›</span>
-</div>
-
-</div>
-
-</section>
-
-</div>
-
-
-<!-- BOTTOM NAV -->
-
-<nav class="nav">
-
-<button class="active"
-onclick="showPage('home',this)">
-
-<span class="nav-icon">
-🏠
-</span>
-
-Home
-
-</button>
-
-
-<button onclick="showPage('tasks',this)">
-
-<span class="nav-icon">
-📋
-</span>
-
-Tasks
-
-</button>
-
-
-<button onclick="showPage('bonus',this)">
-
-<span class="nav-icon">
-🎁
-</span>
-
-Bonus
-
-</button>
-
-
-<button onclick="showPage('referral',this)">
-
-<span class="nav-icon">
-👥
-</span>
-
-Referral
-
-</button>
-
-
-<button onclick="showPage('profile',this)">
-
-<span class="nav-icon">
-👤
-</span>
-
-Profile
-
-</button>
-
-</nav>
-
-
-<script>
-
-function showPage(id,btn){
-
-document
-.querySelectorAll('.page')
-.forEach(function(page){
-
-page.classList.remove('active');
-
-});
-
-
-document
-.getElementById(id)
-.classList.add('active');
-
-
-document
-.querySelectorAll('.nav button')
-.forEach(function(button){
-
-button.classList.remove('active');
-
-});
-
-
-if(btn){
-
-btn.classList.add('active');
-
+  .quick button {
+    font-size: 9px;
+  }
+
+  .quick .emoji {
+    font-size: 19px;
+  }
+
+  .task {
+    gap: 8px;
+  }
+
+  .task-icon {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .start {
+    padding: 8px 10px;
+  }
 }
 
-window.scrollTo({
-top:0,
-behavior:'smooth'
-});
+@media (min-width: 700px) {
 
+  body {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  .app {
+    border:
+      1px solid var(--border);
+
+    border-radius: 28px;
+
+    background:
+      rgba(4, 19, 38, 0.45);
+  }
 }
-
-
-function copyRef(){
-
-const link =
-'https://t.me/agearnhub_bot?start=AG123456';
-
-if(navigator.clipboard){
-
-navigator.clipboard.writeText(link);
-
-}
-
-alert('Referral link copied!');
-
-}
-
-</script>
-
-</body>
-</html>
