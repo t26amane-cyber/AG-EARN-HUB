@@ -1,1012 +1,545 @@
-:root {
-  --bg: #06172b;
-  --card: #0d2743;
-  --card-light: #102f50;
-  --blue: #218cff;
-  --cyan: #00d9ff;
-  --purple: #7147ff;
-  --green: #10d98b;
-  --gold: #ffc928;
-  --text: #f5f8ff;
-  --muted: #91a7c2;
-  --border: rgba(255, 255, 255, 0.08);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family:
-    Inter,
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    sans-serif;
-
-  background:
-    radial-gradient(
-      circle at top right,
-      rgba(90, 70, 255, 0.16),
-      transparent 30%
-    ),
-    linear-gradient(
-      145deg,
-      #041326,
-      #082442 55%,
-      #06172b
-    );
-
-  color: var(--text);
-  min-height: 100vh;
-  overflow-x: hidden;
-}
-
-button {
-  font: inherit;
-  border: 0;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-button:active {
-  transform: scale(0.97);
-}
-
-.app {
-  width: 100%;
-  max-width: 520px;
-  min-height: 100vh;
-  margin: auto;
-  padding: 16px 14px 100px;
-}
-
-/* =========================
-   TOP BAR
-========================= */
-
-.topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 18px;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo {
-  width: 44px;
-  height: 44px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 14px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #12bfff,
-      #5d39ff
-    );
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  font-size: 17px;
-  font-weight: 900;
+    <title>AG EARN HUB</title>
 
-  box-shadow:
-    0 8px 24px rgba(33, 140, 255, 0.25);
-}
+    <link rel="stylesheet" href="style.css">
+</head>
 
-.brand h1 {
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: 0.2px;
-}
+<body>
 
-.brand p {
-  margin-top: 2px;
+<div class="app">
 
-  color: var(--muted);
+    <!-- TOP BAR -->
+    <header class="topbar">
+        <div class="brand">
+            <div class="logo">AG</div>
 
-  font-size: 11px;
-}
+            <div>
+                <h1>AG EARN HUB</h1>
+                <p>Earn • Complete Tasks • Get Rewards</p>
+            </div>
+        </div>
 
-.icon-btn {
-  width: 40px;
-  height: 40px;
+        <button class="icon-btn" type="button">🔔</button>
+    </header>
 
-  display: grid;
-  place-items: center;
 
-  border-radius: 13px;
+    <!-- HOME PAGE -->
+    <section class="page active" id="home">
 
-  background: var(--card);
-  color: white;
+        <!-- BALANCE -->
+        <div class="hero">
+            <div class="eyebrow">Your Balance</div>
 
-  border: 1px solid var(--border);
+            <div class="balance">
+                1,250 🪙
+            </div>
 
-  font-size: 18px;
-}
+            <div class="usd">
+                ≈ 12.50 USDT
+            </div>
 
-/* =========================
-   PAGE SYSTEM
-========================= */
+            <button class="withdraw" type="button" onclick="openBalance()">
+                Withdraw
+            </button>
+        </div>
 
-.page {
-  display: none;
 
-  animation: pageIn 0.25s ease;
-}
+        <!-- QUICK MENU -->
+        <div class="quick">
 
-.page.active {
-  display: block;
-}
+            <button type="button" onclick="openTasks()">
+                <span class="emoji">📋</span>
+                Tasks
+            </button>
 
-@keyframes pageIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
+            <button type="button" onclick="openBonus()">
+                <span class="emoji">🎁</span>
+                Bonus
+            </button>
 
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+            <button type="button" onclick="openReferral()">
+                <span class="emoji">👥</span>
+                Referral
+            </button>
 
-/* =========================
-   HERO / BALANCE
-========================= */
+            <button type="button" onclick="openProfile()">
+                <span class="emoji">👤</span>
+                Profile
+            </button>
 
-.hero {
-  position: relative;
+        </div>
 
-  overflow: hidden;
 
-  padding: 21px;
+        <!-- PROMO -->
+        <div class="promo">
 
-  border-radius: 24px;
+            <div>
+                <h2>🎁 Daily Bonus</h2>
 
-  background:
-    linear-gradient(
-      135deg,
-      #1469ed,
-      #2446ff 48%,
-      #713fff
-    );
+                <p>
+                    Come back every day and collect your bonus.
+                </p>
 
-  box-shadow:
-    0 16px 38px rgba(33, 94, 255, 0.25);
+                <button type="button" onclick="openBonus()">
+                    Claim Now
+                </button>
+            </div>
 
-  margin-bottom: 14px;
-}
+            <div class="gift">🎁</div>
 
-.hero::after {
-  content: "";
+        </div>
 
-  position: absolute;
 
-  width: 190px;
-  height: 190px;
+        <!-- PROGRESS -->
+        <div class="section-head">
+            <h2>Daily Progress</h2>
+            <span>Today</span>
+        </div>
 
-  right: -90px;
-  top: -90px;
+        <div class="progress-card">
 
-  border-radius: 50%;
+            <div class="progress-row">
+                <span>Tasks completed</span>
+                <b>3 / 5</b>
+            </div>
 
-  background: rgba(255, 255, 255, 0.08);
-}
+            <div class="bar">
+                <i></i>
+            </div>
 
-.hero::before {
-  content: "";
+        </div>
 
-  position: absolute;
 
-  width: 90px;
-  height: 90px;
+        <!-- TASKS -->
+        <div class="section-head">
+            <h2>Available Tasks</h2>
 
-  right: 50px;
-  bottom: -55px;
+            <span onclick="openTasks()">
+                View All
+            </span>
+        </div>
 
-  border-radius: 50%;
 
-  background: rgba(0, 217, 255, 0.08);
-}
+        <div class="task">
 
-.eyebrow {
-  position: relative;
-  z-index: 2;
+            <div class="task-icon">📱</div>
 
-  font-size: 12px;
+            <div class="task-info">
+                <strong>Visit Partner Page</strong>
+                <small>Complete a simple task</small>
+                <div class="reward">+50 🪙</div>
+            </div>
 
-  opacity: 0.85;
-}
+            <button
+                class="start"
+                type="button"
+                onclick="claimTask(this, 50)">
+                Start
+            </button>
 
-.balance {
-  position: relative;
-  z-index: 2;
+        </div>
 
-  margin: 5px 0;
 
-  font-size: 34px;
-  font-weight: 900;
-}
+        <div class="task">
 
-.usd {
-  position: relative;
-  z-index: 2;
+            <div class="task-icon">▶️</div>
 
-  font-size: 12px;
+            <div class="task-info">
+                <strong>Watch Short Video</strong>
+                <small>Watch and complete</small>
+                <div class="reward">+30 🪙</div>
+            </div>
 
-  opacity: 0.85;
-}
+            <button
+                class="start"
+                type="button"
+                onclick="claimTask(this, 30)">
+                Start
+            </button>
 
-.withdraw {
-  position: relative;
-  z-index: 2;
+        </div>
 
-  margin-top: 15px;
 
-  padding: 12px 20px;
+        <div class="task">
 
-  border-radius: 14px;
+            <div class="task-icon">🌐</div>
 
-  background: var(--green);
-  color: #052b25;
+            <div class="task-info">
+                <strong>Explore Website</strong>
+                <small>Visit the website</small>
+                <div class="reward">+100 🪙</div>
+            </div>
 
-  font-weight: 800;
+            <button
+                class="start"
+                type="button"
+                onclick="claimTask(this, 100)">
+                Start
+            </button>
 
-  box-shadow:
-    0 8px 20px rgba(16, 217, 139, 0.2);
-}
+        </div>
 
-/* =========================
-   QUICK MENU
-========================= */
+    </section>
 
-.quick {
-  display: grid;
 
-  grid-template-columns:
-    repeat(4, 1fr);
+    <!-- TASKS PAGE -->
+    <section class="page" id="tasks">
 
-  gap: 9px;
+        <div class="back">
+            <button type="button" onclick="showPage('home')">
+                ←
+            </button>
 
-  margin: 14px 0;
-}
+            <h2>Available Tasks</h2>
+        </div>
 
-.quick button {
-  min-height: 76px;
+        <div class="task">
+            <div class="task-icon">📱</div>
 
-  background: var(--card);
+            <div class="task-info">
+                <strong>Visit Partner Page</strong>
+                <small>Complete a simple task</small>
+                <div class="reward">+50 🪙</div>
+            </div>
 
-  color: white;
+            <button
+                class="start"
+                type="button"
+                onclick="claimTask(this, 50)">
+                Start
+            </button>
+        </div>
 
-  border:
-    1px solid var(--border);
 
-  border-radius: 17px;
+        <div class="task">
+            <div class="task-icon">▶️</div>
 
-  padding: 11px 5px;
+            <div class="task-info">
+                <strong>Watch Short Video</strong>
+                <small>Complete the video task</small>
+                <div class="reward">+30 🪙</div>
+            </div>
 
-  font-size: 11px;
+            <button
+                class="start"
+                type="button"
+                onclick="claimTask(this, 30)">
+                Start
+            </button>
+        </div>
 
-  transition:
-    transform 0.2s,
-    background 0.2s;
-}
 
-.quick button:hover {
-  background: var(--card-light);
-  transform: translateY(-2px);
-}
+        <div class="task">
+            <div class="task-icon">🌐</div>
 
-.quick .emoji {
-  display: block;
+            <div class="task-info">
+                <strong>Explore Website</strong>
+                <small>Visit and explore</small>
+                <div class="reward">+100 🪙</div>
+            </div>
 
-  margin-bottom: 6px;
+            <button
+                class="start"
+                type="button"
+                onclick="claimTask(this, 100)">
+                Start
+            </button>
+        </div>
 
-  font-size: 23px;
-}
+    </section>
 
-/* =========================
-   PROMO CARD
-========================= */
 
-.promo {
-  display: flex;
+    <!-- BONUS PAGE -->
+    <section class="page" id="bonus">
 
-  align-items: center;
-  justify-content: space-between;
+        <div class="back">
+            <button type="button" onclick="showPage('home')">
+                ←
+            </button>
 
-  gap: 12px;
+            <h2>Daily Bonus</h2>
+        </div>
 
-  padding: 17px;
 
-  border-radius: 20px;
+        <div class="bonus">
 
-  background:
-    linear-gradient(
-      135deg,
-      #3d24b9,
-      #185ce7
-    );
+            <div class="big">🎁</div>
 
-  margin-bottom: 14px;
+            <h2>Daily Reward</h2>
 
-  overflow: hidden;
-}
+            <p>
+                Claim your daily bonus and keep your streak.
+            </p>
 
-.promo h2 {
-  font-size: 16px;
-}
+            <div class="days">
 
-.promo p {
-  margin: 5px 0 10px;
+                <div class="day">
+                    Day 1
+                    <strong>+20</strong>
+                </div>
 
-  color: #d6e3ff;
+                <div class="day">
+                    Day 2
+                    <strong>+30</strong>
+                </div>
 
-  font-size: 11px;
-}
+                <div class="day">
+                    Day 3
+                    <strong>+40</strong>
+                </div>
 
-.promo button {
-  padding: 9px 14px;
+                <div class="day">
+                    Day 4
+                    <strong>+50</strong>
+                </div>
 
-  border-radius: 12px;
+            </div>
 
-  background: var(--green);
+            <button
+                class="claim bonus-btn"
+                type="button"
+                onclick="claimBonus()">
+                Claim Bonus
+            </button>
 
-  color: #062c24;
+        </div>
 
-  font-size: 12px;
-  font-weight: 800;
-}
+    </section>
 
-.gift {
-  font-size: 45px;
 
-  filter:
-    drop-shadow(
-      0 8px 15px rgba(0, 0, 0, 0.2)
-    );
-}
+    <!-- BALANCE PAGE -->
+    <section class="page" id="balance">
 
-/* =========================
-   SECTION HEADER
-========================= */
+        <div class="back">
+            <button type="button" onclick="showPage('home')">
+                ←
+            </button>
 
-.section-head {
-  display: flex;
+            <h2>My Balance</h2>
+        </div>
 
-  align-items: center;
-  justify-content: space-between;
 
-  margin:
-    18px 2px
-    10px;
-}
+        <div class="balance-big">
 
-.section-head h2 {
-  font-size: 17px;
-}
+            <small>Total Balance</small>
 
-.section-head span {
-  color: var(--cyan);
+            <strong>1,250 🪙</strong>
 
-  font-size: 11px;
+            <small>≈ 12.50 USDT</small>
 
-  cursor: pointer;
-}
+        </div>
 
-/* =========================
-   PROGRESS
-========================= */
 
-.progress-card {
-  padding: 15px;
+        <div class="stat-grid">
 
-  background: var(--card);
+            <div class="stat">
+                <small>Task Earnings</small>
+                <b>850 🪙</b>
+            </div>
 
-  border:
-    1px solid var(--border);
+            <div class="stat">
+                <small>Bonus</small>
+                <b>400 🪙</b>
+            </div>
 
-  border-radius: 18px;
-}
+            <div class="stat">
+                <small>Withdrawn</small>
+                <b>0 🪙</b>
+            </div>
 
-.progress-row {
-  display: flex;
+            <div class="stat">
+                <small>Referrals</small>
+                <b>2,400 🪙</b>
+            </div>
 
-  justify-content: space-between;
+        </div>
 
-  margin-bottom: 9px;
 
-  font-size: 12px;
-}
+        <div class="info-card">
+            <h3>💸 Withdraw</h3>
 
-.progress-row b {
-  color: var(--cyan);
-}
+            <p>
+                Withdrawal functionality will be available
+                after the reward system and payment system
+                are connected.
+            </p>
+        </div>
 
-.bar {
-  width: 100%;
-  height: 8px;
+    </section>
 
-  overflow: hidden;
 
-  border-radius: 99px;
+    <!-- REFERRAL PAGE -->
+    <section class="page" id="referral">
 
-  background: #1b3b5b;
-}
+        <div class="back">
+            <button type="button" onclick="showPage('home')">
+                ←
+            </button>
 
-.bar i {
-  display: block;
+            <h2>Referral</h2>
+        </div>
 
-  width: 60%;
-  height: 100%;
 
-  border-radius: 99px;
+        <div class="info-card">
 
-  background:
-    linear-gradient(
-      90deg,
-      #00e4a0,
-      #1f9cff
-    );
-}
+            <h3>👥 Invite Friends</h3>
 
-/* =========================
-   TASK CARD
-========================= */
+            <p>
+                Invite friends using your referral link
+                and earn rewards when eligible activities
+                are completed.
+            </p>
 
-.task {
-  display: flex;
 
-  align-items: center;
+            <div class="ref-code">
 
-  gap: 12px;
+                <span>
+                    AG123456
+                </span>
 
-  padding: 13px;
+                <button
+                    class="copy"
+                    type="button"
+                    onclick="copyRef()">
+                    Copy
+                </button>
 
-  margin-bottom: 9px;
+            </div>
 
-  background: var(--card);
+        </div>
 
-  border:
-    1px solid var(--border);
 
-  border-radius: 18px;
+        <div class="stat-grid">
 
-  transition:
-    transform 0.2s,
-    background 0.2s;
-}
+            <div class="stat">
+                <small>Total Referrals</small>
+                <b>12</b>
+            </div>
 
-.task:hover {
-  background: var(--card-light);
+            <div class="stat">
+                <small>Referral Earnings</small>
+                <b>2,400 🪙</b>
+            </div>
 
-  transform: translateY(-2px);
-}
+        </div>
 
-.task-icon {
-  width: 45px;
-  height: 45px;
+    </section>
 
-  flex: 0 0 45px;
 
-  display: grid;
-  place-items: center;
+    <!-- PROFILE PAGE -->
+    <section class="page" id="profile">
 
-  border-radius: 14px;
+        <div class="back">
+            <button type="button" onclick="showPage('home')">
+                ←
+            </button>
 
-  background: #173e68;
+            <h2>Profile</h2>
+        </div>
 
-  font-size: 22px;
-}
 
-.task-info {
-  flex: 1;
+        <div class="profile">
 
-  min-width: 0;
-}
+            <div class="avatar">
+                👤
+            </div>
 
-.task-info strong {
-  display: block;
+            <h2>AG User</h2>
 
-  overflow: hidden;
+            <p class="muted">
+                Member since 2026
+            </p>
 
-  white-space: nowrap;
-  text-overflow: ellipsis;
+        </div>
 
-  font-size: 13px;
-}
 
-.task-info small {
-  display: block;
+        <div class="menu-item">
+            <span>🆔 User ID</span>
+            <span>AG123456</span>
+        </div>
 
-  margin-top: 4px;
+        <div class="menu-item">
+            <span>💰 Balance</span>
+            <span>1,250 🪙</span>
+        </div>
 
-  color: var(--muted);
+        <div class="menu-item">
+            <span>👥 Referrals</span>
+            <span>12</span>
+        </div>
 
-  font-size: 10px;
-}
+        <div class="menu-item">
+            <span>⚙️ Settings</span>
+            <span>›</span>
+        </div>
 
-.reward {
-  margin-top: 5px;
+    </section>
 
-  color: var(--gold);
+</div>
 
-  font-size: 11px;
-  font-weight: 800;
-}
 
-.start {
-  flex-shrink: 0;
+<!-- BOTTOM NAVIGATION -->
+<nav class="nav">
 
-  padding: 9px 13px;
+    <button
+        class="active"
+        type="button"
+        onclick="showPage('home', this)">
 
-  border-radius: 12px;
+        <span class="nav-icon">🏠</span>
+        Home
 
-  background: var(--blue);
+    </button>
 
-  color: white;
 
-  font-size: 11px;
-  font-weight: 800;
-}
+    <button
+        type="button"
+        onclick="showPage('tasks', this)">
 
-/* =========================
-   BOTTOM NAV
-========================= */
+        <span class="nav-icon">📋</span>
+        Tasks
 
-.nav {
-  position: fixed;
+    </button>
 
-  z-index: 100;
 
-  bottom: 10px;
-  left: 50%;
+    <button
+        type="button"
+        onclick="showPage('bonus', this)">
 
-  width:
-    min(
-      492px,
-      calc(100% - 20px)
-    );
+        <span class="nav-icon">🎁</span>
+        Bonus
 
-  display: grid;
+    </button>
 
-  grid-template-columns:
-    repeat(5, 1fr);
 
-  padding: 8px;
+    <button
+        type="button"
+        onclick="showPage('balance', this)">
 
-  transform: translateX(-50%);
+        <span class="nav-icon">💰</span>
+        Balance
 
-  background:
-    rgba(7, 24, 43, 0.94);
+    </button>
 
-  backdrop-filter: blur(14px);
 
-  border:
-    1px solid var(--border);
+    <button
+        type="button"
+        onclick="showPage('profile', this)">
 
-  border-radius: 22px;
+        <span class="nav-icon">👤</span>
+        Profile
 
-  box-shadow:
-    0 12px 35px
-    rgba(0, 0, 0, 0.3);
-}
+    </button>
 
-.nav button {
-  padding: 7px 2px;
+</nav>
 
-  background: transparent;
 
-  color: #7890aa;
+<script src="script.js"></script>
 
-  font-size: 10px;
-
-  transition: color 0.2s;
-}
-
-.nav button.active {
-  color: var(--cyan);
-}
-
-.nav-icon {
-  display: block;
-
-  margin-bottom: 3px;
-
-  font-size: 20px;
-}
-
-/* =========================
-   INNER PAGE HEADER
-========================= */
-
-.back {
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  margin:
-    4px 0
-    18px;
-}
-
-.back button {
-  width: 38px;
-  height: 38px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 12px;
-
-  background: var(--card);
-
-  color: white;
-
-  border:
-    1px solid var(--border);
-
-  font-size: 18px;
-}
-
-.back h2 {
-  font-size: 19px;
-}
-
-/* =========================
-   BONUS
-========================= */
-
-.bonus {
-  padding: 25px 16px;
-
-  text-align: center;
-
-  border-radius: 22px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #24136f,
-      #5a2dce
-    );
-
-  margin-bottom: 14px;
-}
-
-.bonus .big {
-  font-size: 55px;
-}
-
-.bonus h2 {
-  margin: 4px 0;
-}
-
-.bonus p {
-  color: #c8c6ef;
-
-  font-size: 12px;
-}
-
-.days {
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 8px;
-
-  margin-top: 18px;
-}
-
-.day {
-  padding: 11px 4px;
-
-  background: #102f50;
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 13px;
-
-  font-size: 10px;
-}
-
-.day strong {
-  display: block;
-
-  margin-top: 5px;
-
-  color: var(--gold);
-
-  font-size: 13px;
-}
-
-.claim {
-  width: 100%;
-
-  margin-top: 14px;
-
-  padding: 13px;
-
-  border-radius: 14px;
-
-  background: var(--purple);
-
-  color: white;
-
-  font-weight: 800;
-}
-
-/* =========================
-   INFO CARD
-========================= */
-
-.info-card {
-  padding: 16px;
-
-  margin-bottom: 10px;
-
-  background: var(--card);
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 18px;
-}
-
-.info-card h3 {
-  margin-bottom: 9px;
-
-  font-size: 14px;
-}
-
-.info-card p {
-  color: var(--muted);
-
-  font-size: 12px;
-
-  line-height: 1.6;
-}
-
-/* =========================
-   BALANCE PAGE
-========================= */
-
-.balance-big {
-  padding: 22px;
-
-  text-align: center;
-
-  border-radius: 20px;
-
-  background:
-    linear-gradient(
-      135deg,
-      #1764e8,
-      #0b2f67
-    );
-}
-
-.balance-big strong {
-  display: block;
-
-  margin: 5px;
-
-  font-size: 34px;
-  font-weight: 900;
-}
-
-.balance-big small {
-  color: #d3e4ff;
-}
-
-.stat-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, 1fr);
-
-  gap: 10px;
-
-  margin-top: 12px;
-}
-
-.stat {
-  padding: 15px;
-
-  background: var(--card);
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 16px;
-}
-
-.stat small {
-  color: var(--muted);
-
-  font-size: 10px;
-}
-
-.stat b {
-  display: block;
-
-  margin-top: 6px;
-
-  font-size: 18px;
-}
-
-/* =========================
-   REFERRAL
-========================= */
-
-.ref-code {
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 10px;
-
-  margin-top: 10px;
-
-  padding: 13px;
-
-  background: #071a30;
-
-  border-radius: 13px;
-}
-
-.ref-code span {
-  color: #4ec7ff;
-
-  font-weight: 800;
-
-  font-size: 12px;
-}
-
-.copy {
-  padding: 8px 12px;
-
-  border-radius: 10px;
-
-  background: var(--gold);
-
-  color: #251900;
-
-  font-size: 11px;
-
-  font-weight: 800;
-}
-
-/* =========================
-   PROFILE
-========================= */
-
-.profile {
-  text-align: center;
-}
-
-.avatar {
-  width: 76px;
-  height: 76px;
-
-  display: grid;
-  place-items: center;
-
-  margin:
-    0 auto
-    10px;
-
-  border-radius: 50%;
-
-  background: #244b76;
-
-  font-size: 40px;
-
-  border:
-    3px solid
-    rgba(0, 217, 255, 0.2);
-}
-
-.menu-item {
-  display: flex;
-
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 15px;
-
-  margin: 8px 0;
-
-  background: var(--card);
-
-  border:
-    1px solid var(--border);
-
-  border-radius: 15px;
-}
-
-.menu-item span:first-child {
-  font-size: 13px;
-}
-
-.menu-item span:last-child {
-  color: var(--muted);
-
-  font-size: 12px;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 380px) {
-
-  .app {
-    padding-left: 11px;
-    padding-right: 11px;
-  }
-
-  .balance {
-    font-size: 29px;
-  }
-
-  .quick button {
-    font-size: 9px;
-  }
-
-  .quick .emoji {
-    font-size: 19px;
-  }
-
-  .task {
-    gap: 8px;
-  }
-
-  .task-icon {
-    width: 42px;
-    height: 42px;
-    flex-basis: 42px;
-  }
-
-  .start {
-    padding: 8px 10px;
-  }
-}
-
-@media (min-width: 700px) {
-
-  body {
-    padding-top: 20px;
-    padding-bottom: 20px;
-  }
-
-  .app {
-    border:
-      1px solid var(--border);
-
-    border-radius: 28px;
-
-    background:
-      rgba(4, 19, 38, 0.45);
-  }
-}
+</body>
+</html>
