@@ -1,35 +1,35 @@
-// ================================
-// AG EARN HUB - script.js
-// ================================
+// =====================================
+// AG EARN HUB - SCRIPT
+// =====================================
 
-// Page Switch
 function showPage(pageId, button) {
-    // সব page hide
+
     const pages = document.querySelectorAll(".page");
 
-    pages.forEach(page => {
+    pages.forEach(function(page) {
         page.classList.remove("active");
     });
 
-    // নির্বাচিত page show
+
     const selectedPage = document.getElementById(pageId);
 
     if (selectedPage) {
         selectedPage.classList.add("active");
     }
 
-    // Bottom navigation active state
-    const navButtons = document.querySelectorAll(".bottom-nav button");
 
-    navButtons.forEach(btn => {
+    const navButtons = document.querySelectorAll(".nav button");
+
+    navButtons.forEach(function(btn) {
         btn.classList.remove("active");
     });
+
 
     if (button) {
         button.classList.add("active");
     }
 
-    // Page change হলে উপরে নিয়ে যাবে
+
     window.scrollTo({
         top: 0,
         behavior: "smooth"
@@ -37,43 +37,9 @@ function showPage(pageId, button) {
 }
 
 
-// ================================
-// Referral Link Copy
-// ================================
-
-function copyRef() {
-
-    const referralLink =
-        "https://t.me/agearnhub_bot?start=AG123456";
-
-    navigator.clipboard.writeText(referralLink)
-        .then(() => {
-
-            alert("Referral link copied!");
-
-        })
-        .catch(() => {
-
-            // Clipboard কাজ না করলে fallback
-            const tempInput = document.createElement("input");
-
-            tempInput.value = referralLink;
-            document.body.appendChild(tempInput);
-
-            tempInput.select();
-            document.execCommand("copy");
-
-            document.body.removeChild(tempInput);
-
-            alert("Referral link copied!");
-
-        });
-}
-
-
-// ================================
-// Quick Menu Buttons
-// ================================
+// =====================================
+// QUICK MENU
+// =====================================
 
 function openTasks() {
     showPage("tasks");
@@ -96,67 +62,107 @@ function openProfile() {
 }
 
 
-// ================================
-// Daily Bonus
-// ================================
+// =====================================
+// REFERRAL COPY
+// =====================================
+
+function copyRef() {
+
+    const referralLink =
+        "https://t.me/agearnhub_bot?start=AG123456";
+
+
+    if (navigator.clipboard) {
+
+        navigator.clipboard.writeText(referralLink)
+            .then(function() {
+                alert("Referral link copied!");
+            })
+            .catch(function() {
+                alert(referralLink);
+            });
+
+    } else {
+
+        alert(referralLink);
+
+    }
+}
+
+
+// =====================================
+// DAILY BONUS
+// =====================================
 
 let bonusClaimed = false;
+
 
 function claimBonus() {
 
     if (bonusClaimed) {
-        alert("Today's bonus already claimed!");
+
+        alert("Today's bonus has already been claimed.");
+
         return;
     }
 
+
     bonusClaimed = true;
 
-    alert("🎁 Bonus claimed successfully!");
 
-    const bonusButton = document.querySelector(".bonus-btn");
+    const button = document.querySelector(".bonus-btn");
 
-    if (bonusButton) {
-        bonusButton.innerText = "Claimed ✓";
-        bonusButton.disabled = true;
+
+    if (button) {
+
+        button.innerText = "Claimed ✓";
+
+        button.disabled = true;
+
     }
+
+
+    alert("🎉 Bonus claimed successfully!");
 }
 
 
-// ================================
-// Task Claim
-// ================================
+// =====================================
+// TASK CLAIM
+// =====================================
 
-function claimTask(button, reward = 50) {
+function claimTask(button, reward) {
 
-    if (!button) return;
+    if (!button) {
+        return;
+    }
+
 
     button.disabled = true;
+
     button.innerText = "Completed ✓";
 
-    alert("🎉 Task completed! +" + reward + " coins");
+
+    alert(
+        "🎉 Task completed! +" +
+        reward +
+        " coins"
+    );
 }
 
 
-// ================================
-// DOM Ready
-// ================================
+// =====================================
+// STARTUP
+// =====================================
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
 
-    // প্রথমে Home page দেখাবে
-    const homePage = document.getElementById("home");
+    const home = document.getElementById("home");
 
-    if (homePage) {
-        homePage.classList.add("active");
+
+    if (home) {
+        home.classList.add("active");
     }
 
-    // প্রথম navigation button active
-    const firstNavButton =
-        document.querySelector(".bottom-nav button");
-
-    if (firstNavButton) {
-        firstNavButton.classList.add("active");
-    }
 
     console.log("AG EARN HUB loaded successfully 🚀");
 
