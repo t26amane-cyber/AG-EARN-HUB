@@ -1,374 +1,1380 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>AG EARN HUB | Telegram Mini App</title>
-  
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
-  <!-- External CSS -->
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>AG EARN HUB</title>
+
+<style>
+:root{
+  --bg:#06172b;
+  --card:#0d2743;
+  --blue:#218cff;
+  --cyan:#00d9ff;
+  --purple:#7147ff;
+  --green:#10d98b;
+  --gold:#ffc928;
+  --text:#f5f8ff;
+  --muted:#91a7c2;
+  --border:rgba(255,255,255,.08);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+body{
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:linear-gradient(145deg,#041326,#082442 55%,#06172b);
+  color:var(--text);
+  min-height:100vh;
+}
+
+button{
+  font:inherit;
+  border:0;
+  cursor:pointer;
+}
+
+.app{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  padding:16px 14px 95px;
+}
+
+/* TOP BAR */
+
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.logo{
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#12bfff,#5d39ff);
+  font-weight:900;
+  font-size:17px;
+  box-shadow:0 8px 24px rgba(33,140,255,.25);
+}
+
+.brand h1{
+  font-size:19px;
+}
+
+.brand p{
+  font-size:11px;
+  color:var(--muted);
+  margin-top:2px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border-radius:13px;
+  background:var(--card);
+  color:white;
+  border:1px solid var(--border);
+  font-size:18px;
+}
+
+/* PAGE */
+
+.page{
+  display:none;
+}
+
+.page.active{
+  display:block;
+}
+
+/* BALANCE HERO */
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  padding:20px;
+  border-radius:24px;
+  background:linear-gradient(135deg,#1469ed,#2446ff 48%,#713fff);
+  box-shadow:0 16px 38px rgba(33,94,255,.25);
+  margin-bottom:14px;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  right:-80px;
+  top:-80px;
+  background:rgba(255,255,255,.09);
+}
+
+.eyebrow{
+  font-size:12px;
+  opacity:.85;
+}
+
+.balance{
+  font-size:34px;
+  font-weight:800;
+  margin:5px 0;
+}
+
+.usd{
+  font-size:12px;
+  opacity:.85;
+}
+
+.withdraw{
+  margin-top:15px;
+  padding:12px 20px;
+  border-radius:14px;
+  background:#10dc8b;
+  color:#052b25;
+  font-weight:800;
+}
+
+/* QUICK MENU */
+
+.quick{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:9px;
+  margin:14px 0;
+}
+
+.quick button{
+  background:var(--card);
+  color:white;
+  border:1px solid var(--border);
+  border-radius:17px;
+  padding:12px 5px;
+  font-size:11px;
+}
+
+.quick .emoji{
+  font-size:22px;
+  display:block;
+  margin-bottom:5px;
+}
+
+/* PROMO */
+
+.promo{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:16px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#3d24b9,#185ce7);
+  margin-bottom:14px;
+}
+
+.promo h2{
+  font-size:16px;
+}
+
+.promo p{
+  font-size:11px;
+  color:#d6e3ff;
+  margin:5px 0 10px;
+}
+
+.promo button{
+  background:#16dd91;
+  color:#062c24;
+  padding:9px 14px;
+  border-radius:12px;
+  font-weight:800;
+  font-size:12px;
+}
+
+.gift{
+  font-size:44px;
+}
+
+/* SECTION */
+
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:18px 2px 10px;
+}
+
+.section-head h2{
+  font-size:17px;
+}
+
+.section-head span{
+  font-size:11px;
+  color:var(--cyan);
+}
+
+/* PROGRESS */
+
+.progress-card{
+  background:var(--card);
+  border:1px solid var(--border);
+  padding:15px;
+  border-radius:18px;
+}
+
+.progress-row{
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  margin-bottom:9px;
+}
+
+.bar{
+  height:8px;
+  background:#1b3b5b;
+  border-radius:99px;
+  overflow:hidden;
+}
+
+.bar i{
+  display:block;
+  width:60%;
+  height:100%;
+  background:linear-gradient(90deg,#00e4a0,#1f9cff);
+  border-radius:99px;
+}
+
+/* TASK */
+
+.task{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px;
+  margin-bottom:9px;
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+}
+
+.task-icon{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:#173e68;
+  font-size:22px;
+  flex:none;
+}
+
+.task-info{
+  flex:1;
+  min-width:0;
+}
+
+.task-info strong{
+  font-size:13px;
+}
+
+.task-info small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:4px;
+}
+
+.reward{
+  color:var(--gold);
+  font-size:11px;
+  font-weight:800;
+  margin-top:5px;
+}
+
+.start{
+  background:var(--blue);
+  color:white;
+  padding:9px 13px;
+  border-radius:12px;
+  font-size:11px;
+  font-weight:800;
+}
+
+/* BOTTOM NAV */
+
+.nav{
+  position:fixed;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  width:min(492px,calc(100% - 20px));
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  padding:8px;
+  background:rgba(7,24,43,.94);
+  backdrop-filter:blur(14px);
+  border:1px solid var(--border);
+  border-radius:22px;
+  box-shadow:0 12px 35px rgba(0,0,0,.3);
+  z-index:100;
+}
+
+.nav button{
+  background:none;
+  color:#7890aa;
+  font-size:10px;
+  padding:7px 2px;
+}
+
+.nav button.active{
+  color:#00dfff;
+}
+
+.nav-icon{
+  display:block;
+  font-size:20px;
+  margin-bottom:3px;
+}
+
+/* INNER PAGE */
+
+.back{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin:4px 0 18px;
+}
+
+.back button{
+  background:var(--card);
+  color:white;
+  width:38px;
+  height:38px;
+  border-radius:12px;
+}
+
+.back h2{
+  font-size:19px;
+}
+
+/* BONUS */
+
+.bonus{
+  padding:25px 16px;
+  text-align:center;
+  border-radius:22px;
+  background:linear-gradient(135deg,#24136f,#5a2dce);
+  margin-bottom:14px;
+}
+
+.bonus .big{
+  font-size:55px;
+}
+
+.bonus h2{
+  margin:4px 0;
+}
+
+.bonus p{
+  color:#c8c6ef;
+  font-size:12px;
+}
+
+.days{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:18px;
+}
+
+.day{
+  background:#102f50;
+  border:1px solid var(--border);
+  padding:11px 4px;
+  border-radius:13px;
+  font-size:10px;
+}
+
+.day strong{
+  display:block;
+  color:var(--gold);
+  font-size:13px;
+  margin-top:5px;
+}
+
+.claim{
+  width:100%;
+  padding:13px;
+  border-radius:14px;
+  background:#6d48ff;
+  color:white;
+  font-weight:800;
+  margin-top:14px;
+}
+
+/* INFO */
+
+.info-card{
+  background:var(--card);
+  padding:16px;
+  border-radius:18px;
+  border:1px solid var(--border);
+  margin-bottom:10px;
+}
+
+.info-card h3{
+  font-size:14px;
+  margin-bottom:9px;
+}
+
+.info-card p{
+  font-size:12px;
+  color:var(--muted);
+  line-height:1.6;
+}
+
+/* BALANCE */
+
+.balance-big{
+  text-align:center;
+  padding:22px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#1764e8,#0b2f67);
+}
+
+.balance-big strong{
+  font-size:34px;
+  display:block;
+  margin:5px;
+}
+
+.balance-big small{
+  color:#d3e4ff;
+}
+
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:12px;
+}
+
+.stat{
+  background:var(--card);
+  padding:15px;
+  border-radius:16px;
+  border:1px solid var(--border);
+}
+
+.stat small{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.stat b{
+  display:block;
+  margin-top:6px;
+  font-size:18px;
+}
+
+/* REFERRAL */
+
+.ref-code{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:#071a30;
+  padding:13px;
+  border-radius:13px;
+  margin-top:10px;
+}
+
+.ref-code span{
+  font-weight:800;
+  color:#4ec7ff;
+}
+
+.copy{
+  background:#ffc928;
+  color:#251900;
+  padding:8px 12px;
+  border-radius:10px;
+  font-weight:800;
+  font-size:11px;
+}
+
+/* PROFILE */
+
+.profile{
+  text-align:center;
+}
+
+.avatar{
+  width:76px;
+  height:76px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#244b76;
+  font-size:40px;
+  margin:0 auto 10px;
+}
+
+.menu-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--card);
+  padding:15px;
+  border-radius:15px;
+  margin:8px 0;
+  border:1px solid var(--border);
+}
+
+.menu-item span:first-child{
+  font-size:13px;
+}
+
+.menu-item span:last-child{
+  color:var(--muted);
+}
+
+/* MOBILE */
+
+@media(max-width:360px){
+
+  .balance{
+    font-size:29px;
+  }
+
+  .quick button{
+    font-size:9px;
+  }
+
+  .quick .emoji{
+    font-size:19px;
+  }
+
+}
+</style>
 </head>
+
 <body>
 
-  <!-- HEADER -->
-  <div class="app-header">
-    <div class="logo-area">
-      <div class="logo-circle">AG</div>
-      <div class="app-title">AG <span>EARN</span> HUB</div>
-    </div>
-    <div class="header-right">
-      <div class="tg-badge"><i class="fab fa-telegram-plane"></i> Mini App</div>
-    </div>
-  </div>
+<div class="app">
 
-  <!-- ==================== HOME SCREEN ==================== -->
-  <div id="home" class="screen active">
-    <div class="welcome-card">
-      <div class="wallet-icon">💰</div>
-      <div class="welcome-title">Welcome Back User! 👋</div>
-      <div class="welcome-sub">Let's earn together!</div>
-    </div>
+<!-- HOME -->
 
-    <div class="stats-grid">
-      <div class="stat-card green">
-        <div class="stat-label"><i class="fas fa-wallet"></i> Balance</div>
-        <div class="stat-value green" id="home-balance">৳ 0.00</div>
-      </div>
-      <div class="stat-card blue">
-        <div class="stat-label"><i class="fas fa-chart-line"></i> Total Earned</div>
-        <div class="stat-value blue" id="home-earned">৳ 0.00</div>
-      </div>
-      <div class="stat-card purple">
-        <div class="stat-label"><i class="fas fa-tasks"></i> Available Tasks</div>
-        <div class="stat-value" id="home-tasks">3</div>
-      </div>
-      <div class="stat-card orange">
-        <div class="stat-label"><i class="fas fa-users"></i> Total Referrals</div>
-        <div class="stat-value" id="home-refs">0</div>
-      </div>
-    </div>
+<section id="home" class="page active">
 
-    <!-- AD NETWORK: Banner Ad Slot (Home) -->
-    <div class="ad-slot banner" id="ad-home-banner">
-      <i class="fas fa-ad"></i>
-      <span>Ad Network Banner Placeholder</span>
-    </div>
+<header class="topbar">
 
-    <div class="quick-actions">
-      <div class="section-title">Quick Actions</div>
-      <button class="action-btn green" onclick="switchScreen('tasks')">
-        <span><i class="fas fa-play-circle"></i> Start Tasks</span>
-        <i class="fas fa-arrow-right right"></i>
-      </button>
-      <button class="action-btn blue" onclick="switchScreen('withdraw')">
-        <span><i class="fas fa-money-bill-wave"></i> Withdraw Money</span>
-        <i class="fas fa-arrow-right right"></i>
-      </button>
-      <button class="action-btn purple" onclick="switchScreen('refer')">
-        <span><i class="fas fa-user-plus"></i> Invite Friends</span>
-        <i class="fas fa-arrow-right right"></i>
-      </button>
-    </div>
-  </div>
+<div class="brand">
 
-  <!-- ==================== TASKS SCREEN ==================== -->
-  <div id="tasks" class="screen">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <i class="fas fa-clipboard-list" style="font-size:22px;color:var(--primary)"></i>
-      <div>
-        <h3 style="font-size:18px;font-weight:700">Tasks</h3>
-        <p style="font-size:12px;color:var(--text-muted)">Complete tasks & earn money</p>
-      </div>
-    </div>
+<div class="logo">AG</div>
 
-    <div class="task-tabs">
-      <button class="task-tab active" onclick="filterTasks('available', this)">Available</button>
-      <button class="task-tab" onclick="filterTasks('pending', this)">Pending</button>
-      <button class="task-tab" onclick="filterTasks('completed', this)">Completed</button>
-    </div>
+<div>
+<h1>AG EARN HUB</h1>
+<p>Earn • Complete • Grow</p>
+</div>
 
-    <!-- AD NETWORK: Rewarded Ad Slot (Tasks) -->
-    <div class="ad-slot rewarded" id="ad-tasks-rewarded">
-      <i class="fas fa-play-circle" style="color:var(--primary)"></i>
-      <span>Rewarded Video Ad Placeholder</span>
-      <small style="opacity:0.6">Integrate AdMob / Unity Ads / AppLovin here</small>
-    </div>
+</div>
 
-    <div id="task-list">
-      <!-- Task 1 -->
-      <div class="task-card" data-status="available">
-        <div class="task-badge">Available</div>
-        <div class="task-header">
-          <div class="task-icon yt"><i class="fab fa-youtube"></i></div>
-          <div class="task-info">
-            <h4>Task #001 - Watch Video & Like</h4>
-            <div class="task-meta">Time: 2-5 Minutes</div>
-          </div>
-        </div>
-        <div class="task-reward">
-          <div class="reward-text">Reward: ৳ 5</div>
-          <button class="start-btn" onclick="startTask(1, 5)">Start Task</button>
-        </div>
-      </div>
+<button class="icon-btn">🔔</button>
 
-      <!-- Task 2 -->
-      <div class="task-card" data-status="available">
-        <div class="task-badge">Available</div>
-        <div class="task-header">
-          <div class="task-icon tg"><i class="fab fa-telegram-plane"></i></div>
-          <div class="task-info">
-            <h4>Task #002 - Join Channel</h4>
-            <div class="task-meta">Time: 2-3 Minutes</div>
-          </div>
-        </div>
-        <div class="task-reward">
-          <div class="reward-text">Reward: ৳ 3</div>
-          <button class="start-btn" onclick="startTask(2, 3)">Start Task</button>
-        </div>
-      </div>
+</header>
 
-      <!-- Task 3 -->
-      <div class="task-card" data-status="available">
-        <div class="task-badge">Available</div>
-        <div class="task-header">
-          <div class="task-icon survey"><i class="fas fa-poll"></i></div>
-          <div class="task-info">
-            <h4>Task #003 - Fill Survey</h4>
-            <div class="task-meta">Time: 5-10 Minutes</div>
-          </div>
-        </div>
-        <div class="task-reward">
-          <div class="reward-text">Reward: ৳ 10</div>
-          <button class="start-btn" onclick="startTask(3, 10)">Start Task</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ==================== WITHDRAW SCREEN ==================== -->
-  <div id="withdraw" class="screen">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <i class="fas fa-wallet" style="font-size:22px;color:var(--primary)"></i>
-      <div>
-        <h3 style="font-size:18px;font-weight:700">Withdraw Money</h3>
-        <p style="font-size:12px;color:var(--text-muted)">Get your earnings to bKash / Nagad</p>
-      </div>
-    </div>
+<div class="hero">
 
-    <div class="balance-box">
-      <div class="balance-label">Available Balance</div>
-      <div class="balance-amount" id="withdraw-balance">৳ 0.00</div>
-    </div>
+<div class="eyebrow">Your Balance</div>
 
-    <div class="section-title">Select Payment Method</div>
-    <div class="payment-methods">
-      <div class="pay-method active" onclick="selectPayment(this, 'bkash')">
-        <div class="icon bkash"><i class="fas fa-mobile-alt"></i></div>
-        bKash
-      </div>
-      <div class="pay-method" onclick="selectPayment(this, 'nagad')">
-        <div class="icon nagad"><i class="fas fa-mobile-alt"></i></div>
-        Nagad
-      </div>
-    </div>
+<div class="balance">
+1,250 🪙
+</div>
 
-    <div class="form-group">
-      <label>Enter Amount</label>
-      <input type="number" id="withdraw-amount" placeholder="৳ 50" min="50">
-    </div>
+<div class="usd">
+≈ 12.50 USDT
+</div>
 
-    <div class="form-group">
-      <label>Enter Mobile Number</label>
-      <input type="tel" id="withdraw-mobile" placeholder="01XXXXXXXXX">
-    </div>
+<button class="withdraw"
+onclick="showPage('balance')">
+Withdraw
+</button>
 
-    <div class="min-note">
-      <i class="fas fa-info-circle"></i> Minimum withdrawal ৳ 50
-    </div>
+</div>
 
-    <button class="withdraw-btn" onclick="requestWithdraw()">Request Withdrawal</button>
 
-    <!-- AD NETWORK: Banner Ad Slot (Withdraw) -->
-    <div class="ad-slot banner" id="ad-withdraw-banner">
-      <i class="fas fa-ad"></i>
-      <span>Ad Network Banner Placeholder</span>
-    </div>
+<div class="quick">
 
-    <div class="recent-list">
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-        <span class="section-title" style="margin:0">Recent Withdrawals</span>
-        <span style="font-size:12px;color:var(--blue);cursor:pointer">View All</span>
-      </div>
-      <div class="recent-item">
-        <div>
-          <div style="font-weight:600">৳ 100 · bKash</div>
-          <div style="font-size:12px;color:var(--text-muted)">12 Sep 2026</div>
-        </div>
-        <span class="status-badge status-pending">Pending</span>
-      </div>
-      <div class="recent-item">
-        <div>
-          <div style="font-weight:600">৳ 200 · Nagad</div>
-          <div style="font-size:12px;color:var(--text-muted)">10 Sep 2026</div>
-        </div>
-        <span class="status-badge status-paid">Paid</span>
-      </div>
-    </div>
-  </div>
+<button onclick="showPage('tasks')">
+<span class="emoji">📋</span>
+Tasks
+</button>
 
-  <!-- ==================== REFER SCREEN ==================== -->
-  <div id="refer" class="screen">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <i class="fas fa-gift" style="font-size:22px;color:var(--primary)"></i>
-      <div>
-        <h3 style="font-size:18px;font-weight:700">Refer & Earn</h3>
-        <p style="font-size:12px;color:var(--text-muted)">Invite your friends and get bonus</p>
-      </div>
-    </div>
+<button onclick="showPage('bonus')">
+<span class="emoji">🎁</span>
+Bonus
+</button>
 
-    <div class="referral-link-box">
-      <div class="section-title">Your Referral Link</div>
-      <div class="link-input" id="ref-link">https://ag-earn-hub.onrender.com?ref=USER123</div>
-      <button class="copy-btn" onclick="copyReferral()">
-        <i class="fas fa-copy"></i> Copy Link
-      </button>
-    </div>
+<button onclick="showPage('referral')">
+<span class="emoji">👥</span>
+Referral
+</button>
 
-    <div class="ref-stats">
-      <div class="stat-card purple">
-        <div class="stat-label"><i class="fas fa-users"></i> Total Referrals</div>
-        <div class="stat-value" id="ref-count">0</div>
-      </div>
-      <div class="stat-card green">
-        <div class="stat-label"><i class="fas fa-coins"></i> Referral Earnings</div>
-        <div class="stat-value green" id="ref-earn">৳ 0.00</div>
-      </div>
-    </div>
+<button onclick="showPage('profile')">
+<span class="emoji">👤</span>
+Profile
+</button>
 
-    <div class="reward-info">
-      <i class="fas fa-info-circle" style="color:var(--primary);margin-top:2px"></i>
-      <div>
-        <strong>Referral Reward</strong><br>
-        Get ৳ 5 for each valid referral (when they complete their first task).
-      </div>
-    </div>
+</div>
 
-    <button class="share-btn" onclick="shareReferral()">
-      <i class="fas fa-share-alt"></i> Share with Friends
-    </button>
 
-    <!-- AD NETWORK: Banner Ad Slot (Refer) -->
-    <div class="ad-slot banner" id="ad-refer-banner">
-      <i class="fas fa-ad"></i>
-      <span>Ad Network Banner Placeholder</span>
-    </div>
+<div class="promo">
 
-    <div class="recent-list">
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
-        <span class="section-title" style="margin:0">Recent Referrals</span>
-        <span style="font-size:12px;color:var(--blue);cursor:pointer">View All</span>
-      </div>
-      <div style="text-align:center;padding:20px;color:var(--text-muted);font-size:13px;">
-        <i class="fas fa-user-friends" style="font-size:28px;margin-bottom:8px;display:block;opacity:0.5"></i>
-        No referrals yet<br>
-        Invite your friends and start earning!
-      </div>
-    </div>
-  </div>
+<div>
 
-  <!-- ==================== PROFILE SCREEN ==================== -->
-  <div id="profile" class="screen">
-    <div class="profile-header">
-      <div class="avatar">👤</div>
-      <div class="user-name" id="profile-name">User Name</div>
-      <div class="user-handle">@user123456</div>
-      <span class="active-badge">● Active</span>
-    </div>
+<h2>Complete Tasks</h2>
 
-    <div class="profile-stats">
-      <div class="p-stat">
-        <div class="val" id="profile-balance">৳ 0.00</div>
-        <div class="lbl">Balance</div>
-      </div>
-      <div class="p-stat">
-        <div class="val" id="profile-earned">৳ 0.00</div>
-        <div class="lbl">Total Earned</div>
-      </div>
-      <div class="p-stat">
-        <div class="val" id="profile-refs">0</div>
-        <div class="lbl">Referrals</div>
-      </div>
-    </div>
+<p>
+Simple tasks, extra rewards!
+</p>
 
-    <div class="menu-list" style="margin-bottom:16px;">
-      <div class="menu-item">
-        <div class="menu-left"><i class="fab fa-telegram"></i> Telegram ID</div>
-        <span style="color:var(--text-muted);font-size:13px">123456789</span>
-      </div>
-      <div class="menu-item">
-        <div class="menu-left"><i class="fas fa-calendar-alt"></i> Joined Date</div>
-        <span style="color:var(--text-muted);font-size:13px">26 Sep 2026</span>
-      </div>
-      <div class="menu-item">
-        <div class="menu-left"><i class="fas fa-shield-alt"></i> Account Status</div>
-        <span class="active-badge" style="font-size:11px">Active</span>
-      </div>
-    </div>
+<button onclick="showPage('tasks')">
+Start Now
+</button>
 
-    <div class="menu-list">
-      <div class="menu-item" onclick="showToast('Edit Profile coming soon')">
-        <div class="menu-left"><i class="fas fa-user-edit"></i> Edit Profile</div>
-        <i class="fas fa-chevron-right" style="color:var(--text-muted)"></i>
-      </div>
-      <div class="menu-item" onclick="showToast('Change Password coming soon')">
-        <div class="menu-left"><i class="fas fa-lock"></i> Change Password</div>
-        <i class="fas fa-chevron-right" style="color:var(--text-muted)"></i>
-      </div>
-      <div class="menu-item" onclick="showToast('Help & Support')">
-        <div class="menu-left"><i class="fas fa-question-circle"></i> Help & Support</div>
-        <i class="fas fa-chevron-right" style="color:var(--text-muted)"></i>
-      </div>
-      <div class="menu-item logout" onclick="showToast('Logged out')">
-        <div class="menu-left"><i class="fas fa-sign-out-alt"></i> Logout</div>
-        <i class="fas fa-chevron-right" style="color:var(--red)"></i>
-      </div>
-    </div>
-  </div>
+</div>
 
-  <!-- BOTTOM NAVIGATION -->
-  <div class="bottom-nav">
-    <button class="nav-item active" onclick="switchScreen('home')" data-screen="home">
-      <i class="fas fa-home"></i>
-      <span>Home</span>
-    </button>
-    <button class="nav-item" onclick="switchScreen('tasks')" data-screen="tasks">
-      <i class="fas fa-tasks"></i>
-      <span>Tasks</span>
-    </button>
-    <button class="nav-item" onclick="switchScreen('withdraw')" data-screen="withdraw">
-      <i class="fas fa-wallet"></i>
-      <span>Withdraw</span>
-    </button>
-    <button class="nav-item" onclick="switchScreen('refer')" data-screen="refer">
-      <i class="fas fa-users"></i>
-      <span>Refer</span>
-    </button>
-    <button class="nav-item" onclick="switchScreen('profile')" data-screen="profile">
-      <i class="fas fa-user"></i>
-      <span>Profile</span>
-    </button>
-  </div>
+<div class="gift">
+🎁
+</div>
 
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
+</div>
 
-  <!-- External JS -->
-  <script src="script.js"></script>
+
+<div class="section-head">
+
+<h2>Today's Progress</h2>
+
+<span>3/5 tasks</span>
+
+</div>
+
+
+<div class="progress-card">
+
+<div class="progress-row">
+
+<span>⭐ Keep going!</span>
+
+<b>60%</b>
+
+</div>
+
+<div class="bar">
+<i></i>
+</div>
+
+</div>
+
+
+<div class="section-head">
+
+<h2>Available Tasks</h2>
+
+<span onclick="showPage('tasks')">
+View all →
+</span>
+
+</div>
+
+
+<div class="task">
+
+<div class="task-icon">
+✈️
+</div>
+
+<div class="task-info">
+
+<strong>
+Join our Telegram Channel
+</strong>
+
+<small>
+One-time task
+</small>
+
+<div class="reward">
+🪙 +50
+</div>
+
+</div>
+
+<button class="start">
+Start
+</button>
+
+</div>
+
+
+<div class="task">
+
+<div class="task-icon">
+▶️
+</div>
+
+<div class="task-info">
+
+<strong>
+Watch a short video
+</strong>
+
+<small>
+Daily task
+</small>
+
+<div class="reward">
+🪙 +30
+</div>
+
+</div>
+
+<button class="start">
+Watch
+</button>
+
+</div>
+
+</section>
+
+
+<!-- TASKS -->
+
+<section id="tasks" class="page">
+
+<div class="back">
+
+<button onclick="showPage('home')">
+←
+</button>
+
+<h2>Tasks</h2>
+
+</div>
+
+
+<div class="section-head">
+
+<h2>Available Tasks</h2>
+
+<span>
+1,250 🪙
+</span>
+
+</div>
+
+
+<div class="task">
+
+<div class="task-icon">
+✈️
+</div>
+
+<div class="task-info">
+
+<strong>
+Join our Telegram Channel
+</strong>
+
+<small>
+One-time
+</small>
+
+<div class="reward">
+🪙 +50
+</div>
+
+</div>
+
+<button class="start">
+Start
+</button>
+
+</div>
+
+
+<div class="task">
+
+<div class="task-icon">
+𝕏
+</div>
+
+<div class="task-info">
+
+<strong>
+Follow on X
+</strong>
+
+<small>
+One-time
+</small>
+
+<div class="reward">
+🪙 +50
+</div>
+
+</div>
+
+<button class="start">
+Start
+</button>
+
+</div>
+
+
+<div class="task">
+
+<div class="task-icon">
+▶️
+</div>
+
+<div class="task-info">
+
+<strong>
+Watch Video
+</strong>
+
+<small>
+Daily
+</small>
+
+<div class="reward">
+🪙 +30
+</div>
+
+</div>
+
+<button class="start">
+Watch
+</button>
+
+</div>
+
+
+<div class="task">
+
+<div class="task-icon">
+📥
+</div>
+
+<div class="task-info">
+
+<strong>
+Complete an app task
+</strong>
+
+<small>
+Available
+</small>
+
+<div class="reward">
+🪙 +100
+</div>
+
+</div>
+
+<button class="start">
+Start
+</button>
+
+</div>
+
+</section>
+
+
+<!-- BONUS -->
+
+<section id="bonus" class="page">
+
+<div class="back">
+
+<button onclick="showPage('home')">
+←
+</button>
+
+<h2>Daily Bonus</h2>
+
+</div>
+
+
+<div class="bonus">
+
+<div class="big">
+🎁
+</div>
+
+<h2>
+Daily Check-in
+</h2>
+
+<p>
+Come back every day and keep your streak!
+</p>
+
+
+<div class="days">
+
+<div class="day">
+Day 1
+<strong>+10</strong>
+</div>
+
+<div class="day">
+Day 2
+<strong>+20</strong>
+</div>
+
+<div class="day">
+Day 3
+<strong>+30</strong>
+</div>
+
+<div class="day">
+Day 4
+<strong>+50</strong>
+</div>
+
+</div>
+
+
+<button class="claim">
+🎁 Claim Today's Bonus
+</button>
+
+</div>
+
+
+<div class="info-card">
+
+<h3>
+Bonus Rules
+</h3>
+
+<p>
+✓ Login daily to keep your streak<br>
+✓ Missing a day may reset the streak<br>
+✓ Bonus values can change based on your campaign
+</p>
+
+</div>
+
+</section>
+
+
+<!-- BALANCE -->
+
+<section id="balance" class="page">
+
+<div class="back">
+
+<button onclick="showPage('home')">
+←
+</button>
+
+<h2>My Balance</h2>
+
+</div>
+
+
+<div class="balance-big">
+
+<small>
+Total Balance
+</small>
+
+<strong>
+1,250 🪙
+</strong>
+
+<small>
+≈ 12.50 USDT
+</small>
+
+</div>
+
+
+<div class="stat-grid">
+
+<div class="stat">
+
+<small>
+Today Earned
+</small>
+
+<b>
++320 🪙
+</b>
+
+</div>
+
+
+<div class="stat">
+
+<small>
+Total Earned
+</small>
+
+<b>
++1,250 🪙
+</b>
+
+</div>
+
+</div>
+
+
+<div class="section-head">
+
+<h2>
+Balance Breakdown
+</h2>
+
+</div>
+
+
+<div class="info-card">
+
+<p>
+🎯 Task Rewards
+
+<b style="float:right;color:#ffc928">
+850
+</b>
+
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<p>
+👥 Referral Bonus
+
+<b style="float:right;color:#ffc928">
+250
+</b>
+
+</p>
+
+</div>
+
+
+<div class="info-card">
+
+<p>
+🎁 Daily Bonus
+
+<b style="float:right;color:#ffc928">
+150
+</b>
+
+</p>
+
+</div>
+
+
+<button class="claim"
+onclick="alert('Withdrawal system will be connected to the backend.')">
+
+💸 Request Withdrawal
+
+</button>
+
+</section>
+
+
+<!-- REFERRAL -->
+
+<section id="referral" class="page">
+
+<div class="back">
+
+<button onclick="showPage('home')">
+←
+</button>
+
+<h2>Referral</h2>
+
+</div>
+
+
+<div class="bonus">
+
+<div class="big">
+👥
+</div>
+
+<h2>
+Invite Your Friends
+</h2>
+
+<p>
+Share your link and earn referral rewards.
+</p>
+
+
+<div class="ref-code">
+
+<span>
+AG123456
+</span>
+
+<button class="copy" onclick="copyRef()">
+Copy Link
+</button>
+
+</div>
+
+</div>
+
+
+<div class="stat-grid">
+
+<div class="stat">
+
+<small>
+Total Referrals
+</small>
+
+<b>
+12
+</b>
+
+</div>
+
+
+<div class="stat">
+
+<small>
+Referral Earned
+</small>
+
+<b>
+2,400 🪙
+</b>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- PROFILE -->
+
+<section id="profile" class="page">
+
+<div class="back">
+
+<button onclick="showPage('home')">
+←
+</button>
+
+<h2>
+Profile
+</h2>
+
+</div>
+
+
+<div class="profile">
+
+<div class="avatar">
+👨‍💻
+</div>
+
+<h2>
+AG User
+</h2>
+
+<p style="color:var(--muted);font-size:11px;margin-top:4px">
+@username
+</p>
+
+</div>
+
+
+<div style="margin-top:18px">
+
+<div class="menu-item">
+<span>✏️ Edit Profile</span>
+<span>›</span>
+</div>
+
+<div class="menu-item">
+<span>🔔 Notification Settings</span>
+<span>›</span>
+</div>
+
+<div class="menu-item">
+<span>🌐 Language</span>
+<span>English</span>
+</div>
+
+<div class="menu-item">
+<span>ℹ️ About AG EARN HUB</span>
+<span>›</span>
+</div>
+
+<div class="menu-item">
+<span>💬 Support</span>
+<span>›</span>
+</div>
+
+</div>
+
+</section>
+
+</div>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="nav">
+
+<button class="active"
+onclick="showPage('home',this)">
+
+<span class="nav-icon">
+🏠
+</span>
+
+Home
+
+</button>
+
+
+<button onclick="showPage('tasks',this)">
+
+<span class="nav-icon">
+📋
+</span>
+
+Tasks
+
+</button>
+
+
+<button onclick="showPage('bonus',this)">
+
+<span class="nav-icon">
+🎁
+</span>
+
+Bonus
+
+</button>
+
+
+<button onclick="showPage('referral',this)">
+
+<span class="nav-icon">
+👥
+</span>
+
+Referral
+
+</button>
+
+
+<button onclick="showPage('profile',this)">
+
+<span class="nav-icon">
+👤
+</span>
+
+Profile
+
+</button>
+
+</nav>
+
+
+<script>
+
+function showPage(id,btn){
+
+document
+.querySelectorAll('.page')
+.forEach(function(page){
+
+page.classList.remove('active');
+
+});
+
+
+document
+.getElementById(id)
+.classList.add('active');
+
+
+document
+.querySelectorAll('.nav button')
+.forEach(function(button){
+
+button.classList.remove('active');
+
+});
+
+
+if(btn){
+
+btn.classList.add('active');
+
+}
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+}
+
+
+function copyRef(){
+
+const link =
+'https://t.me/agearnhub_bot?start=AG123456';
+
+if(navigator.clipboard){
+
+navigator.clipboard.writeText(link);
+
+}
+
+alert('Referral link copied!');
+
+}
+
+</script>
+
 </body>
 </html>
